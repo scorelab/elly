@@ -7,9 +7,10 @@ class LoginScreen extends React.Component{
     
     render() {
         const {navigate} = this.props.navigation;
+        console.log(this.props.navigation)
         return (
             <View style={styles.container}>
-                <View style={styles.bottom}>
+                <View>
                     <Button style={styles.lFBBtn} icon="facebook" mode="contained" onPress={() => navigate('App', {name: 'Jane'})}>Login with Facebook</Button>
                     <Button style={styles.lGoogleBtn} icon="google" mode="contained" onPress={() => console.log('Pressed')}>Login with Google</Button>
                 </View>
@@ -28,20 +29,20 @@ const styles = StyleSheet.create({
     },
     lFBBtn: {
         marginBottom: 5,
-        width: 300,
+        width: 350,
         height: 50,
         justifyContent: 'center'
     },
     lGoogleBtn: {
         marginBottom: 10,
-        width: 300,
+        width: 350,
         height: 50,
         justifyContent: 'center'
     },
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
-        backgroundColor: getRandomColor(),
+        //backgroundColor: getRandomColor(),
         alignSelf: 'stretch',
         alignItems: 'center',
       }

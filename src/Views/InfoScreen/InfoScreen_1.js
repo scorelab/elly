@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
     },
     swipeBtn: {
-        width: "40%",
+        width: "33%",
         height: 50,
         justifyContent: 'center',
         marginBottom: 10,

@@ -9,7 +9,7 @@ import {name as appName} from './app.json';
 
 const theme = {
     ...DefaultTheme,
-    roundness: 20,
+    roundness: 15,
     colors: {
       ...DefaultTheme.colors,
       primary: '#4b8b3b',
@@ -19,7 +19,7 @@ const theme = {
 
 export default function Main() {
     return (
-      <PaperProvider theme={theme}>
+      <PaperProvider>
         <App />
       </PaperProvider>
     );
