@@ -4,15 +4,28 @@ import {View, StyleSheet} from 'react-native'
 import {facebookLogin} from '../../components/FaceBookLogin/FaceBookLogin'
 import {googleLogin} from '../../components/GoogleLogin/GoogleLogin'
 
+
 class LoginScreen extends React.Component{
     
+    static navigationOptions = ({navigation})=>{
+        return {
+            headerTitle: 'Sign In',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontWeight: 'bold',
+            },
+        }
+    }
+
     facebookLoginBtnHandler = (navigate) =>{
         facebookLogin(navigate)
     }
 
     GoogleLoginBtnHandler = (navigate) => {
-        googleLogin(navigate)
-        
+        googleLogin(navigate)        
     }
 
     render() {

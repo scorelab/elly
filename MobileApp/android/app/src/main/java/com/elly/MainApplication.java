@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
+import com.rnfs.RNFSPackage;
 import io.invertase.firebase.database.ReactNativeFirebaseDatabasePackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -38,6 +40,10 @@ public class MainApplication extends Application implements ReactApplication {
           
           // Packages that cannot be autolinked yet can be added manually here, for example:
           //packages.add(new MainReactPackage(),
+           // new RNFetchBlobPackage(),
+           // new RNFetchBlobPackage(),
+           // new ReactNativeFirebaseStoragePackage(),
+          //  new RNFSPackage(),
           //new ReactNativeFirebaseDatabasePackage(), new RNGoogleSigninPackage());
 
           return packages;

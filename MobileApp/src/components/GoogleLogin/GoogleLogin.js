@@ -1,6 +1,8 @@
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { firebase } from '@react-native-firebase/auth';
 
+import database from '@react-native-firebase/database';
+import {createFile} from '../../components/UserDataHandling/UserDataHandling'
 // Calling this function will open Google for login.
 export async function googleLogin(navigate) {
   try {
@@ -25,8 +27,29 @@ export async function googleLogin(navigate) {
     // login with credential
     const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
 
-    console.warn(JSON.stringify(firebaseUserCredential.user.toJSON()));
-    navigate('App', {name: 'Jane'})
+    //console.warn(JSON.stringify(firebaseUserCredential.user.toJSON()));
+    //console.log(firebaseUserCredential.user.toJSON())
+
+    let photo =firebaseUserCredential.user.toJSON().photoURL
+    let name = firebaseUserCredential.user.toJSON().displayName
+    let email = firebaseUserCredential.user.toJSON().email
+    let phone = firebaseUserCredential.user.toJSON().phoneNumber
+    let uid = firebaseUserCredential.user.toJSON().uid
+    let content = uid+"\n"+name+"\n"+email+"\n"+phone+"\n"+photo
+    console.log(content)
+    createFile('user.file',content)
+
+    const ref = database().ref('/users/').child(uid);
+
+    await ref.set({
+      name: name,
+      email: email,
+      phone: phone,
+      photo: photo
+    });
+
+    navigate('App')
+    
   } catch (error) {
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow

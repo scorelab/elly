@@ -11,7 +11,6 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import LoginScreen from './src/Views/LoginScreen/LoginScreen'
-import Example from './src/Views/Example/Example'
 import CameraViewScreen from './src/Views/CameraViewScreen/CameraViewScreen'
 import LandingScreen from './src/Views/LandingScreen/LandingScreen'
 import PhotoLandingScreen from './src/Views/PhotoLandingScreen/PhotoLandingScreen'
@@ -26,85 +25,33 @@ import ShowPhotoScreen from './src/Views/ShowPhotoScreen/ShowPhotoScreen'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AuthStack = createStackNavigator({
-  SignIn: {
-    screen: LoginScreen,
-    navigationOptions: {
-      headerTitle: 'Sign In',
-    },
-  },
+  SignIn: LoginScreen
 });
 
 const FeedStack = createStackNavigator({
-  Feed: {
-    screen: FeedScreen,
-    navigationOptions: {
-      headerTitle: 'Feed',
-      // headerStyle: {
-      //   backgroundColor: '#f4511e',
-      // },
-      // headerTintColor: '#fff',
-      // headerTitleStyle: {
-      // fontWeight: 'bold',
-      // },
-    },
-  },
+  FeedScreen: FeedScreen
 });
 
 const GalleryStack = createStackNavigator({
-  Gallery: {
-    screen: GalleryScreen,
-    navigationOptions: {
-      headerTitle: 'Gallery',
-    },
-  },
+  Gallery: GalleryScreen,
 });
 
 const CameraStack = createStackNavigator({
-  Search: {
-    screen: CameraViewScreen,
-    navigationOptions: {
-      headerTitle: 'Search',
-    },
-  },
-  FormScreenStack: {
-    screen: FormScreen,
-    navigationOptions: {
-      headerTitle: 'Details',
-    },
-  },
-  showPhoto: {
-    screen: ShowPhotoScreen,
-    navigationOptions: {
-      headerTitle: 'Photo',
-    },
-  },
+  Search: CameraViewScreen,
+  FormScreenStack: FormScreen,
+  showPhoto:  ShowPhotoScreen,
 });
 
 const DiscoverStack = createStackNavigator({
-  Discover: {
-    screen: DiscoverScreen,
-    navigationOptions: {
-      headerTitle: 'Discover',
-    },
-  },
+  Discover: DiscoverScreen,
 });
 
 const SearchStack = createStackNavigator({
-  Search: {
-    screen: SearchScreen,
-    navigationOptions: {
-      headerTitle: 'Search',
-    },
-  },
+  Search:  SearchScreen,
 });
 
 const ProfileStack = createStackNavigator({
-  Discover: {
-    screen: ProfileScreen,
-    navigationOptions: {
-      headerTitle: 'Profile',
-    },
-  },
+  ProfileScreen: ProfileScreen,
 });
 
 const MainTabs = createBottomTabNavigator({
@@ -129,10 +76,6 @@ const MainTabs = createBottomTabNavigator({
         <Icon name="search" size={25} color="grey" />
       ),
     },
-    tabBarOptions: { 
-      showIcon: true,
-      showLabel: false 
-   },
   },
   PhotoLandingScreen: {
     screen: PhotoLandingScreen,
@@ -142,10 +85,7 @@ const MainTabs = createBottomTabNavigator({
         <Icon name="camera" size={25} color="grey" />
       ),
     },
-    tabBarOptions: { 
-      showIcon: true,
-      showLabel: false 
-   },
+    tabBarOptions: { showLabel: false }
   },
   Discover: {
     screen: DiscoverStack,

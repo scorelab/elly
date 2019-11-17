@@ -1,15 +1,29 @@
 import * as React from 'react';
-import { Button, TextInput } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import {View, StyleSheet, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
-import getRandomColor from '../../components/RandomColorGenerator/RandomColorGenerator'
 import CameraRoll from "@react-native-community/cameraroll";
-import { RadioButton, Text, Divider } from 'react-native-paper';
 import {RadioButtonGroupVertical, RadioButtonGroupHorizontal, TextInputGroupHorizontal, UneditableComponent} from  '../../components/FormComponents/FormComponents'
 import Geolocation from '@react-native-community/geolocation';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+import storage from '@react-native-firebase/storage';
+import {generateUUID} from '../../components/UserDataHandling/UserDataHandling'
 
 class FormScreen extends React.Component{
+
+    static navigationOptions = ({navigation})=>{
+        return {
+            headerTitle: 'Observation',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontWeight: 'bold',
+            },
+        }
+    }
+
     constructor(props) {
         super(props);
         this.state = { 
@@ -36,26 +50,49 @@ class FormScreen extends React.Component{
         this.loadImageCaptured()
     }
 
+    uploadData = async function() {
+        // Get the users ID
+        const uid = auth().currentUser.uid;
+        console.log(uid)
+        // Create a reference
+        const ref = database().ref(`/users/${uid}`).child('observations');
+        const randomID = generateUUID()
+        console.log(randomID)
+        const storageRef = storage().ref('/observations/'+randomID+'.jpeg')
+        
+        await storageRef.putFile(this.state.photos[0].node.image.uri)
+        
+        const url = await storageRef.getDownloadURL()
+        console.log(url)
+        await ref.push({
+            photoURL: url,
+            isAlive: this.state.isAlive, 
+            isSingle: this.state.isSingle , 
+            cause: this.state.cause, 
+            accidentKind: this.state.accidentKind, 
+            intentinalKind: this.state.intentinalKind, 
+            sex: this.state.sex,
+            noOfIndividuals: this.state.noOfIndividuals,
+            noOfDeaths: this.state.noOfDeaths,
+            noOfTusks: this.state.noOfTusks,
+            tusksStatus: this.state.tusksStatus,
+            haveTusks: this.state.haveTusks,
+            howManyTuskers: this.state.howManyTuskers,
+            location: this.state.location,
+          });
+          this.props.navigation.navigate('FeedScreen')
+       
+      }
+
     requestWriteStoragePermission = async function () {
         try {
           const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-            {
-              title: 'Cool Photo App Camera Permission',
-              message:
-                'Cool Photo App needs access to your camera ' +
-                'so you can take awesome pictures.',
-              buttonNeutral: 'Ask Me Later',
-              buttonNegative: 'Cancel',
-              buttonPositive: 'OK',
-            },
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can use the camera');
             return true
             
           } else {
-            console.log('Camera permission denied');
             return false
           }
         } catch (err) {
@@ -73,7 +110,7 @@ class FormScreen extends React.Component{
                   this.setState({location: [initialPosition['coords']['longitude'], initialPosition['coords']['latitude']]});
                 },
                 error => console.log('Error', JSON.stringify(error)),
-                {enableHighAccuracy: true},
+                {enableHighAccuracy: false},
               );
         }
         
@@ -199,6 +236,10 @@ class FormScreen extends React.Component{
                 :
                     <View></View>
                 }
+                </View>
+
+                <View>
+                    <Button mode="contained" onPress={()=>this.uploadData()}>Next</Button>
                 </View>
 
                 <ScrollView>
@@ -350,11 +391,6 @@ class FormScreen extends React.Component{
                     }
                 </ScrollView>
                 
-                
-
-                <View style={styles.bottom}>
-                    <Button mode="contained" onPress={() => navigate('FeedStack', {name: 'Jane'})}>Next</Button>
-                </View>
             </View>
         );
     }

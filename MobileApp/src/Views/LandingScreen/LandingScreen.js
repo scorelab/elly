@@ -1,12 +1,23 @@
 import * as React from 'react';
 import {View, StyleSheet, Text} from 'react-native'
-import getRandomColor from '../../components/RandomColorGenerator/RandomColorGenerator'
+
+var RNFS = require('react-native-fs');
 
 class LandingScreen extends React.Component{
     componentDidMount() {
-        this._interval = setInterval(() => {
-            this.props.navigation.navigate('SignIn', {name: 'Jane'})
-        }, 2000);
+        RNFS.readFile(RNFS.DocumentDirectoryPath+'/user.file')
+        .then((success) => {
+            console.log(success);
+            this._interval = setInterval(() => {
+                this.props.navigation.navigate('App')
+            }, 2000);
+        })
+        .catch((err) => {
+            this._interval = setInterval(() => {
+                this.props.navigation.navigate('SignIn')
+            }, 2000);
+        });
+        
       }
       
       componentWillUnmount() {

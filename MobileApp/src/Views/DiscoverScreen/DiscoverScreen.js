@@ -4,6 +4,19 @@ import getRandomColor from '../../components/RandomColorGenerator/RandomColorGen
 
 class DiscoverScreen extends React.Component{
     
+    static navigationOptions = ({navigation})=>{
+        return {
+            headerTitle: 'Explore',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontWeight: 'bold',
+            },
+        }
+    }
+
     render() {
         const {navigate} = this.props.navigation;
         console.log("Feed Screen")

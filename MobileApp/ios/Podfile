@@ -58,6 +58,12 @@ target 'Elly' do
 
   pod 'RNFBDatabase', :path => '../node_modules/@react-native-firebase/database'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+  pod 'RNFBStorage', :path => '../node_modules/@react-native-firebase/storage'
+
+
+
   target 'EllyTests' do
     inherit! :search_paths
     # Pods for testing

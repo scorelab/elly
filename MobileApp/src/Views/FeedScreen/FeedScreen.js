@@ -1,84 +1,101 @@
 import * as React from 'react';
 import {View, StyleSheet, Text} from 'react-native'
-import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
+import { Avatar, Card, Title, Paragraph, Divider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-
+import {NavigationEvents} from 'react-navigation';
 class FeedScreen extends React.Component{
-    
-    getUserData = async function () {
-        const uid = auth().currentUser.uid;
-        console.log(uid)
-        // Create a reference
-        const ref = database().ref(`/users/${uid}`);
+
+    static navigationOptions = ({navigation})=>{
+        return {
+            headerTitle: 'Elly',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontWeight: 'bold',
+            },
+        }
+    }
+
+    constructor(props){
+        super(props)
+        this.state={
+            observations: [['Please wait','https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg','https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg','','','']]
+        }
+    }
+
+    componentDidMount(){
+        this.getObservations()  
+    }
+
+    getObservations = async function (){
+        const ref = database().ref('/users/');
         
         // Fetch the data snapshot
         const snapshot = await ref.once('value');
-        
-        console.log('User data: ', snapshot.val());
+
+        const val = snapshot.val()
+
+        let observations = []
+
+        for(let i in val){
+            let name = val[i].name
+            let photo = val[i].photo
+            //console.log(name)
+            //console.log(photo)
+            let obs = val[i].observations
+            for(let j in obs){
+                //console.log(obs[j])
+                let photUrl = obs[j].photoURL
+                let location = obs[j].location
+                let time = obs[j].time
+                observations.push([name, photo, photUrl, location, time])
+            }
+        }
+
+        await this.setState({
+            observations: observations
+        })
     }
 
-      componentDidMount(){
-        this.getUserData()
-      }
+    componentDidUpdate(){
+        let observations =this.state.observations
+        for(let i=0;i<observations.length;i++){
+            console.log(observations[i])
+        }
+    }
 
     render() {
-        const {navigate} = this.props.navigation;
-        console.log("Feed Screen")
+        
         return (
+            
             <View style={styles.container}>
                 <View style={{width: "100%", backgroundColor: 'grey'}}>
-
+                {/* <NavigationEvents onDidFocus={() => this.render()} /> */}
                 </View>
                 <ScrollView style={{width: "100%"}}>
-                    <View>
+                    {this.state.observations.map((val,i)=>{
+                        return (
+                            <View key={i}>
                         <Card>
-                            <Card.Title title="Card Title" subtitle="Card Subtitle" left={(props) => <Avatar.Icon {...props} icon="image" />} right={(props) => <Avatar.Icon size={24}  {...props} icon="dots-vertical" />}/>
+                            <Card.Title title={val[0]} subtitle={"Captured by "+val[0]} left={(props) => <Avatar.Image size={50} source={{ uri: val[1] }} />}/>
                             
-                            <Card.Cover source={{ uri: 'https://monkeysandmountains.com/wp-content/uploads/2018/11/sri-lanka-5-l.jpg' }} />
+                            <Card.Cover source={{ uri: val[2] }} />
                             <Card.Content>
                                 <Title>Card title</Title>
-                                <Paragraph>Card content</Paragraph>
+                                <Paragraph>@Udawalawa National Park. (lat {val[3][0]}, lang {val[3][1]})</Paragraph>
                             </Card.Content>
                             <Card.Actions>
-                                <Icon name="heart-o" size={30}/>
                             </Card.Actions>
                         </Card>
+                        <Divider />
                     </View>
-                    <Divider />
-                    <View>
-                        <Card>
-                            <Card.Title title="Card Title" subtitle="Card Subtitle" left={(props) => <Avatar.Icon {...props} icon="image" />} right={(props) => <Avatar.Icon size={24}  {...props} icon="dots-vertical" />}/>
-                            
-                            <Card.Cover source={{ uri: 'http://static.dailymirror.lk/media/images/image_1486532032-5d22bf1cd7.jpg' }} />
-                            <Card.Content>
-                                <Title>Card title</Title>
-                                <Paragraph>Card content</Paragraph>
-                            </Card.Content>
-                            <Card.Actions>
-                                <Icon name="heart-o" size={30}/>
-                            </Card.Actions>
-                        </Card>
-                    </View>
-                    <Divider />
-                    <View>
-                        <Card>
-                            <Card.Title title="Card Title" subtitle="Card Subtitle" left={(props) => <Avatar.Icon {...props} icon="image" />} right={(props) => <Avatar.Icon size={24}  {...props} icon="dots-vertical" />}/>
-                            
-                            <Card.Cover source={{ uri: 'https://ichef.bbci.co.uk/news/660/cpsprodpb/181B6/production/_109024789_hi056846157.jpg' }} />
-                            <Card.Content>
-                                <Title>Card title</Title>
-                                <Paragraph>Card content</Paragraph>
-                            </Card.Content>
-                            <Card.Actions>
-                                <Icon name="heart-o" size={30}/>
-                            </Card.Actions>
-                        </Card>
-                    </View>
-                    <Divider />
+                    
+                        )
+                    })}
+                   
                 </ScrollView>
                 
             </View>
