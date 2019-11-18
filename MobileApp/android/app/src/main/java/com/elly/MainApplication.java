@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
 import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 import com.rnfs.RNFSPackage;
 import io.invertase.firebase.database.ReactNativeFirebaseDatabasePackage;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
           
           // Packages that cannot be autolinked yet can be added manually here, for example:
           //packages.add(new MainReactPackage(),
+          //  new MapsPackage(),
            // new RNFetchBlobPackage(),
            // new RNFetchBlobPackage(),
            // new ReactNativeFirebaseStoragePackage(),

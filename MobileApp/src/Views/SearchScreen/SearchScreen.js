@@ -1,13 +1,14 @@
 import * as React from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native'
+import {View, StyleSheet,ScrollView, Text,Image, Dimensions} from 'react-native'
 import { Searchbar, Chip } from 'react-native-paper';
-
+import database from '@react-native-firebase/database';
 class SearchScreen extends React.Component{
     
     constructor(props){
         super(props)
         this.state={
             firstQuery: '',
+            observations: []
         }
     }
 
@@ -57,15 +58,13 @@ class SearchScreen extends React.Component{
          
     }
 
-    componentDidUpdate(){
-        
-    }
-
     componentDidMount() {
         this.props.navigation.setParams({
             handleText: (text)=>this.onTextChangeHandler(text),
             query: this.state.firstQuery
         });
+
+        this.getObservations()
     }
 
     onTextChangeHandler=(text)=>{
@@ -77,19 +76,63 @@ class SearchScreen extends React.Component{
         });
     }
 
+    getObservations = async function (){
+        const ref = database().ref('/users/');
+        
+        // Fetch the data snapshot
+        const snapshot = await ref.once('value');
+
+        const val = snapshot.val()
+
+        let observations = []
+
+        for(let i in val){
+            let name = val[i].name
+            let photo = val[i].photo
+            //console.log(name)
+            //console.log(photo)
+            let userNick = val[i].name.toLowerCase().replace(/ /g, '')
+            let obs = val[i].observations
+            for(let j in obs){
+                //console.log(obs[j])
+                let photUrl = obs[j].photoURL
+                let location = obs[j].location
+                let time = obs[j].time
+                observations.push([name, photo, photUrl, location, time, userNick])
+            }
+        }
+
+        await this.setState({
+            observations: observations
+        })
+    }
+
 
     render() {
-        console.log(this.state.firstQuery)
         return (
             <View style={styles.container}>
-                <View>
-                    <View style={{flexDirection: 'row'}}>
-                        <Chip icon="information" onPress={() => console.log('Pressed')}>Male</Chip>
-                        <Chip icon="information" onPress={() => console.log('Pressed')}>Female</Chip>
-                        <Chip icon="information" onPress={() => console.log('Pressed')}>Tuskers</Chip>
-                        
-                    </View>
+                <View style={styles.chipContainer}>
+                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>All</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Male</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Female</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Tuskers</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Dead</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Groups</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Singles</Chip>
+                    
                 </View>
+                <ScrollView style={styles.scrollView}>
+                    <View style={styles.imgConatiner}>
+                        {this.state.observations.map((val,i)=>{
+                            return(
+                                <View key={i}>
+                                    <Image style={styles.img} source={{uri: val[2]}}/>
+                                </View>
+                            )
+                            
+                        })}
+                    </View>
+                </ScrollView>
             </View>
             
         );
@@ -102,8 +145,35 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         alignSelf: 'stretch',
-        marginTop: 10
+        marginTop: 10,
+        width: Dimensions.get('window').width
         //backgroundColor: getRandomColor(),
+    },
+    chipContainer: {
+        flexDirection: 'row', 
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    chip: {
+        margin: 5
+    },
+    img: {
+        width: Dimensions.get('window').width/3.2, 
+        height: Dimensions.get('window').width/3.5,
+        borderWidth: 2, 
+        margin: 2
+    },
+    imgConatiner: {
+        flexDirection: 'row', 
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+        width: Dimensions.get('window').width
+    },
+    scrollView: {
+        width: Dimensions.get('window').width
     },
     welcome: {
         fontSize: 25

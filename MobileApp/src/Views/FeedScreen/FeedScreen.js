@@ -4,6 +4,8 @@ import { Avatar, Card, Title, Paragraph, Divider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import database from '@react-native-firebase/database';
 import {NavigationEvents} from 'react-navigation';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+
 class FeedScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
@@ -22,7 +24,7 @@ class FeedScreen extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            observations: [['Please wait','https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg','https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg','','','']]
+            observations: []
         }
     }
 
@@ -45,13 +47,14 @@ class FeedScreen extends React.Component{
             let photo = val[i].photo
             //console.log(name)
             //console.log(photo)
+            let userNick = val[i].name.toLowerCase().replace(/ /g, '')
             let obs = val[i].observations
             for(let j in obs){
                 //console.log(obs[j])
                 let photUrl = obs[j].photoURL
                 let location = obs[j].location
                 let time = obs[j].time
-                observations.push([name, photo, photUrl, location, time])
+                observations.push([name, photo, photUrl, location, time, userNick])
             }
         }
 
@@ -79,20 +82,18 @@ class FeedScreen extends React.Component{
                     {this.state.observations.map((val,i)=>{
                         return (
                             <View key={i}>
-                        <Card>
-                            <Card.Title title={val[0]} subtitle={"Captured by "+val[0]} left={(props) => <Avatar.Image size={50} source={{ uri: val[1] }} />}/>
-                            
-                            <Card.Cover source={{ uri: val[2] }} />
-                            <Card.Content>
-                                <Title>Card title</Title>
-                                <Paragraph>@Udawalawa National Park. (lat {val[3][0]}, lang {val[3][1]})</Paragraph>
-                            </Card.Content>
-                            <Card.Actions>
-                            </Card.Actions>
-                        </Card>
-                        <Divider />
-                    </View>
-                    
+                                <Card>
+                                    <Card.Title title={val[0]} subtitle={"@"+val[5]} left={(props) => <Avatar.Image size={50} source={{ uri: val[1] }} />}/>
+                                    <Card.Content>
+                                        <Paragraph>Lorem ispsum dolar sit amet</Paragraph>
+                                    </Card.Content>
+                                    <Card.Cover style={{borderRadius: 10, margin: 10}} source={{ uri: val[2] }} />
+                                    
+                                    <Card.Actions>
+                                    </Card.Actions>
+                                </Card>
+                                <Divider />
+                            </View>
                         )
                     })}
                    
