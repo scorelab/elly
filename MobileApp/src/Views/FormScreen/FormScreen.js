@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Button } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {View, StyleSheet, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import CameraRoll from "@react-native-community/cameraroll";
 import {RadioButtonGroupVertical, RadioButtonGroupHorizontal, TextInputGroupHorizontal, UneditableComponent} from  '../../components/FormComponents/FormComponents'
@@ -8,6 +9,7 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
 import {generateUUID} from '../../components/UserDataHandling/UserDataHandling'
+import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 
 class FormScreen extends React.Component{
 
@@ -15,7 +17,7 @@ class FormScreen extends React.Component{
         return {
             headerTitle: 'Observation',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -41,6 +43,8 @@ class FormScreen extends React.Component{
             haveTusks: 0,
             howManyTuskers: 0,
             location: ['',''],
+            activityIndicator: false,
+            date: (new Date()).toString().split(" ")
         };
         
     }
@@ -52,6 +56,9 @@ class FormScreen extends React.Component{
 
     uploadData = async function() {
         // Get the users ID
+        await this.setState({
+            activityIndicator: true
+        })
         const uid = auth().currentUser.uid;
         console.log(uid)
         // Create a reference
@@ -64,6 +71,7 @@ class FormScreen extends React.Component{
         
         const url = await storageRef.getDownloadURL()
         console.log(url)
+        let time = new Date().getTime();
         await ref.push({
             photoURL: url,
             isAlive: this.state.isAlive, 
@@ -79,7 +87,12 @@ class FormScreen extends React.Component{
             haveTusks: this.state.haveTusks,
             howManyTuskers: this.state.howManyTuskers,
             location: this.state.location,
-          });
+            time: time
+        });
+
+        await this.setState({
+            activityIndicator: false,
+        })
           this.props.navigation.navigate('FeedScreen')
        
       }
@@ -237,9 +250,8 @@ class FormScreen extends React.Component{
                     <View></View>
                 }
                 </View>
-
                 <View>
-                    <Button mode="contained" onPress={()=>this.uploadData()}>Next</Button>
+                    <ActivityIndicator title={"Uploading"} showIndicator={this.state.activityIndicator}/>
                 </View>
 
                 <ScrollView>
@@ -249,9 +261,9 @@ class FormScreen extends React.Component{
                         values={this.state.location}
                     />
                     <UneditableComponent
-                        title={'Clock'}
+                        title={'Date'}
                         icon={'clock-o'}
-                        values={[new Date().getHours(), new Date().getMinutes(),new Date().getSeconds()]}
+                        values={this.state.date}
                     />
 
                     <RadioButtonGroupHorizontal 
@@ -389,6 +401,15 @@ class FormScreen extends React.Component{
                     :
                         <View></View>
                     }
+                    <View style={{margin: 10}}>
+                        <Icon.Button
+                            name="upload"
+                            backgroundColor="#3b5998"
+                            onPress={()=>this.uploadData()}
+                        >
+                            Upload
+                        </Icon.Button>
+                    </View>
                 </ScrollView>
                 
             </View>

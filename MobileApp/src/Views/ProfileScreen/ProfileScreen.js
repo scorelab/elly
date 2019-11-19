@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, StyleSheet, Text, Image, ScrollView} from 'react-native'
+import {View, StyleSheet,ImageBackground, Text, Image,Dimensions, ScrollView} from 'react-native'
 import {List, Avatar, Divider} from 'react-native-paper'
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -24,7 +24,8 @@ class ProfileScreen extends React.Component{
             userName: '',
             userPhoto: '',
             userNick: '',
-            userObservations: []
+            userObservations: [],
+            noObs: 0
         }
     }
 
@@ -59,29 +60,30 @@ class ProfileScreen extends React.Component{
             userName: snapshot.val().name,
             userPhoto: snapshot.val().photo,
             userNick: snapshot.val().name.toLowerCase().replace(/ /g, ''),
-            userObservations: observations
+            userObservations: observations,
+            noObs: observations.length
         })
       }
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.profileConatiner}>
+                <ImageBackground blurRadius={1} style={styles.profileConatiner} source={{uri: this.state.userPhoto}}>
                     <Text style={styles.userNick}>{this.state.userNick}</Text>
                     <Image style={styles.userPhoto} source={{uri: this.state.userPhoto}}></Image>
                     <Text style={styles.userName}>{this.state.userName}</Text>
-                    <Text>Observations</Text>
-                    <Text>2</Text>
-                </View>
+                    <Text style={styles.userNick}>Observations</Text>
+                    <Text style={styles.obCount}>{this.state.noObs}</Text>
+                </ImageBackground>
+
                 <ScrollView style={styles.observationConatiner}>
                     {this.state.userObservations.map((val,i)=>{
                         return (
-                            <View style={{margin: 10}}>
+                            <View  key={i} style={{margin: 10}}>
                                 <List.Item
-                                    key={i}
                                     title={val[3]}
                                     description={val[1][0]+", "+val[1][1]}
-                                    left={props => <Avatar.Image size={50} source={{ uri: val[0] }} />}
+                                    left={props => <Image style={{width: 50, height: 50}} source={{ uri: val[0] }} />}
                                 />
                                 <Divider/>
                             </View>
@@ -106,8 +108,7 @@ const styles = StyleSheet.create({
         //backgroundColor: getRandomColor(),
     },
     profileConatiner:{
-        backgroundColor: 'grey',
-        width: '100%',
+        width: Dimensions.get('window').width,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
@@ -116,10 +117,15 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     userNick: {
-        fontWeight: 'bold'
+        color: 'white'
     },
     userName: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    obCount: {
+        color: 'white',
+        fontSize: 30
     },
     userPhoto: {
         width: 100, 

@@ -17,7 +17,7 @@ class SearchScreen extends React.Component{
         return {
             
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
             headerRight: ()=><Searchbar
@@ -30,53 +30,26 @@ class SearchScreen extends React.Component{
         }
     }
 
-    static tabBarOptions = ({navigation})=> { 
-        
-        return {
-            
-            activeTintColor: '#6C1D7C',
-            inactiveTintColor: 'rgba(0,0,0,0.6)',
-            showLabel: false,
-            style:{
-                shadowColor: 'rgba(58,55,55,0.1)',
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 1,
-                shadowRadius: 15,
-                elevation: 3,
-                borderTopColor: 'transparent',
-                backgroundColor:'#fff',
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                height: 50
-            },
-            activeTabStyle: {
-                backgroundColor: 'white',
-                borderBottomWidth: 4,
-                borderColor: '#6C1D7C'
-            }
-        }
-         
-    }
-
     componentDidMount() {
         this.props.navigation.setParams({
             handleText: (text)=>this.onTextChangeHandler(text),
             query: this.state.firstQuery
         });
 
-        this.getObservations()
+        this.getObservations('all')
     }
 
     onTextChangeHandler=(text)=>{
         this.setState({
             firstQuery: text
         })  
+        this.getObservations(text.toLowerCase()===''?'all':text.toLowerCase())
         this.props.navigation.setParams({
             query: text
         });
     }
 
-    getObservations = async function (){
+    getObservations = async function (type){
         const ref = database().ref('/users/');
         
         // Fetch the data snapshot
@@ -98,7 +71,21 @@ class SearchScreen extends React.Component{
                 let photUrl = obs[j].photoURL
                 let location = obs[j].location
                 let time = obs[j].time
-                observations.push([name, photo, photUrl, location, time, userNick])
+                let sex = obs[j].sex
+                let single = obs[j].isSingle
+                
+                if(type==='all'){
+                    observations.push([name, photo, photUrl, location, time, userNick])
+                }else if(type==='male' && sex===0){
+                    observations.push([name, photo, photUrl, location, time, userNick])
+                }else if(type==='female' && sex===1){
+                    observations.push([name, photo, photUrl, location, time, userNick])
+                }else if(type==='single' && single===0){
+                    observations.push([name, photo, photUrl, location, time, userNick])
+                }else if(type==='group' && single!==0){
+                    observations.push([name, photo, photUrl, location, time, userNick])
+                }
+                
             }
         }
 
@@ -112,25 +99,29 @@ class SearchScreen extends React.Component{
         return (
             <View style={styles.container}>
                 <View style={styles.chipContainer}>
-                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>All</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Male</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Female</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Tuskers</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Dead</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Groups</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => console.log('Pressed')}>Singles</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('all')}>All</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('male')}>Male</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('female')}>Female</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('tuskers')}>Tuskers</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('dead')}>Dead</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('group')}>Groups</Chip>
+                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('single')}>Single</Chip>
                     
                 </View>
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.imgConatiner}>
-                        {this.state.observations.map((val,i)=>{
-                            return(
-                                <View key={i}>
-                                    <Image style={styles.img} source={{uri: val[2]}}/>
-                                </View>
-                            )
+                        {this.state.observations.length>0?
+                            this.state.observations.map((val,i)=>{
+                                return(
+                                    <View key={i}>
+                                        <Image style={styles.img} source={{uri: val[2]}}/>
+                                    </View>
+                                )
                             
-                        })}
+                            })
+                            :
+                            <Text style={{fontSize: 20}}>Nothing found</Text>
+                        }
                     </View>
                 </ScrollView>
             </View>
@@ -147,7 +138,6 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         marginTop: 10,
         width: Dimensions.get('window').width
-        //backgroundColor: getRandomColor(),
     },
     chipContainer: {
         flexDirection: 'row', 
@@ -156,7 +146,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     chip: {
-        margin: 5
+        margin: 2
     },
     img: {
         width: Dimensions.get('window').width/3.2, 

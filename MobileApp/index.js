@@ -2,7 +2,7 @@
  * @format
  */
 import * as React from 'react';
-import {AppRegistry} from 'react-native';
+import {AppRegistry, StatusBar} from 'react-native';
 import App from './App';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import {name as appName} from './app.json';
@@ -19,7 +19,8 @@ const theme = {
 
 export default function Main() {
     return (
-      <PaperProvider>
+      <PaperProvider theme={theme}>
+        <StatusBar backgroundColor="#4b8b3b" barStyle="light-content" />
         <App />
       </PaperProvider>
     );

@@ -8,6 +8,19 @@ class CameraViewScreen extends React.Component{
         dataUri: "",
         snaped: false
     }
+
+    static navigationOptions = ({navigation})=>{
+        return {
+            headerTitle: 'Take a Snapshot',
+            headerStyle: {
+              backgroundColor: '#4b8b3b',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontWeight: 'bold',
+            },
+        }
+    }
     
     CameracallbackFunction = (childData) => {
         this.setState({snaped: childData[0], dataUri: childData[1]})

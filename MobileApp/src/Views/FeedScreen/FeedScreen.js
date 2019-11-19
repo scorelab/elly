@@ -1,18 +1,18 @@
 import * as React from 'react';
 import {View, StyleSheet, Text} from 'react-native'
 import { Avatar, Card, Title, Paragraph, Divider } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import database from '@react-native-firebase/database';
 import {NavigationEvents} from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-
+import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 class FeedScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
         return {
             headerTitle: 'Elly',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -24,12 +24,16 @@ class FeedScreen extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            observations: []
+            observations: [],
+            activityIndicator: true
         }
     }
 
     componentDidMount(){
-        this.getObservations()  
+          
+        database().ref('/users/').on("value", snapshot=>{
+            this.getObservations()
+        })
     }
 
     getObservations = async function (){
@@ -49,25 +53,22 @@ class FeedScreen extends React.Component{
             //console.log(photo)
             let userNick = val[i].name.toLowerCase().replace(/ /g, '')
             let obs = val[i].observations
-            for(let j in obs){
-                //console.log(obs[j])
-                let photUrl = obs[j].photoURL
-                let location = obs[j].location
-                let time = obs[j].time
-                observations.push([name, photo, photUrl, location, time, userNick])
+            console.log(obs)
+            if(obs!==undefined){
+                for(let j in obs){
+                    //console.log(obs[j])
+                    let photUrl = obs[j].photoURL
+                    let location = obs[j].location
+                    let time = new Date(obs[j].time)
+                    observations.push([name, photo, photUrl, location, time, userNick])
+                }
             }
+            
         }
-
         await this.setState({
-            observations: observations
+            observations: observations,
+            activityIndicator: false
         })
-    }
-
-    componentDidUpdate(){
-        let observations =this.state.observations
-        for(let i=0;i<observations.length;i++){
-            console.log(observations[i])
-        }
     }
 
     render() {
@@ -77,22 +78,40 @@ class FeedScreen extends React.Component{
             <View style={styles.container}>
                 <View style={{width: "100%", backgroundColor: 'grey'}}>
                 {/* <NavigationEvents onDidFocus={() => this.render()} /> */}
+                    <ActivityIndicator title={"Loading"} showIndicator={this.state.activityIndicator}/>
                 </View>
                 <ScrollView style={{width: "100%"}}>
                     {this.state.observations.map((val,i)=>{
+                        console.log(val[4])
                         return (
-                            <View key={i}>
-                                <Card>
-                                    <Card.Title title={val[0]} subtitle={"@"+val[5]} left={(props) => <Avatar.Image size={50} source={{ uri: val[1] }} />}/>
+                            <View style={{marginTop: 5}} key={i}>
+                                <Card >
+                                    <Card.Title 
+                                        title={val[0]} subtitle={"@"+val[5]} 
+                                        left={(props) => <Avatar.Image size={50} source={{ uri: val[1] }} />}
+                                        right={(props) => <Avatar.Icon style={{backgroundColor: 'white'}} size={50} color='black' icon="dots-vertical" />}
+                                    />
+                                   
+                                    <Card.Cover style={{borderRadius: 5, margin: 10, height: 300}} source={{ uri: val[2] }} />
                                     <Card.Content>
-                                        <Paragraph>Lorem ispsum dolar sit amet</Paragraph>
+                                        <View style={{flexDirection: 'row',flexWrap: 'wrap', alignItems: 'center'}}>
+                                            <Avatar.Icon size={25} color='white' icon="clock" />
+                                            <Text> {val[4].toString()}</Text>
+                                        </View>
+                                        <View >
+                                            <TouchableOpacity
+                                                style={{marginTop: 5, flexDirection: 'row',flexWrap: 'wrap', alignItems: 'center'}}
+                                            >
+                                                <Avatar.Icon size={25} color='white' icon="map-marker" />
+                                                <Text> {val[3].toString()}</Text>
+                                            </TouchableOpacity>
+                                            
+                                        </View>
+                                            
                                     </Card.Content>
-                                    <Card.Cover style={{borderRadius: 10, margin: 10}} source={{ uri: val[2] }} />
-                                    
                                     <Card.Actions>
                                     </Card.Actions>
                                 </Card>
-                                <Divider />
                             </View>
                         )
                     })}
@@ -111,7 +130,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         alignSelf: 'stretch',
-        //backgroundColor: getRandomColor(),
     },
     welcome: {
         fontSize: 25

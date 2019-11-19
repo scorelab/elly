@@ -1,36 +1,49 @@
 import * as React from 'react';
-import {View, StyleSheet, Text} from 'react-native'
-
+import {View, StyleSheet, Image, Dimensions} from 'react-native'
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 var RNFS = require('react-native-fs');
 
 class LandingScreen extends React.Component{
     componentDidMount() {
-        RNFS.readFile(RNFS.DocumentDirectoryPath+'/user.file')
-        .then((success) => {
-            console.log(success);
+        
+        if(this.getUserData()){
             this._interval = setInterval(() => {
                 this.props.navigation.navigate('App')
             }, 2000);
-        })
-        .catch((err) => {
+        }else{
             this._interval = setInterval(() => {
                 this.props.navigation.navigate('SignIn')
             }, 2000);
-        });
+        }
         
       }
+
+    getUserData = async function () {
+        const uid = auth().currentUser.uid;
+       
+        // Create a reference
+        const ref = database().ref(`/users/${uid}`);
+       
+        // Fetch the data snapshot
+        const snapshot = await ref.once('value');
+
+        let obs = snapshot.val()
+        console.log(obs)
+        if(obs.name!==undefined){
+            return true
+        }
+        return false
+    }
       
       componentWillUnmount() {
         clearInterval(this._interval);
       }
 
     render() {
-        const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <View>
-                    <Text style={styles.welcome}>Splash Screen</Text>
-                </View>
+                <Image style={{width: 80, height: 58}} source={require('../../Assets/landing2.png')}/>
             </View>
             
         );
@@ -42,8 +55,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf: 'stretch',
-        //backgroundColor: getRandomColor(),
+        backgroundColor: '#4b8b3b',
+        width: Dimensions.get('window').width
     },
     welcome: {
         fontSize: 25

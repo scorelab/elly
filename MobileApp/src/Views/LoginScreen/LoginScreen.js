@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Button } from 'react-native-paper';
-import {View, StyleSheet} from 'react-native'
+import {View, StyleSheet, Dimensions, ImageBackground} from 'react-native'
 import {facebookLogin} from '../../components/FaceBookLogin/FaceBookLogin'
 import {googleLogin} from '../../components/GoogleLogin/GoogleLogin'
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class LoginScreen extends React.Component{
     
@@ -11,7 +10,7 @@ class LoginScreen extends React.Component{
         return {
             headerTitle: 'Sign In',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -32,10 +31,35 @@ class LoginScreen extends React.Component{
         const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <View>
-                    <Button style={styles.lFBBtn} icon="facebook" mode="contained" onPress={() => this.facebookLoginBtnHandler(navigate)}>Login with Facebook</Button>
-                    <Button style={styles.lGoogleBtn} icon="google" mode="contained" onPress={() => this.GoogleLoginBtnHandler(navigate)}>Login with Google</Button>
-                </View>
+                <ImageBackground
+                    source={{uri: 'https://i.pinimg.com/originals/bf/61/c0/bf61c043f06d0f7e8e1a545cb84dbd93.jpg'}}
+                    style={styles.imgConatiner}
+                >
+                    <View style={styles.bottom}>
+                        <View style={styles.btnContainer}>
+                            <Icon.Button
+                                style={styles.btn}
+                                name="facebook"
+                                backgroundColor="#4b8b3b"
+                                onPress={() => this.facebookLoginBtnHandler(navigate)}
+                            >
+                                Login with Facebook
+                            </Icon.Button>
+                        </View>
+                        <View>
+                            <Icon.Button
+                                style={styles.btn}
+                                name="google"
+                                backgroundColor="#4b8b3b"
+                                onPress={() => this.GoogleLoginBtnHandler(navigate)}
+                            >
+                                Login with Google
+                            </Icon.Button>
+                        </View>
+                    </View>
+
+                </ImageBackground>
+                
             </View>
             
         );
@@ -49,25 +73,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'stretch',
     },
-    lFBBtn: {
-        marginBottom: 5,
-        width: 350,
-        height: 50,
-        justifyContent: 'center'
+    btnContainer: {
+        margin: 5
     },
-    lGoogleBtn: {
-        marginBottom: 10,
-        width: 350,
-        height: 50,
-        justifyContent: 'center'
+    btn: {
+        width: Dimensions.get('window').width-80,
+        height: 50
     },
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
-        //backgroundColor: getRandomColor(),
         alignSelf: 'stretch',
         alignItems: 'center',
-      }
+        marginBottom: 50
+      },
+    imgConatiner:{
+        width: Dimensions.get('window').width,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: Dimensions.get('window').height,
+    },
 })
 export default LoginScreen;
 

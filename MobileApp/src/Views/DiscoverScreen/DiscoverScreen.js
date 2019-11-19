@@ -4,13 +4,15 @@ import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';  
 import database from '@react-native-firebase/database';
 
+var MapStyle = require('./map.json')
+
 class DiscoverScreen extends React.Component{
     
     static navigationOptions = ({navigation})=>{
         return {
             headerTitle: 'Explore',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -43,10 +45,26 @@ class DiscoverScreen extends React.Component{
         for(let i in val){
             let obs = val[i].observations
             for(let j in obs){
-                let location = obs[j].location
-                observations.push(location)
+                let isSingle = obs[j].isSingle===0?
+                "Single Elephant":obs[j].isSingle===1?
+                "Group of Elephant with Calves":obs[j].isSingle===2?
+                "Group of Elephant with out Calves":""
+                let marker = 
+                {
+                    title: isSingle,
+                    cordinates: 
+                    {
+                        latitude: obs[j].location[1],
+                        longitude: obs[j].location[0]
+                    },
+                    description: ''
+                   
+                }
+                
+                observations.push(marker)
             }
         }
+        console.log(observations)
 
         await this.setState({
             observations: observations
@@ -60,6 +78,7 @@ class DiscoverScreen extends React.Component{
             <View style={styles.MainContainer}>  
   
                 <MapView  
+                customMapStyle={MapStyle}
                 style={styles.mapStyle}  
                 showsUserLocation={true}  
                 zoomEnabled={true}  
@@ -70,21 +89,14 @@ class DiscoverScreen extends React.Component{
                     latitudeDelta: 0.0922,  
                     longitudeDelta: 0.0421,  
                 }}>  
-                    <MapView.Marker  
-                        coordinate={{ latitude: 6.8896966, longitude: 80.0384521 }}  
-                        title={"JavaTpoint"}  
-                        description={"Java Training Institute"}  
-                    /> 
-                {/* {this.state.observations.map((val,i)=>(
-                    <MapView.Marker  
-                        key={i}
-                        coordinate={{ latitude: val[0], longitude: val[1] }}  
-                        title={"JavaTpoint"}  
-                        description={"Java Training Institute"}  
-                    />  
-                ))
-                })} */}
-               
+                {this.state.observations.map(marker => (
+                    <Marker
+                        key={marker.id}
+                        coordinate={marker.cordinates}
+                        title={marker.title}
+                        description={marker.description}
+                    />
+                ))}
                 </MapView>  
               
           </View>  

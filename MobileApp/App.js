@@ -21,8 +21,8 @@ import ProfileScreen from './src/Views/ProfileScreen/ProfileScreen'
 import SearchScreen from './src/Views/SearchScreen/SearchScreen'
 import DiscoverScreen from './src/Views/DiscoverScreen/DiscoverScreen'
 import ShowPhotoScreen from './src/Views/ShowPhotoScreen/ShowPhotoScreen'
-
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
 const AuthStack = createStackNavigator({
   SignIn: LoginScreen
@@ -54,26 +54,22 @@ const ProfileStack = createStackNavigator({
   ProfileScreen: ProfileScreen,
 });
 
-const MainTabs = createBottomTabNavigator({
+const MainTabs = createMaterialBottomTabNavigator({
   FeedStack: {
     screen: FeedStack,
     navigationOptions: {
-      tabBarLabel: 'Feed',
+      tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="home" size={25} color="grey" />
+        <Icon name="md-home" size={25} color="white" />
       ),
     },
-    tabBarOptions: { 
-      showIcon: true ,
-      showLabel: false
-   },
   },
   SearchStack: {
     screen: SearchStack,
     navigationOptions: {
       tabBarLabel: 'Search',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="search" size={25} color="grey" />
+        <Icon name="md-search" size={25} color="white" />
       ),
     },
   },
@@ -82,40 +78,31 @@ const MainTabs = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Photo',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="camera" size={25} color="grey" />
+        <Icon name="md-camera" size={25} color="white" />
       ),
     },
-    tabBarOptions: { showLabel: false }
   },
   Discover: {
     screen: DiscoverStack,
     navigationOptions: {
       tabBarLabel: 'Discover',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="map-marker" size={25} color="grey" />
+        <Icon name="md-map" size={25} color="white" />
       ),
     },
-    tabBarOptions: { 
-      showIcon: true,
-      showLabel: false 
-   },
   },
   Profile: {
     screen: ProfileStack,
     navigationOptions: {
       tabBarLabel: 'Profile',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="user" size={25} color="grey" />
+        <Icon name="md-contact" size={25} color="white" />
       ),
     },
-    tabBarOptions: { 
-      showIcon: true,
-      showLabel: false 
-   },
   },
 });
 
-const PhotoTabs = createBottomTabNavigator({
+const PhotoTabs = createMaterialBottomTabNavigator({
   // Gallery: {
   //   screen: GalleryStack,
   //   navigationOptions: {
@@ -133,7 +120,7 @@ const PhotoTabs = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Camera',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="camera" size={25} color="grey" />
+        <Icon name="md-camera" size={24} color="white" />
       ),
     },
     tabBarOptions: { 
@@ -141,11 +128,6 @@ const PhotoTabs = createBottomTabNavigator({
    },
   },
 });
-
-// const MainDrawer = createDrawerNavigator({
-//   MainTabs: MainTabs,
-
-// });
 
 const AppModalStack = createStackNavigator(
   {
