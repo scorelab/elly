@@ -29,7 +29,6 @@ class LandingScreen extends React.Component{
         const snapshot = await ref.once('value');
 
         let obs = snapshot.val()
-        console.log(obs)
         if(obs.name!==undefined){
             return true
         }

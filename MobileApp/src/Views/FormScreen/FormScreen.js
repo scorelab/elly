@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Button } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {View, StyleSheet, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {View, StyleSheet, Image, ScrollView, TouchableOpacity, ImageBackground} from 'react-native'
 import CameraRoll from "@react-native-community/cameraroll";
 import {RadioButtonGroupVertical, RadioButtonGroupHorizontal, TextInputGroupHorizontal, UneditableComponent} from  '../../components/FormComponents/FormComponents'
 import Geolocation from '@react-native-community/geolocation';
@@ -23,13 +22,14 @@ class FormScreen extends React.Component{
             headerTitleStyle: {
             fontWeight: 'bold',
             },
+            headerRight: ()=><Icon color='white' size={24} name='arrow-right' />
         }
     }
 
     constructor(props) {
         super(props);
         this.state = { 
-            photos: "", 
+            photos: [{"node": {"group_name": "Pictures", "image": [], "timestamp": 1574182457, "type": "image/jpeg"}}], 
             isAlive: 1, 
             isSingle: 0 , 
             cause: 0, 
@@ -97,25 +97,23 @@ class FormScreen extends React.Component{
        
       }
 
-    requestWriteStoragePermission = async function () {
+    requestLocationPermission = async function () {
         try {
           const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             return true
-            
-          } else {
+        } else {
             return false
-          }
-        } catch (err) {
-          console.warn(err);
-          return false
         }
-      }
+        } catch (err) {
+            return false
+        }
+    }
 
     findCoordinates = () => {
-        if(this.requestWriteStoragePermission){
+        if(this.requestLocationPermission){
             Geolocation.getCurrentPosition(
                 position => {
                   const initialPosition = position;
@@ -130,83 +128,14 @@ class FormScreen extends React.Component{
       };
 
     FormComponentCallbackFunction = (childData) => {
-        switch(childData[1]) {
-            case 'isAlive':
-                this.setState({
-                    isAlive: childData[0]
-                })
-              break;
-            case 'isSingle':
-                this.setState({
-                    isSingle: childData[0]
-                })
-              break;
-            case 'cause':
-                this.setState({
-                    cause: childData[0]
-                })
-                break;
-            case 'accidentKind':
-                this.setState({
-                    accidentKind: childData[0]
-                })
-                break;
-            case 'intentinalKind':
-                this.setState({
-                    intentinalKind: childData[0]
-                })
-                break;
-            case 'sex':
-                this.setState({
-                    sex: childData[0]
-                })
-                break;
-            case 'noOfIndividuals':
-                this.setState({
-                    noOfIndividuals: childData[0]
-                })
-                break;
-            case 'noOfDeaths':
-                this.setState({
-                    noOfDeaths: childData[0]
-                })
-                break;
-            case 'noOfTusks':
-                this.setState({
-                    noOfTusks: childData[0]
-                })
-                break;
-            case 'tusksStatus':
-                this.setState({
-                    tusksStatus: childData[0]
-                })
-                break;
-            case 'haveTusks':
-                this.setState({
-                    haveTusks: childData[0]
-                })
-                break;
-            case 'howManyTuskers':
-                this.setState({
-                    howManyTuskers: childData[0]
-                })
-                break;
-            case 'accidentOther':
-                this.setState({
-                    accidentOther: childData[0]
-                })
-                break;
-            case 'intentionalOther':
-                this.setState({
-                    intentionalOther: childData[0]
-                })
-                break;
-                
-            
-            default:
-                console.log(childData[1]+": "+childData[0])
-          } 
-          console.log(childData[1]+": "+childData[0])
+        let type = childData[1]
+        let obj ={}
+        obj[type] = childData[0]
+        this.setState(obj)
+
+        console.log(this.state)
+        
+        console.log(childData[1]+": "+childData[0])
     }
 
     loadImageCaptured(){
@@ -226,13 +155,14 @@ class FormScreen extends React.Component{
         const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <View style={{backgroundColor: 'lightgrey'}}>
+                <ImageBackground blurRadius={2} style={{width: "100%"}} source={{uri: this.state.photos[0].node.image.uri}}>
                     {this.state.photos!==""?
                     <TouchableOpacity 
                         style={styles.imgHolder}
                         onPress={()=>navigate('showPhoto')}
                     >
                         {this.state.photos.map((p, i) => {
+                            console.log(this.state.photos[0].node.image.uri)
                         return (
                             <Image
                                 key={i}
@@ -241,7 +171,7 @@ class FormScreen extends React.Component{
                                     height: 80,
                                     borderRadius: 20,
                                 }}
-                                source={{ uri: p.node.image.uri }}
+                                source={{ uri: this.state.photos[0].node.image.uri }}
                             />
                         );
                         })}
@@ -249,7 +179,8 @@ class FormScreen extends React.Component{
                 :
                     <View></View>
                 }
-                </View>
+                </ImageBackground>
+
                 <View>
                     <ActivityIndicator title={"Uploading"} showIndicator={this.state.activityIndicator}/>
                 </View>
@@ -262,7 +193,7 @@ class FormScreen extends React.Component{
                     />
                     <UneditableComponent
                         title={'Date'}
-                        icon={'clock-o'}
+                        icon={'calendar-clock'}
                         values={this.state.date}
                     />
 

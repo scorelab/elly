@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {View, StyleSheet} from 'react-native'
-import { RadioButton, Text, Divider, TextInput } from 'react-native-paper';
+import { RadioButton, Text,Avatar, Divider, TextInput } from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -28,7 +28,7 @@ class RadioButtonGroupVertical extends React.Component{
         return (
             <View style={styles.container}>
                 <View style={{flexDirection: 'row',alignItems: 'center'}}>
-                    <Icon name="question-circle" size={30} color="grey" />
+                <Avatar.Icon size={30} color='white' icon="comment-question" />
                     <Text style={styles.title}>{this.props.title} </Text>
                 </View>
                 <View style={{marginLeft: 10}}>
@@ -75,7 +75,7 @@ class RadioButtonGroupHorizontal extends React.Component{
         return (
             <View style={styles.container}>
                 <View style={styles.buttonGroup}>
-                    <Icon name="question-circle" size={30} color="grey" />
+                    <Avatar.Icon size={30} color='white' icon="comment-question" />
                     <Text style={styles.title}>{this.props.title} </Text>
                     <RadioButton.Group
                         onValueChange={value => this.radioButtonOnChangeHandler(value)}
@@ -121,7 +121,7 @@ class TextInputGroupHorizontal extends React.Component{
         return (
             <View style={styles.container}>
                 <View style={styles.buttonGroup}>
-                    <Icon name="question-circle" size={30} color="grey" />
+                    <Avatar.Icon size={30} color='white' icon="comment-question" />
                     <Text style={styles.title}>{this.props.title} </Text>
                 </View>
                 <View style={styles.textInput}>
@@ -131,6 +131,7 @@ class TextInputGroupHorizontal extends React.Component{
                         mode='outlined'
                         style={{width: '100%'}}
                         multiline
+                        keyboardType={'numeric'}
                     />
                 </View>
                 <Divider />
@@ -149,7 +150,7 @@ class UneditableComponent extends React.Component{
         return (
             <View>
                 <View style={styles.uneditableComponent}>
-                    <Icon name={this.props.icon} size={30} color='grey'/>
+                    <Avatar.Icon size={30} color='white' icon={this.props.icon} />
                     <Text style={styles.title}>{this.props.title} </Text>
                     <Text style={styles.title}>{this.props.values.map((val, i)=>{return <Text key={i}>{val.toString()} </Text>})}</Text>
                 </View>

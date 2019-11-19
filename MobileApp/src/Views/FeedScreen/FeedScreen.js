@@ -1,16 +1,17 @@
 import * as React from 'react';
 import {View, StyleSheet, Text} from 'react-native'
-import { Avatar, Card, Title, Paragraph, Divider } from 'react-native-paper';
+import { Avatar, Card } from 'react-native-paper';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {NavigationEvents} from 'react-navigation';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 class FeedScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
+        const {params=[]} = navigation.state
         return {
-            headerTitle: 'Elly',
+            headerTitle: 'Home',
             headerStyle: {
               backgroundColor: '#4b8b3b',
             },
@@ -18,6 +19,7 @@ class FeedScreen extends React.Component{
             headerTitleStyle: {
             fontWeight: 'bold',
             },
+            headerLeft: ()=><Avatar.Image style={{marginLeft: 5}} size={40} source={{ uri: params.userPhoto }} />,
         }
     }
 
@@ -30,9 +32,23 @@ class FeedScreen extends React.Component{
     }
 
     componentDidMount(){
-          
+        this.getUserData()
         database().ref('/users/').on("value", snapshot=>{
             this.getObservations()
+        })
+    }
+
+    getUserData = async function() {
+        const uid = auth().currentUser.uid;
+       
+        // Create a reference
+        const ref = database().ref(`/users/${uid}`);
+       
+        // Fetch the data snapshot
+        const snapshot = await ref.once('value');
+
+        await this.props.navigation.setParams({
+            userPhoto: snapshot.val().photo
         })
     }
 
@@ -53,7 +69,6 @@ class FeedScreen extends React.Component{
             //console.log(photo)
             let userNick = val[i].name.toLowerCase().replace(/ /g, '')
             let obs = val[i].observations
-            console.log(obs)
             if(obs!==undefined){
                 for(let j in obs){
                     //console.log(obs[j])
@@ -82,14 +97,13 @@ class FeedScreen extends React.Component{
                 </View>
                 <ScrollView style={{width: "100%"}}>
                     {this.state.observations.map((val,i)=>{
-                        console.log(val[4])
                         return (
                             <View style={{marginTop: 5}} key={i}>
                                 <Card >
                                     <Card.Title 
                                         title={val[0]} subtitle={"@"+val[5]} 
-                                        left={(props) => <Avatar.Image size={50} source={{ uri: val[1] }} />}
-                                        right={(props) => <Avatar.Icon style={{backgroundColor: 'white'}} size={50} color='black' icon="dots-vertical" />}
+                                        left={() => <Avatar.Image size={50} source={{ uri: val[1] }} />}
+                                        right={() => <Avatar.Icon style={{backgroundColor: 'white'}} size={50} color='black' icon="dots-vertical" />}
                                     />
                                    
                                     <Card.Cover style={{borderRadius: 5, margin: 10, height: 300}} source={{ uri: val[2] }} />

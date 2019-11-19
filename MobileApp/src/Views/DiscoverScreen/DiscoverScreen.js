@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {View, StyleSheet, Text} from 'react-native'
+import {View, StyleSheet, PermissionsAndroid} from 'react-native'
 import MapView from 'react-native-maps';  
 import { Marker } from 'react-native-maps';  
 import database from '@react-native-firebase/database';
-
+import Geolocation from '@react-native-community/geolocation';
 var MapStyle = require('./map.json')
 
 class DiscoverScreen extends React.Component{
@@ -24,12 +24,16 @@ class DiscoverScreen extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            observations: []
+            observations: [],
+            location: [82.0,6.8]
         }
     }
 
     componentDidMount(){
-        this.getObservations()  
+        database().ref('/users/').on("value", snapshot=>{
+            this.getObservations()
+        })
+        this.findCoordinates()
     }
 
     getObservations = async function (){
@@ -64,12 +68,42 @@ class DiscoverScreen extends React.Component{
                 observations.push(marker)
             }
         }
-        console.log(observations)
+        //console.log(observations)
 
         await this.setState({
             observations: observations
         })
     }
+
+    requestLocationPermission = async function () {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            return true
+        } else {
+            return false
+        }
+        } catch (err) {
+            return false
+        }
+    }
+
+    findCoordinates = () => {
+        if(this.requestLocationPermission){
+            Geolocation.getCurrentPosition(
+                position => {
+                  const initialPosition = position;
+                  console.log(initialPosition['coords']['longitude'].toString(), initialPosition['coords']['latitude'].toString())
+                  this.setState({location: [initialPosition['coords']['longitude'], initialPosition['coords']['latitude']]});
+                },
+                error => console.log('Error', JSON.stringify(error)),
+                {enableHighAccuracy: false},
+              );
+        }
+        
+      };
 
     render() {
         const {navigate} = this.props.navigation;
@@ -78,25 +112,25 @@ class DiscoverScreen extends React.Component{
             <View style={styles.MainContainer}>  
   
                 <MapView  
-                customMapStyle={MapStyle}
-                style={styles.mapStyle}  
-                showsUserLocation={true}  
-                zoomEnabled={true}  
-                zoomControlEnabled={true}  
-                initialRegion={{  
-                    latitude: 6.8896966,   
-                    longitude: 80.0384521,  
-                    latitudeDelta: 0.0922,  
-                    longitudeDelta: 0.0421,  
+                    customMapStyle={MapStyle}
+                    style={styles.mapStyle}  
+                    showsUserLocation={true}  
+                    zoomEnabled={true}  
+                    zoomControlEnabled={true}  
+                    initialRegion={{  
+                        latitude: this.state.location[1],   
+                        longitude: this.state.location[0],  
+                        latitudeDelta: 1.2922,  
+                        longitudeDelta: 0.0421,  
                 }}>  
-                {this.state.observations.map(marker => (
-                    <Marker
-                        key={marker.id}
-                        coordinate={marker.cordinates}
-                        title={marker.title}
-                        description={marker.description}
-                    />
-                ))}
+                    {this.state.observations.map(marker => (
+                        <Marker
+                            key={marker.id}
+                            coordinate={marker.cordinates}
+                            title={marker.title}
+                            description={marker.description}
+                        />
+                    ))}
                 </MapView>  
               
           </View>  

@@ -3,6 +3,7 @@ import {View, StyleSheet,ImageBackground, Text, Image,Dimensions, ScrollView} fr
 import {List, Avatar, Divider} from 'react-native-paper'
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 class ProfileScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
@@ -30,7 +31,10 @@ class ProfileScreen extends React.Component{
     }
 
     componentDidMount(){
-        this.getUserData()
+        database().ref('/users/').on("value", snapshot=>{
+            this.getUserData()
+        })
+        
     }
 
     getUserData = async function () {
@@ -76,21 +80,18 @@ class ProfileScreen extends React.Component{
                     <Text style={styles.obCount}>{this.state.noObs}</Text>
                 </ImageBackground>
 
-                <ScrollView style={styles.observationConatiner}>
-                    {this.state.userObservations.map((val,i)=>{
-                        return (
-                            <View  key={i} style={{margin: 10}}>
-                                <List.Item
-                                    title={val[3]}
-                                    description={val[1][0]+", "+val[1][1]}
-                                    left={props => <Image style={{width: 50, height: 50}} source={{ uri: val[0] }} />}
-                                />
-                                <Divider/>
-                            </View>
-                        )
-                        
-                    })}
-                    
+                <ScrollView style={styles.scrollView}>
+                    <View style={styles.imgConatiner}>
+                        {this.state.userObservations.map((val,i)=>{
+                                return(
+                                    <TouchableOpacity key={i}>
+                                        <Image style={styles.img} source={{uri: val[0]}}/>
+                                    </TouchableOpacity>
+                                )
+                            
+                            })
+                        }
+                    </View>
                 </ScrollView>
             </View>
             
@@ -134,9 +135,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'white'
     },
-    welcome: {
-        fontSize: 25
-    }
+    img: {
+        width: Dimensions.get('window').width/3.2, 
+        height: Dimensions.get('window').width/3.5,
+        borderWidth: 2, 
+        margin: 2
+    },
+    imgConatiner: {
+        flexDirection: 'row', 
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+        width: Dimensions.get('window').width
+    },
+    scrollView: {
+        width: Dimensions.get('window').width
+    },
 })
 export default ProfileScreen;
 

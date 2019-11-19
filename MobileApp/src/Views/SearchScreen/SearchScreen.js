@@ -35,8 +35,9 @@ class SearchScreen extends React.Component{
             handleText: (text)=>this.onTextChangeHandler(text),
             query: this.state.firstQuery
         });
-
-        this.getObservations('all')
+        database().ref('/users/').on("value", snapshot=>{
+            this.getObservations('all')
+        })
     }
 
     onTextChangeHandler=(text)=>{

@@ -9,7 +9,7 @@ import {name as appName} from './app.json';
 
 const theme = {
     ...DefaultTheme,
-    roundness: 15,
+    roundness: 10,
     colors: {
       ...DefaultTheme.colors,
       primary: '#4b8b3b',

@@ -6,6 +6,7 @@
  * @flow
  */
 import React from 'react';
+import {View} from 'react-native'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -23,7 +24,7 @@ import DiscoverScreen from './src/Views/DiscoverScreen/DiscoverScreen'
 import ShowPhotoScreen from './src/Views/ShowPhotoScreen/ShowPhotoScreen'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons'; 
-
+import {Avatar} from 'react-native-paper'
 const AuthStack = createStackNavigator({
   SignIn: LoginScreen
 });
@@ -58,49 +59,49 @@ const MainTabs = createMaterialBottomTabNavigator({
   FeedStack: {
     screen: FeedStack,
     navigationOptions: {
-      tabBarLabel: 'Home',
+      tabBarLabel: [],
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="md-home" size={25} color="white" />
+        <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}><Avatar.Icon size={50} color='white' icon="home-variant" /></View>
       ),
     },
   },
   SearchStack: {
     screen: SearchStack,
     navigationOptions: {
-      tabBarLabel: 'Search',
+      tabBarLabel: [],
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="md-search" size={25} color="white" />
+        <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}><Avatar.Icon size={50} color='white' icon="image-search" /></View>
       ),
     },
   },
   PhotoLandingScreen: {
     screen: PhotoLandingScreen,
     navigationOptions: {
-      tabBarLabel: 'Photo',
+      tabBarLabel: [],
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="md-camera" size={25} color="white" />
+        <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}><Avatar.Icon size={50} color='white' icon="camera-iris" /></View>
       ),
     },
   },
   Discover: {
     screen: DiscoverStack,
     navigationOptions: {
-      tabBarLabel: 'Discover',
+      tabBarLabel: [],
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="md-map" size={25} color="white" />
+        <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}><Avatar.Icon size={50} color='white' icon="google-maps" /></View>
       ),
     },
   },
   Profile: {
     screen: ProfileStack,
     navigationOptions: {
-      tabBarLabel: 'Profile',
+      tabBarLabel: [],
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="md-contact" size={25} color="white" />
+        <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}><Avatar.Icon size={50} color='white' icon="account-box" /></View>
       ),
     },
   },
-});
+},);
 
 const PhotoTabs = createMaterialBottomTabNavigator({
   // Gallery: {
@@ -118,9 +119,9 @@ const PhotoTabs = createMaterialBottomTabNavigator({
   Camera: {
     screen: CameraStack,
     navigationOptions: {
-      tabBarLabel: 'Camera',
+      tabBarLabel: [],
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="md-camera" size={24} color="white" />
+        <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}><Avatar.Icon size={50} color='white' icon="camera-iris" /></View>
       ),
     },
     tabBarOptions: { 

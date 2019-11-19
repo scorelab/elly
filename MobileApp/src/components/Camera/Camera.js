@@ -1,7 +1,7 @@
 'use strict';
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, PermissionsAndroid } from 'react-native';
-import { IconButton, Colors } from 'react-native-paper';
+import { IconButton, Colors, Avatar } from 'react-native-paper';
 import CameraRoll from "@react-native-community/cameraroll";
 import { RNCamera } from 'react-native-camera';
   const PendingView = () => (
@@ -18,6 +18,18 @@ import { RNCamera } from 'react-native-camera';
 
 class Camera extends PureComponent{
 
+  constructor(props){
+    super(props)
+    this.state={
+      flashOn: false,
+      cameraPermission: false
+    }
+  }
+
+  componentDidMount(){
+    this.requestWriteStoragePermission()
+  }
+
   sendData = () => {
     this.props.parentCallback([this.state.snaped, this.state.dataUri]);
   }
@@ -26,66 +38,66 @@ class Camera extends PureComponent{
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        {
-          title: 'Cool Photo App Camera Permission',
-          message:
-            'Cool Photo App needs access to your camera ' +
-            'so you can take awesome pictures.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('You can use the camera');
+        await this.setState({
+          cameraPermission: true
+        })
         return true
         
       } else {
         console.log('Camera permission denied');
+        await this.setState({
+          cameraPermission: false
+        })
         return false
       }
     } catch (err) {
       console.warn(err);
+      await this.setState({
+        cameraPermission: false
+      })
       return false
     }
   }
 
   render() {
     console.log(this.props.path)
+
+    console.log(this.state.cameraPermission)
     return (
       <View style={styles.container}>
-        <View></View>
         <RNCamera
+          ref={ref => {
+            this.camera = ref;
+          }}
           style={styles.preview}
           type={RNCamera.Constants.Type.back}
-          // flashMode={RNCamera.Constants.FlashMode.on}
+          flashMode={this.state.flashOn?RNCamera.Constants.FlashMode.on:RNCamera.Constants.FlashMode.off}
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
             message: 'We need your permission to use your camera',
             buttonPositive: 'Ok',
             buttonNegative: 'Cancel',
           }}
-          androidRecordAudioPermissionOptions={{
-            title: 'Permission to use audio recording',
-            message: 'We need your permission to use your audio',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
+          // onGoogleVisionBarcodesDetected={({ barcodes }) => {
+          //   console.log(barcodes);
+          // }}
+          // onFacesDetected={(face)=>{
+          //   console.log(face);
+          // }}
+          // onTextRecognized={(text)=>{
+          //   console.log(text);
+          // }}
         >
-          {({ camera, status, recordAudioPermissionStatus }) => {
-            if (status !== 'READY') return <PendingView />;
-            // return (
-            //   <View>
-            //     <IconButton
-            //       icon="camera"
-            //       color={Colors.black}
-            //       size={100}
-            //       onPress={()=>this.takePicture(camera)}
-            //     />
-            //   </View>
-            // );
-            this.manageTakingPicture(camera)
-          }}
+          <TouchableOpacity 
+            style={{justifyContent: 'flex-start', marginLeft: 20, marginTop: 20}}
+            onPress={()=>this.setState({flashOn: !this.state.flashOn})}
+          
+          >
+            <Avatar.Icon size={60} color='white' icon={this.state.flashOn?'flash':'flash-off'} /> 
+          </TouchableOpacity>
         </RNCamera>
         <View style={styles.bottom}>
             <IconButton
@@ -101,27 +113,23 @@ class Camera extends PureComponent{
     );
     }
 
-    manageTakingPicture = async function(camera){
-      await this.setState({
-        cameraOpen: camera
-      })
-    }
-
-    takePicture = async function() {
-      const camera = this.state.cameraOpen
-      const options = { quality: 0.5, base64: true };
-      const data = await camera.takePictureAsync(options);
-      //  eslint-disable-next-line
-      console.log(data.uri);
-      if(this.requestWriteStoragePermission()){
-        console.log("Permision granted to write")
-        CameraRoll.saveToCameraRoll(data.uri);
-        this.setState({
-          snaped: true,
-          dataUri: data.uri
-        })
-        this.sendData()
+    takePicture = async () => {
+      if (this.camera) {
+        const options = { quality: 0.5, base64: true };
+        const data = await this.camera.takePictureAsync(options);
+        console.log(data.uri);
+        if(this.requestWriteStoragePermission()){
+          console.log("Permision granted to write")
+          CameraRoll.saveToCameraRoll(data.uri);
+          this.setState({
+            snaped: true,
+            dataUri: data.uri
+          })
+          this.sendData()
+        }
       }
+     
+      
       
   };
 }
@@ -136,14 +144,12 @@ const styles = StyleSheet.create({
   },
   preview: {
     justifyContent: 'flex-start',
-    alignItems: 'center',
     height: "70%",
     width: "100%"
   },
   bottom: {
     flex: 1,
     justifyContent: 'flex-end',
-    // backgroundColor: getRandomColor(),
     alignItems: 'center',
     marginBottom: 10
 },
