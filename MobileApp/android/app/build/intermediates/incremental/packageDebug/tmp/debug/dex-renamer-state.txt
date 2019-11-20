@@ -1,0 +1,10 @@
+#Tue Nov 19 01:43:03 IST 2019
+path.2=classes3.dex
+path.1=classes2.dex
+path.0=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.2=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.1=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/dexMerger/debug/0
+base.0=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/dexMerger/debug/0
