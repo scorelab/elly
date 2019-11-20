@@ -2,6 +2,9 @@
 #
 MobileApp/.DS_Store
 
+#google-json
+MobileApp/android/app/google-services.json
+
 # Xcode
 #
 MobileApp/build/
@@ -23,7 +26,7 @@ MobileApp/*.xcuserstate
 
 # Android/IntelliJ
 #
-build/
+MobileApp/build/
 MobileApp/.idea
 MobileApp/.gradle
 MobileApp/local.properties
@@ -37,9 +40,9 @@ MobileApp/yarn-error.log
 
 # BUCK
 MobileApp/buck-out/
-MobileApp/\.buckd/
+MobileApp\.buckd/
 MobileApp/*.keystore
-MobileApp/!debug.keystore
+MobileApp/debug.keystore
 
 # fastlane
 #
@@ -56,4 +59,4 @@ MobileApp/*/fastlane/screenshots
 MobileApp/*.jsbundle
 
 # CocoaPods
-MobileApp/ios/Pods/
+MobileApp//ios/Pods/
