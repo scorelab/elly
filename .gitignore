@@ -5,7 +5,7 @@ MobileApp/.DS_Store
 #google-json
 MobileApp/android/app/google-services.json
 
-MobileApp/android/app/debug.keystore
+MobileApp/android/app/!debug.keystore
 
 # Xcode
 #
@@ -44,7 +44,7 @@ MobileApp/yarn-error.log
 MobileApp/buck-out/
 MobileApp\.buckd/
 MobileApp/*.keystore
-MobileApp/debug.keystore
+MobileApp/!debug.keystore
 
 # fastlane
 #
