@@ -5,6 +5,8 @@ MobileApp/.DS_Store
 #google-json
 MobileApp/android/app/google-services.json
 
+MobileApp/android/app/debug.keystore
+
 # Xcode
 #
 MobileApp/build/
@@ -59,4 +61,4 @@ MobileApp/*/fastlane/screenshots
 MobileApp/*.jsbundle
 
 # CocoaPods
-MobileApp//ios/Pods/
+MobileApp/ios/Pods/
