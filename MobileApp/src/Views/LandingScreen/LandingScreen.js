@@ -2,7 +2,6 @@ import * as React from 'react';
 import {View, StyleSheet, Image, Dimensions} from 'react-native'
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-var RNFS = require('react-native-fs');
 
 class LandingScreen extends React.Component{
     componentDidMount() {

@@ -27,8 +27,14 @@ import ShowPhotoScreen from './src/Views/ShowPhotoScreen/ShowPhotoScreen'
 import {Avatar} from 'react-native-paper'
 
 const AuthStack = createStackNavigator({
-  SignIn: LoginScreen
-});
+  SignIn: LoginScreen,
+  
+},
+{
+  mode: 'modal',
+  headerMode: 'none',
+}
+);
 
 const FeedStack = createStackNavigator({
   FeedScreen: FeedScreen,
@@ -51,6 +57,10 @@ const SearchStack = createStackNavigator({
 
 const ProfileStack = createStackNavigator({
   ProfileScreen: ProfileScreen,
+},
+{
+  mode: 'modal',
+  headerMode: 'none',
 });
 
 const MainTabs = createMaterialBottomTabNavigator({

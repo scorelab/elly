@@ -28,16 +28,6 @@ export async function googleLogin(navigate) {
     const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
 
     //console.warn(JSON.stringify(firebaseUserCredential.user.toJSON()));
-    //console.log(firebaseUserCredential.user.toJSON())
-
-    let photo =firebaseUserCredential.user.toJSON().photoURL
-    let name = firebaseUserCredential.user.toJSON().displayName
-    let email = firebaseUserCredential.user.toJSON().email
-    let phone = firebaseUserCredential.user.toJSON().phoneNumber
-    let uid = firebaseUserCredential.user.toJSON().uid
-    let content = uid+"\n"+name+"\n"+email+"\n"+phone+"\n"+photo
-    console.log(content)
-    createFile('user.file',content)
 
     const ref = database().ref('/users/').child(uid);
 
