@@ -1,7 +1,6 @@
 import React from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native'
+import {View, StyleSheet} from 'react-native'
 import Camera from '../../components/Camera/Camera'
-import { IconButton, Colors } from 'react-native-paper';
 
 class CameraViewScreen extends React.Component{
     state = {
@@ -11,7 +10,7 @@ class CameraViewScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
         return {
-            headerTitle: 'Take a Snapshot',
+            headerTitle: 'Photo',
             headerStyle: {
               backgroundColor: '#4b8b3b',
             },
@@ -64,7 +63,6 @@ const styles = StyleSheet.create({
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
-        // backgroundColor: getRandomColor(),
         alignItems: 'center',
     },
     cameraView: {

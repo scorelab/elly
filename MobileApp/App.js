@@ -23,6 +23,7 @@ import ProfileScreen from './src/Views/ProfileScreen/ProfileScreen'
 import SearchScreen from './src/Views/SearchScreen/SearchScreen'
 import DiscoverScreen from './src/Views/DiscoverScreen/DiscoverScreen'
 import ShowPhotoScreen from './src/Views/ShowPhotoScreen/ShowPhotoScreen'
+import ShowDetailedPhotoScreen from './src/Views/ShowDetailedPhotoScreen/ShowDetailedPhotoScreen'
 
 import {Avatar} from 'react-native-paper'
 
@@ -38,7 +39,7 @@ const AuthStack = createStackNavigator({
 
 const FeedStack = createStackNavigator({
   FeedScreen: FeedScreen,
-  showPhoto:  ShowPhotoScreen,
+  showDetailedPhoto: ShowDetailedPhotoScreen ,
 });
 
 const CameraStack = createStackNavigator({

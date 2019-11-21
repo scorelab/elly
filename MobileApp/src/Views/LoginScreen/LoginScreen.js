@@ -36,35 +36,38 @@ class LoginScreen extends React.Component{
                     source={{uri: 'https://i.pinimg.com/originals/bf/61/c0/bf61c043f06d0f7e8e1a545cb84dbd93.jpg'}}
                     style={styles.imgConatiner}
                 >
-                    <View style={styles.logoIconContainer}>
-                        <Image source={require('../../Assets/landing2.png')} style={styles.logo}/>
-                        <Text style={styles.logoText}>Elly</Text>
-                    </View>
-                    <View style={{flexDirection: 'row-reverse', width: Dimensions.get('window').width-80, marginBottom: 15}}>
-                        <Icon style={{flexDirection: 'row'}} color='white' name='question-circle-o' size={24}/>
+                    <View style={{height: 400, borderRadius: 30, backgroundColor: 'white', padding: 20, width: Dimensions.get('window').width-40}}>
+                        <View style={styles.logoIconContainer}>
+                            <Image source={require('../../Assets/landing.png')} style={styles.logo}/>
+                            <Text style={styles.logoText}>Elly</Text>
+                        </View>
+                        <View style={{flexDirection: 'row-reverse', width: Dimensions.get('window').width-80, marginBottom: 15}}>
+                            <Icon style={{flexDirection: 'row'}} color='black' name='question-circle-o' size={24}/>
+                        </View>
+                        
+                        <View style={styles.btnContainer}>
+                            <Icon.Button
+                                style={styles.btn}
+                                name="facebook"
+                                backgroundColor="#3b5998"
+                                onPress={() => this.facebookLoginBtnHandler(navigate)}
+                            >
+                                Login with Facebook
+                            </Icon.Button>
+                        </View>
+                        <View style={styles.btnContainer}>
+                            <Icon.Button
+                                style={styles.btn}
+                                name="google"
+                                backgroundColor="#DD4B39"
+                                onPress={() => this.GoogleLoginBtnHandler(navigate)}
+                            >
+                                Login with Google
+                            </Icon.Button>
+                        </View>
+
                     </View>
                     
-                    <View style={styles.btnContainer}>
-                        <Icon.Button
-                            style={styles.btn}
-                            name="facebook"
-                            backgroundColor="#3b5998"
-                            onPress={() => this.facebookLoginBtnHandler(navigate)}
-                        >
-                            Login with Facebook
-                        </Icon.Button>
-                    </View>
-                    <View style={styles.btnContainer}>
-                        <Icon.Button
-                            style={styles.btn}
-                            name="google"
-                            backgroundColor="#DD4B39"
-                            onPress={() => this.GoogleLoginBtnHandler(navigate)}
-                        >
-                            Login with Google
-                        </Icon.Button>
-                    </View>
-
                 </ImageBackground>
                 
             </View>
@@ -89,18 +92,16 @@ const styles = StyleSheet.create({
         height: 60,
     },
     logoIconContainer: {
-        flexDirection: 'row', 
         justifyContent: 'center', 
         alignItems: "center",
-        width: Dimensions.get('window').width, 
         marginBottom: 25
     },
     logo: {
-        width: 80, 
-        height: 55, 
+        width: 70,
+        height: 50
     },
     logoText: {
-        color: 'white',
+        color: 'black',
         fontSize: 50,
         fontWeight: 'bold',
         marginLeft: 10

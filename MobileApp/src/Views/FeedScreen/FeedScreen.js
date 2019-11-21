@@ -1,13 +1,12 @@
 import * as React from 'react';
-import {View, StyleSheet, Text} from 'react-native'
-import { Avatar, Card } from 'react-native-paper';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import {View, StyleSheet} from 'react-native'
+import { Avatar } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {NavigationEvents} from 'react-navigation';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 import {CardComponent} from '../../components/CardComponent/CardComponent'
-
+import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
 class FeedScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
@@ -48,7 +47,7 @@ class FeedScreen extends React.Component{
        
         // Fetch the data snapshot
         const snapshot = await ref.once('value');
-
+        
         await this.props.navigation.setParams({
             userPhoto: snapshot.val().photo
         })
@@ -69,13 +68,18 @@ class FeedScreen extends React.Component{
             let photo = val[i].photo
             let userNick = val[i].name.toLowerCase().replace(/ /g, '')
             let obs = val[i].observations
+            
             if(obs!==undefined){
                 for(let j in obs){
                     let photUrl = obs[j].photoURL
                     let location = obs[j].location
                     let time = new Date(obs[j].time)
+                    time = time.toString().split(" ")
+                    time = time.splice(0,time.length-1)
+                    time = time.toString().replace(/,/g, ' ')
+                    let result = generateResult(obs[j])
     
-                    observations.push([name, photo, photUrl, location, time, userNick])
+                    observations.push([name, photo, photUrl, location, time, userNick, result])
                 }
             }
             
@@ -98,7 +102,7 @@ class FeedScreen extends React.Component{
                 <ScrollView style={{width: "100%"}}>
                     {this.state.observations.map((val,i)=>{
                         return (
-                            <CardComponent key={i} showPhoto={this.props.navigation} title={val[0]} subtitle={"@"+val[5]} user={val[1]} image={val[2]} content={[['clock' ,val[4].toString()],['map-marker', val[3].toString()] ]}/>
+                            <CardComponent isNavigate={true} key={i} result={val[6]} showPhoto={this.props.navigation} title={val[0]} subtitle={"@"+val[5]} user={val[1]} image={val[2]} content={[['clock' ,val[4].toString()],['map-marker', val[3].toString()] ]}/>
                            
                         )
                     })}
