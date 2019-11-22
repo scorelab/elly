@@ -33,16 +33,16 @@ class LoginScreen extends React.Component{
         return (
             <View style={styles.container}>
                 <ImageBackground
-                    source={{uri: 'https://i.pinimg.com/originals/bf/61/c0/bf61c043f06d0f7e8e1a545cb84dbd93.jpg'}}
+                    source={require('../../Assets/cover.jpg')}
                     style={styles.imgConatiner}
                 >
-                    <View style={{height: 400, borderRadius: 30, backgroundColor: 'white', padding: 20, width: Dimensions.get('window').width-40}}>
+                    <View style={{height: 400, borderRadius: 30,backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: 20, width: Dimensions.get('window').width-40}}>
                         <View style={styles.logoIconContainer}>
-                            <Image source={require('../../Assets/landing.png')} style={styles.logo}/>
+                            {/* <Image source={require('../../Assets/landing2W.png')} style={styles.logo}/> */}
                             <Text style={styles.logoText}>Elly</Text>
                         </View>
                         <View style={{flexDirection: 'row-reverse', width: Dimensions.get('window').width-80, marginBottom: 15}}>
-                            <Icon style={{flexDirection: 'row'}} color='black' name='question-circle-o' size={24}/>
+                            <Icon style={{flexDirection: 'row'}} color='white' name='question-circle-o' size={24}/>
                         </View>
                         
                         <View style={styles.btnContainer}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width
     },
     btnContainer: {
-        marginBottom: 8
+        marginBottom: 8,
     },
     btn: {
         width: Dimensions.get('window').width-80,
@@ -104,14 +104,14 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 50,
         fontWeight: 'bold',
-        marginLeft: 10
+        marginBottom: 20
     },
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
         alignSelf: 'stretch',
         alignItems: 'center',
-        marginBottom: 50
+        marginBottom: 20
       },
     imgConatiner:{
         width: Dimensions.get('window').width,

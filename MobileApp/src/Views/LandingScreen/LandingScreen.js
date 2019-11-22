@@ -41,7 +41,7 @@ class LandingScreen extends React.Component{
     render() {
         return (
             <View style={styles.container}>
-                <Image style={{width: 80, height: 58}} source={require('../../Assets/landing2.png')}/>
+                <Image style={{width: 80, height: 58}} source={require('../../Assets/landing2W.png')}/>
             </View>
             
         );
