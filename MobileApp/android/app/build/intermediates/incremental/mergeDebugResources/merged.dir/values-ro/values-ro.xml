@@ -27,6 +27,29 @@
     <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"Trimiteți la"</string>
     <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"Trimiteți folosind <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"Restrângeți"</string>
+    <string gender="unknown" name="com_facebook_device_auth_instructions">Vizitează &lt;b>facebook.com/device&lt;/b> şi introdu codul de mai sus.</string>
+    <string gender="unknown" name="com_facebook_image_download_unknown_error">Eroare neaşteptată la descărcarea unei imagini.</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_message">Conectarea la WebView necesită permisiuni de tip INTERNET</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_title">Eroare AndroidManifest</string>
+    <string gender="unknown" name="com_facebook_like_button_liked">Apreciat</string>
+    <string gender="unknown" name="com_facebook_like_button_not_liked">Îmi place</string>
+    <string gender="unknown" name="com_facebook_loading">Se încarcă...</string>
+    <string gender="unknown" name="com_facebook_loginview_cancel_action">Anulează</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button">Conectare</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_continue">Continuă cu Facebook</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_long">Conectare cu Facebook</string>
+    <string gender="unknown" name="com_facebook_loginview_log_out_action">Deconectare</string>
+    <string gender="unknown" name="com_facebook_loginview_log_out_button">Deconectare</string>
+    <string gender="unknown" name="com_facebook_loginview_logged_in_as">Te-ai conectat ca: %1$s</string>
+    <string gender="unknown" name="com_facebook_loginview_logged_in_using_facebook">Te-ai conectat folosind Facebook</string>
+    <string gender="unknown" name="com_facebook_send_button_text">Trimite</string>
+    <string gender="unknown" name="com_facebook_share_button_text">Distribuie</string>
+    <string gender="unknown" name="com_facebook_smart_device_instructions">Pentru a te conecta la contul tău, deschide aplicaţia Facebook de pe dispozitivul mobil şi verifică notificările.</string>
+    <string gender="unknown" name="com_facebook_smart_device_instructions_or">- SAU -</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_cancel">Nu este vorba despre tine?</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_continue_as">Continuă ca %1$s</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_title">Confirmă conectarea</string>
+    <string gender="unknown" name="com_facebook_tooltip_default">Tu deţii controlul: alege ce informaţii doreşti să le oferi aplicaţiilor.</string>
     <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"Activați"</string>
     <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> nu va funcționa decât dacă activați serviciile Google Play."</string>
     <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Activați serviciile Google Play"</string>

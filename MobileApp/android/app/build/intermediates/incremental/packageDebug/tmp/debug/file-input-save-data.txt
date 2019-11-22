@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Nov 22 12:55:03 IST 2019
+#Fri Nov 22 15:18:22 IST 2019
 60.set=DEX
 52.set=NATIVE_RESOURCE
 53.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0

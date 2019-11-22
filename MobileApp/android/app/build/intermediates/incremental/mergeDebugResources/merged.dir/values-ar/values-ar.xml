@@ -27,6 +27,29 @@
     <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"مشاركة مع"</string>
     <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"مشاركة مع <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"تصغير"</string>
+    <string gender="unknown" name="com_facebook_device_auth_instructions">تفضل بزيارة &lt;b>facebook.com/device&lt;/b> وإدخال الرمز الموضح أعلاه.</string>
+    <string gender="unknown" name="com_facebook_image_download_unknown_error">حدث خطأ غير متوقع أثناء تنزيل صورة.</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_message">يتطلب تسجيل دخول WebView الحصول إلى إذن INTERNET</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_title">خطأ AndroidManifest</string>
+    <string gender="unknown" name="com_facebook_like_button_liked">أعجبك</string>
+    <string gender="unknown" name="com_facebook_like_button_not_liked">أعجبني</string>
+    <string gender="unknown" name="com_facebook_loading">جارٍ التحميل…</string>
+    <string gender="unknown" name="com_facebook_loginview_cancel_action">إلغاء</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button">تسجيل الدخول</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_continue">متابعة بحساب فيسبوك</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_long">تسجيل الدخول بحساب فيسبوك</string>
+    <string gender="unknown" name="com_facebook_loginview_log_out_action">تسجيل الخروج</string>
+    <string gender="unknown" name="com_facebook_loginview_log_out_button">تسجيل الخروج</string>
+    <string gender="unknown" name="com_facebook_loginview_logged_in_as">تم تسجيل الدخول باسم: %1$s</string>
+    <string gender="unknown" name="com_facebook_loginview_logged_in_using_facebook">تم تسجيل الدخول باستخدام حساب فيسبوك</string>
+    <string gender="unknown" name="com_facebook_send_button_text">إرسال</string>
+    <string gender="unknown" name="com_facebook_share_button_text">مشاركة</string>
+    <string gender="unknown" name="com_facebook_smart_device_instructions">لربط حسابك، افتح تطبيق فيسبوك على جهازك المحمول وراجع الإشعارات.</string>
+    <string gender="unknown" name="com_facebook_smart_device_instructions_or">- أو -</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_cancel">لست أنت؟</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_continue_as">متابعة باسم %1$s</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_title">تأكيد تسجيل الدخول</string>
+    <string gender="unknown" name="com_facebook_tooltip_default">أنت المتحكم في الأمر - يمكنك اختيار المعلومات التي تود مشاركتها مع التطبيقات.</string>
     <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"تفعيل"</string>
     <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"‏لن يعمل <ns1:g id="APP_NAME">%1$s</ns1:g> ما لم يتم تفعيل خدمات Google Play."</string>
     <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"‏تفعيل خدمات Google Play"</string>

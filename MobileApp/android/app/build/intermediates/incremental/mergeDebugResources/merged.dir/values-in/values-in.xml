@@ -27,6 +27,29 @@
     <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"Bagikan dengan"</string>
     <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"Bagikan dengan <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"Ciutkan"</string>
+    <string gender="unknown" name="com_facebook_device_auth_instructions">Kunjungi &lt;b>facebook.com/device&lt;/b> dan masukkan kode yang ditampilkan di bawah ini.</string>
+    <string gender="unknown" name="com_facebook_image_download_unknown_error">Kesalahan tak terduga ketika mengunduh gambar.</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_message">Masuk Tampilan Web memerlukan izin INTERNET</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_title">Terjadi Kesalahan AndroidManifest</string>
+    <string gender="unknown" name="com_facebook_like_button_liked">Suka</string>
+    <string gender="unknown" name="com_facebook_like_button_not_liked">Suka</string>
+    <string gender="unknown" name="com_facebook_loading">Memuat…</string>
+    <string gender="unknown" name="com_facebook_loginview_cancel_action">Batal</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button">Masuk</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_continue">Lanjutkan dengan Facebook</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_long">Masuk dengan Facebook</string>
+    <string gender="unknown" name="com_facebook_loginview_log_out_action">Keluar</string>
+    <string gender="unknown" name="com_facebook_loginview_log_out_button">Keluar</string>
+    <string gender="unknown" name="com_facebook_loginview_logged_in_as">Masuk sebagai: %1$s</string>
+    <string gender="unknown" name="com_facebook_loginview_logged_in_using_facebook">Masuk menggunakan Facebook</string>
+    <string gender="unknown" name="com_facebook_send_button_text">Kirim</string>
+    <string gender="unknown" name="com_facebook_share_button_text">Bagikan</string>
+    <string gender="unknown" name="com_facebook_smart_device_instructions">Untuk menghubungkan akun Anda, buka aplikasi Facebook di perangkat seluler Anda dan lihat pemberitahuan.</string>
+    <string gender="unknown" name="com_facebook_smart_device_instructions_or">- ATAU -</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_cancel">Bukan Anda?</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_continue_as">Lanjutkan sebagai %1$s</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_title">Konfirmasikan Masuk</string>
+    <string gender="unknown" name="com_facebook_tooltip_default">Anda memegang kendali - pilih info apa yang ingin Anda bagikan dengan aplikasi.</string>
     <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"Aktifkan"</string>
     <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> tidak akan berfungsi jika layanan Google Play tidak diaktifkan."</string>
     <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Aktifkan layanan Google Play"</string>

@@ -78,6 +78,10 @@ androidx/appcompat/graphics/drawable/DrawerArrowDrawable$ArrowDirection.class
 androidx/appcompat/view/menu/CascadingMenuPopup$HorizPosition.class
 androidx/appcompat/widget/LinearLayoutCompat$DividerMode.class
 androidx/appcompat/widget/LinearLayoutCompat$OrientationMode.class
+androidx/browser/browseractions/BrowserActionsIntent$BrowserActionsItemId.class
+androidx/browser/browseractions/BrowserActionsIntent$BrowserActionsUrlType.class
+androidx/browser/customtabs/CustomTabsService$Relation.class
+androidx/browser/customtabs/CustomTabsService$Result.class
 androidx/coordinatorlayout/widget/CoordinatorLayout$DefaultBehavior.class
 androidx/coordinatorlayout/widget/CoordinatorLayout$DispatchChangeEvent.class
 androidx/core/app/CoreComponentFactory$CompatWrapped.class

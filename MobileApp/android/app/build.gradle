@@ -205,7 +205,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
 
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation 'com.facebook.android:facebook-core:5.11.2'
     implementation 'com.android.support:multidex:1.0.3'
 
     if (enableHermes) {

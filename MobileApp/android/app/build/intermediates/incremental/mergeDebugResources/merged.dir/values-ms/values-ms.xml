@@ -27,6 +27,29 @@
     <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"Kongsi dengan"</string>
     <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"Kongsi dengan <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"Runtuhkan"</string>
+    <string gender="unknown" name="com_facebook_device_auth_instructions">Lawati &lt;b>facebook.com/device&lt;/b> dan masukkan kod yang ditunjukkan di atas.</string>
+    <string gender="unknown" name="com_facebook_image_download_unknown_error">Ralat tidak dijangka semasa memuat turun imej.</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_message">Log masuk WebView memerlukan kebenaran INTERNET</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_title">Ralat AndroidManifest</string>
+    <string gender="unknown" name="com_facebook_like_button_liked">Disukai</string>
+    <string gender="unknown" name="com_facebook_like_button_not_liked">Suka</string>
+    <string gender="unknown" name="com_facebook_loading">Memuatkan...</string>
+    <string gender="unknown" name="com_facebook_loginview_cancel_action">Batal</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button">Log masuk</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_continue">Teruskan dengan Facebook</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_long">Log masuk dengan Facebook</string>
+    <string gender="unknown" name="com_facebook_loginview_log_out_action">Log keluar</string>
+    <string gender="unknown" name="com_facebook_loginview_log_out_button">Log keluar</string>
+    <string gender="unknown" name="com_facebook_loginview_logged_in_as">Dilog masuk sebagai %1$s</string>
+    <string gender="unknown" name="com_facebook_loginview_logged_in_using_facebook">Log masuk menggunakan Facebook</string>
+    <string gender="unknown" name="com_facebook_send_button_text">Hantar</string>
+    <string gender="unknown" name="com_facebook_share_button_text">Kongsi</string>
+    <string gender="unknown" name="com_facebook_smart_device_instructions">Untuk menyambungkan akaun anda, buka aplikasi Facebook pada peranti mudah alih anda, dan semak untuk pemberitahuan.</string>
+    <string gender="unknown" name="com_facebook_smart_device_instructions_or">- ATAU -</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_cancel">Bukan anda?</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_continue_as">Teruskan sebagai %1$s</string>
+    <string gender="unknown" name="com_facebook_smart_login_confirmation_title">Sahkan Log Masuk</string>
+    <string gender="unknown" name="com_facebook_tooltip_default">Anda berada dalam kawalan - pilih maklumat yang anda mahu berkongsi dengan aplikasi.</string>
     <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"Dayakan"</string>
     <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> tidak akan berfungsi melainkan anda mendayakan perkhidmatan Google Play."</string>
     <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Dayakan perkhidmatan Google Play"</string>

@@ -27,6 +27,11 @@
     <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"Share with"</string>
     <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"Share with <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"Collapse"</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_message">WebView login requires Internet permission</string>
+    <string gender="unknown" name="com_facebook_internet_permission_error_title">AndroidManifest error</string>
+    <string gender="unknown" name="com_facebook_loading">Loading…</string>
+    <string gender="unknown" name="com_facebook_loginview_log_in_button_long">Log In With Facebook</string>
+    <string gender="unknown" name="com_facebook_tooltip_default">You\'re in control – choose what information you want to share with apps.</string>
     <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"Enable"</string>
     <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> won\'t work unless you enable Google Play services."</string>
     <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Enable Google Play services"</string>
