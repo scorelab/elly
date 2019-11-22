@@ -181,14 +181,13 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-fbsdk')
     implementation project(':react-native-maps')
     implementation project(':@react-native-firebase_storage')
-    implementation project(':react-native-fs')
     implementation project(':@react-native-firebase_database')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation project(':@react-native-community_google-signin')
-    implementation project(':react-native-fbsdk')
     implementation project(':@react-native-firebase_app')
     implementation project(':@react-native-firebase_auth')
     implementation project(':@react-native-community_cameraroll')

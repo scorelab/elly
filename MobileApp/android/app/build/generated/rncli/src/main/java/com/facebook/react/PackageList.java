@@ -30,10 +30,6 @@ import io.invertase.firebase.database.ReactNativeFirebaseDatabasePackage;
 import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 // react-native-camera
 import org.reactnative.camera.RNCameraPackage;
-// react-native-fbsdk
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-// react-native-fs
-import com.rnfs.RNFSPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-maps
@@ -97,8 +93,6 @@ public class PackageList {
       new ReactNativeFirebaseDatabasePackage(),
       new ReactNativeFirebaseStoragePackage(),
       new RNCameraPackage(),
-      new FBSDKPackage(),
-      new RNFSPackage(),
       new RNGestureHandlerPackage(),
       new MapsPackage(),
       new ReanimatedPackage(),

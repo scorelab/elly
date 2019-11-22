@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Nov 19 01:43:04 IST 2019
+#Fri Nov 22 12:55:03 IST 2019
 60.set=DEX
 52.set=NATIVE_RESOURCE
 53.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -11,7 +11,7 @@
 40.path=fonts/EvilIcons.ttf
 42.baseType=DIRECTORY
 13.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-3.path=lib/arm64-v8a/libglog_init.so
+3.path=lib/arm64-v8a/libjsc.so
 47.path=lib/x86/libnative-filters.so
 60.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/dexMerger/debug/0
 72.baseType=DIRECTORY
@@ -58,7 +58,7 @@
 44.baseType=DIRECTORY
 18.set=NATIVE_RESOURCE
 12.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-2.path=lib/arm64-v8a/libjsc.so
+2.path=ula.kml
 46.path=lib/x86_64/libimagepipeline.so
 9.path=lib/armeabi-v7a/libglog_init.so
 74.baseType=DIRECTORY
@@ -133,7 +133,7 @@
 21.path=lib/x86/libglog_init.so
 28.path=lib/arm64-v8a/libjsijniprofiler.so
 75.path=lib/arm64-v8a/libc++_shared.so
-4.set=ASSET
+4.set=NATIVE_RESOURCE
 55.baseType=DIRECTORY
 15.baseType=DIRECTORY
 43.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -178,7 +178,7 @@
 57.baseType=DIRECTORY
 17.baseType=DIRECTORY
 27.path=fonts/MaterialIcons.ttf
-2.set=NATIVE_RESOURCE
+2.set=ASSET
 74.path=lib/armeabi-v7a/libnative-filters.so
 20.baseType=DIRECTORY
 42.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -231,7 +231,7 @@ count=80
 52.baseType=DIRECTORY
 33.path=lib/armeabi-v7a/libreactnativejni.so
 12.baseType=DIRECTORY
-4.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/merged_assets/debug/out
+4.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 48.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 10.set=ASSET
 72.set=NATIVE_RESOURCE
@@ -287,7 +287,7 @@ count=80
 41.path=fonts/Fontisto.ttf
 77.baseType=DIRECTORY
 14.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-4.path=ula.kml
+4.path=lib/arm64-v8a/libglog_init.so
 37.baseType=DIRECTORY
 48.path=lib/x86_64/libnative-filters.so
 61.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -317,7 +317,7 @@ count=80
 16.baseType=DIRECTORY
 78.path=lib/x86/libfolly_json.so
 31.path=lib/x86_64/libyoga.so
-2.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
+2.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/merged_assets/debug/out
 46.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 38.path=lib/armeabi-v7a/libjsinspector.so
 9.base=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
