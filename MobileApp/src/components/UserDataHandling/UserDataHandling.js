@@ -13,7 +13,7 @@ export function generateResult(data){
             }else if(data.haveTusks===1){
                 result.push(['comment-question',"No tusks"])
             }else{
-                result.push(['comment-question',"Can't see"])
+                result.push(['comment-question',"Can't see tusks"])
             }
         }else if(data.isSingle===1){
             if(data.isSingle===1){
@@ -31,13 +31,13 @@ export function generateResult(data){
             }
 
             if(data.howManyTuskers===0){
-                result.push([,"None"])
+                result.push(['comment-question',"No any tuskers"])
             }else if(data.howManyTuskers===1){
-                result.push(['comment-question',"1 to 5 individuals"])
+                result.push(['comment-question',"1 to 5 individual tuskers"])
             }else if(data.howManyTuskers===1){
-                result.push(['comment-question',"6 to 10 individuals"])
+                result.push(['comment-question',"6 to 10 individual tuskers"])
             }else{
-                result.push(['comment-question',"More than 10 individuals"])
+                result.push(['comment-question',"More than 10 individual tuskers"])
             }
  
         }
@@ -47,40 +47,40 @@ export function generateResult(data){
         }else if(data.sex===0){
             result.push(['gender-male-female',"Female"])
         }else if(data.sex===0){
-            result.push(['gender-male-female',"Mixed"])
+            result.push(['gender-male-female',"Both mal and female"])
         }else{
-            result.push(['gender-male-female',"Don't know"])
+            result.push(['gender-male-female',"Don't know the gender"])
         }
     }else{
         if(data.cause===0){
-            result.push(['comment-question',"Accident"])
+            result.push(['comment-question',"By Accident"])
             if(data.accidentKind===0){
-                result.push(['comment-question',"Vehicle strike"])
+                result.push(['comment-question',"A Vehicle strike"])
             }else if(data.accidentKind===1){
-                result.push(['comment-question',"Train strike"])
+                result.push(['comment-question',"A Train strike"])
             }else if(data.accidentKind===2){
-                result.push(['comment-question',"Fell into well"])
+                result.push(['comment-question',"Has Fell into well"])
             }else if(data.accidentKind===3){
-                result.push(['comment-question',"Electrocution"])
+                result.push(['comment-question',"A Electrocution"])
             }else{
                 result.push(['comment-question',"Other (text note)"])
             }
         }else if(data.cause===1){
-            result.push(['comment-question',"Intentional"])
+            result.push(['comment-question',"Intentional Death."])
             if(data.intentionalKind===0){
-                result.push(['comment-question',"Conflict-related"])
+                result.push(['comment-question',"Conflict related"])
             }else if(data.intentionalKind===1){
-                result.push(['comment-question',"Hunting-related"])
+                result.push(['comment-question',"Hunting related"])
             }else if(data.intentionalKind===2){
                 result.push(['comment-question',"Other (text note)"])
             }else{
-                result.push(['comment-question',"Don’t know"])
+                result.push(['comment-question',"Don’t know how it died intentionally."])
             }
         }else{
-            result.push(['comment-question',"Don't know"])
+            result.push(['comment-question',"Don't know how the death happened."])
         }
-        result.push(data.noOfDeaths)
-        result.push(data.noOfTusks)
+        result.push(['comment-question',data.noOfDeaths+" died."])
+        result.push(['comment-question',data.noOfTusks+" tusks."])
         if(data.tusksStatus===0){
             result.push(['comment-question',"Tusks naturally absent"])
         }else if(data.tusksStatus===1){
@@ -88,7 +88,7 @@ export function generateResult(data){
         }else if(data.tusksStatus===2){
             result.push(['comment-question',"Tusks removed"])
         }else{
-            result.push(['comment-question',"Don’t know"])
+            result.push(['comment-question',"Don’t know what happened to tusks."])
         }
     }
 
