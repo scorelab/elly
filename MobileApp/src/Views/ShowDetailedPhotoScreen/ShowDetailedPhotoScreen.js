@@ -35,6 +35,7 @@ class ShowDetailedPhotoScreen extends React.Component{
                         image={this.props.navigation.getParam('img')} 
                         content={this.props.navigation.getParam('content')}
                         isNavigate={false}
+                        showPhoto={this.props.navigation}
                     />
                 </ScrollView>
                 

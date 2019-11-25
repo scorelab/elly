@@ -4,6 +4,7 @@ import {List, Avatar, Divider} from 'react-native-paper'
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
 class ProfileScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
@@ -47,17 +48,24 @@ class ProfileScreen extends React.Component{
         // Fetch the data snapshot
         const snapshot = await ref.once('value');
 
-        let obs = snapshot.val().observations
+        let val = snapshot.val()
         let observations = []
-        for(let i in obs){
-            let photUrl = obs[i].photoURL
-            let location = obs[i].location
-            let time = obs[i].time
-            let isSingle = obs[i].isSingle===0?
-            "Single Elephant":obs[i].isSingle===1?
-            "Group of Elephant with Calves":obs[i].isSingle===2?
-            "Group of Elephant with out Calves":""
-            observations.push([photUrl, location, time, isSingle])
+        let name = val.name
+        let photo = val.photo
+        let userNick = val.name.toLowerCase().replace(/ /g, '')
+        let obs = val.observations
+        if(obs!==undefined){
+            for(let j in obs){
+                let photUrl = obs[j].photoURL
+                let location = obs[j].location
+                let time = new Date(obs[j].time)
+                time = time.toString().split(" ")
+                time = time.splice(0,time.length-1)
+                time = time.toString().replace(/,/g, ' ')
+                let result = generateResult(obs[j])
+
+                observations.push([name, photo, photUrl, location, time, userNick, result, true])
+            }
         }
 
         await this.setState({
@@ -84,8 +92,24 @@ class ProfileScreen extends React.Component{
                     <View style={styles.imgConatiner}>
                         {this.state.userObservations.map((val,i)=>{
                                 return(
-                                    <TouchableOpacity key={i}>
-                                        <Image style={styles.img} source={{uri: val[0]}}/>
+                                    <TouchableOpacity 
+                                        key={i}
+                                        onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
+                                            {
+                                                img: val[2],
+                                                title: this.state.userName,
+                                                subtitle:this.state.userNick,
+                                                user: this.state.userPhoto,
+                                                content: val[6],
+                                                showPhoto: this.props.navigation
+                                            }
+                                            )}
+                                    >
+                                        <ImageBackground style={styles.img} source={{uri: val[2]}}>
+                                            <View style={{backgroundColor: '#4b8b3b', justifyContent:'flex-start', width: "30%", alignItems: 'center'}}>
+                                                <Text style={{margin: 10, color: 'white'}}>{i+1}</Text>
+                                            </View>
+                                        </ImageBackground>
                                     </TouchableOpacity>
                                 )
                             
@@ -138,8 +162,8 @@ const styles = StyleSheet.create({
     img: {
         width: Dimensions.get('window').width/3.2, 
         height: Dimensions.get('window').width/3.5,
-        borderWidth: 2, 
-        margin: 2
+        margin: 2,
+        flex:1
     },
     imgConatiner: {
         flexDirection: 'row', 

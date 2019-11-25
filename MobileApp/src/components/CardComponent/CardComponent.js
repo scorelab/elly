@@ -16,7 +16,7 @@ class CardComponent extends React.Component{
             <View style={styles.container}>
                 <Card>
                     <Card.Title 
-                        title={this.props.subtitle} subtitle={"Captured By "+this.props.title} 
+                        title={this.props.subtitle} subtitle={"By "+this.props.title} 
                         left={() => <Avatar.Image size={50} source={{ uri: this.props.user }} />}
                         right={() => <Avatar.Icon style={{backgroundColor: 'white'}} size={50} color='#4b8b3b' icon="check-decagram" />}
                     />
@@ -44,7 +44,18 @@ class CardComponent extends React.Component{
     
                     <Card.Content>
                         {this.props.content.map((val,i)=>{
+                            
                             return(
+                                val[0]==='map-marker'?
+                                <TouchableOpacity 
+                                    key={i} 
+                                    style={styles.content}
+                                    onPress={()=>this.props.showPhoto.navigate('showLocationScreen', {location: val[1]})}
+                                >
+                                    <Avatar.Icon size={40} color='white' icon={val[0]} />
+                                    <Text> View location</Text>
+                                </TouchableOpacity>
+                                :
                                 <View key={i} style={styles.content}>
                                     <Avatar.Icon size={40} color='white' icon={val[0]} />
                                     <Text> {val[1]}</Text>

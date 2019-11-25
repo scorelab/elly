@@ -4,8 +4,8 @@ import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';  
 import database from '@react-native-firebase/database';
 import Geolocation from '@react-native-community/geolocation';
-import {GoogleMapAPIKey} from '../../config/config'
-var MapStyle = require('./map.json')
+
+var MapStyle = require('../../config/map.json')
 
 class DiscoverScreen extends React.Component{
     
@@ -31,10 +31,15 @@ class DiscoverScreen extends React.Component{
     }
 
     componentDidMount(){
+        this.findCoordinates()
         database().ref('/users/').on("value", snapshot=>{
             this.getObservations()
         })
-        this.findCoordinates()
+        
+    }
+
+    componentDidUpdate(){
+        
     }
 
     getObservations = async function (){
@@ -50,19 +55,15 @@ class DiscoverScreen extends React.Component{
         for(let i in val){
             let obs = val[i].observations
             for(let j in obs){
-                let isSingle = obs[j].isSingle===0?
-                "Single Elephant":obs[j].isSingle===1?
-                "Group of Elephant with Calves":obs[j].isSingle===2?
-                "Group of Elephant with out Calves":""
                 let marker = 
                 {
-                    title: isSingle,
+                    title: obs[j].isSingle===0?"Single":"Group",
                     cordinates: 
                     {
                         latitude: obs[j].location[1],
                         longitude: obs[j].location[0]
                     },
-                    description: ''
+                    // description: ''
                    
                 }
                 
@@ -99,11 +100,6 @@ class DiscoverScreen extends React.Component{
                     const lon = initialPosition['coords']['longitude']
                     const lat = initialPosition['coords']['latitude']
                     console.log(lon, lat)
-                    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lon + '&key=' + GoogleMapAPIKey)
-                        .then((response) => response.json())
-                        .then((responseJson) => {
-                        console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
-                    })
                     this.setState({location: [lon, lat]});
                 },
                 error => console.log('Error', JSON.stringify(error)),
@@ -111,7 +107,7 @@ class DiscoverScreen extends React.Component{
               );
         }
         
-      };
+    };
 
     render() {
         const {navigate} = this.props.navigation;

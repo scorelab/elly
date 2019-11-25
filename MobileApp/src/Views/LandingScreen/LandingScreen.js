@@ -1,38 +1,23 @@
 import * as React from 'react';
 import {View, StyleSheet, Image, Dimensions} from 'react-native'
 import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
 
 class LandingScreen extends React.Component{
     componentDidMount() {
-        
-        if(this.getUserData()){
+        const user = auth().currentUser
+
+        if(user!==null){
             this._interval = setInterval(() => {
-                this.props.navigation.navigate('SignIn')
-            }, 2000);
-        }else{
-            this._interval = setInterval(() => {
-                this.props.navigation.navigate('SignIn')
+                this.props.navigation.navigate('App')
             }, 2000);
         }
+        this._interval = setInterval(() => {
+            this.props.navigation.navigate('SignIn')
+        }, 2000);
+       
         
       }
 
-    getUserData = async function () {
-        const uid = auth().currentUser.uid;
-       
-        // Create a reference
-        const ref = database().ref(`/users/${uid}`);
-       
-        // Fetch the data snapshot
-        const snapshot = await ref.once('value');
-
-        let obs = snapshot.val()
-        if(obs.name!==undefined){
-            return true
-        }
-        return false
-    }
       
       componentWillUnmount() {
         clearInterval(this._interval);

@@ -22,12 +22,14 @@ class FormScreen extends React.Component{
             headerTitleStyle: {
             fontWeight: 'bold',
             },
-            headerRight: ()=><Icon color='white' size={24} name='arrow-right' />
+            headerRight: ()=><TouchableOpacity><Icon color='white' size={24} name='arrow-right' /></TouchableOpacity>
         }
     }
 
     constructor(props) {
         super(props);
+        let date = new Date().toString().split(" ")
+        date = date.splice(0, date.length-1)
         this.state = { 
             photos: [{"node": {"group_name": "Pictures", "image": [], "timestamp": 1574182457, "type": "image/jpeg"}}], 
             isAlive: 1, 
@@ -44,7 +46,7 @@ class FormScreen extends React.Component{
             howManyTuskers: 0,
             location: ['',''],
             activityIndicator: false,
-            date: (new Date()).toString().split(" ")
+            date: date
         };
         
     }
@@ -322,10 +324,10 @@ class FormScreen extends React.Component{
                     :
                         <View></View>
                     }
-                    <View style={{margin: 10}}>
+                    <View style={{margin: 10, flexDirection: 'row-reverse'}}>
                         <Icon.Button
                             name="upload"
-                            backgroundColor="#3b5998"
+                            backgroundColor="#4b8b3b"
                             onPress={()=>this.uploadData()}
                         >
                             Upload
