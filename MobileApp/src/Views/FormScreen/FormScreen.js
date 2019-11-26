@@ -1,18 +1,20 @@
 import * as React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {View, StyleSheet, Image, ScrollView, TouchableOpacity, ImageBackground} from 'react-native'
+import {View, StyleSheet, Image, ScrollView, TouchableOpacity,Text, ImageBackground} from 'react-native'
 import CameraRoll from "@react-native-community/cameraroll";
 import {RadioButtonGroupVertical, RadioButtonGroupHorizontal, TextInputGroupHorizontal, UneditableComponent} from  '../../components/FormComponents/FormComponents'
 import Geolocation from '@react-native-community/geolocation';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
+import {Button} from 'react-native-paper'
 import {generateUUID} from '../../components/UserDataHandling/UserDataHandling'
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
-
+import {googleMapAPIKey} from '../../config/config'
 class FormScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
+        const {params = {}} = navigation.state;
         return {
             headerTitle: 'Observation',
             headerStyle: {
@@ -22,14 +24,14 @@ class FormScreen extends React.Component{
             headerTitleStyle: {
             fontWeight: 'bold',
             },
-            headerRight: ()=><TouchableOpacity><Icon color='white' size={24} name='arrow-right' /></TouchableOpacity>
+            headerRight: ()=><Button style={{margin: 5}} icon="plus" mode="contained" onPress={() => params.handlePress()}>Add</Button>
         }
     }
 
     constructor(props) {
         super(props);
         let date = new Date().toString().split(" ")
-        date = date.splice(0, date.length-1)
+        date = date.splice(0, date.length-2)
         this.state = { 
             photos: [{"node": {"group_name": "Pictures", "image": [], "timestamp": 1574182457, "type": "image/jpeg"}}], 
             isAlive: 1, 
@@ -39,14 +41,19 @@ class FormScreen extends React.Component{
             intentinalKind: 0, 
             sex: 0,
             noOfIndividuals: 0,
-            noOfDeaths: '0',
-            noOfTusks: '0',
+            noOfDeaths: 0,
+            noOfTusks: 0,
             tusksStatus: 0,
             haveTusks: 0,
             howManyTuskers: 0,
             location: ['',''],
             activityIndicator: false,
-            date: date
+            address: [],
+            date: date,
+            accidentOther: '',
+            intentionalOther: '',
+            verified: false,
+            notes: ''
         };
         
     }
@@ -54,10 +61,14 @@ class FormScreen extends React.Component{
     componentDidMount(){
         this.findCoordinates()
         this.loadImageCaptured()
+        this.props.navigation.setParams({
+            handlePress: ()=>this.uploadData(),
+        });
     }
 
     uploadData = async function() {
         // Get the users ID
+        console.log("Pressed")
         await this.setState({
             activityIndicator: true
         })
@@ -89,13 +100,18 @@ class FormScreen extends React.Component{
             haveTusks: this.state.haveTusks,
             howManyTuskers: this.state.howManyTuskers,
             location: this.state.location,
-            time: time
+            time: time,
+            accidentOther: this.state.accidentOther,
+            intentionalOther: this.state.intentionalOther,
+            verified: this.state.verified,
+            notes: this.state.notes
+
         });
 
         await this.setState({
             activityIndicator: false,
         })
-          this.props.navigation.navigate('FeedScreen')
+        this.props.navigation.navigate('CameraViewScreen')
        
       }
 
@@ -118,8 +134,19 @@ class FormScreen extends React.Component{
         if(this.requestLocationPermission){
             Geolocation.getCurrentPosition(
                 position => {
-                  const initialPosition = position;
-                  console.log(initialPosition['coords']['longitude'].toString(), initialPosition['coords']['latitude'].toString())
+                    const initialPosition = position;
+                    console.log(initialPosition)
+                    const lon = initialPosition['coords']['longitude']
+                    const lat = initialPosition['coords']['latitude']
+                    console.log(lon, lat, googleMapAPIKey)
+                    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lon + '&key=' + googleMapAPIKey)
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        this.setState({
+                            address: responseJson.results[0].formatted_address.split(",")
+                        })
+                        console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+                    })
                   this.setState({location: [initialPosition['coords']['longitude'], initialPosition['coords']['latitude']]});
                 },
                 error => console.log('Error', JSON.stringify(error)),
@@ -181,13 +208,21 @@ class FormScreen extends React.Component{
                     <UneditableComponent
                         title={'Location'}
                         icon={'map-marker'}
-                        values={this.state.location}
+                        values={this.state.address}
                     />
                     <UneditableComponent
                         title={'Date'}
                         icon={'calendar-clock'}
                         values={this.state.date}
                     />
+
+                    <TextInputGroupHorizontal
+                        title={'Notes'}
+                        type={'notes'}
+                        parentCallback={this.FormComponentCallbackFunction}
+                        multiline={true}
+                        isNumeric={false}
+                    /> 
 
                     <RadioButtonGroupHorizontal 
                         parentCallback={this.FormComponentCallbackFunction} 
@@ -231,6 +266,7 @@ class FormScreen extends React.Component{
                             type={'accidentOther'}
                             parentCallback={this.FormComponentCallbackFunction}
                             multiline={true}
+                            isNumeric={false}
                         /> 
                     :
                         <View></View>
@@ -253,6 +289,7 @@ class FormScreen extends React.Component{
                             type={'intentionalOther'}
                             parentCallback={this.FormComponentCallbackFunction}
                             multiline={true}
+                            isNumeric={false}
                         /> 
                     :
                         <View></View>
@@ -266,21 +303,15 @@ class FormScreen extends React.Component{
                                 title={'What is the sex of the elephant(s)?'} 
                                 values={['Male','Female','Mixed','Don\’t know']}
                             />
-
-                            <RadioButtonGroupVertical 
-                                parentCallback={this.FormComponentCallbackFunction} 
-                                type={'noOfIndividuals'} 
-                                title={'How many individuals?'} 
-                                values={['2 to 5 individuals','6 to 10 individuals','Mixed','More than 10']}
-                            />
                         </View>
                     :
                         <View>
                             <TextInputGroupHorizontal
-                                title={'How many animals have died? (numerical response)'}
+                                title={'How many animals have died? (numerical responce)'}
                                 type={'noOfDeaths'}
                                 parentCallback={this.FormComponentCallbackFunction}
                                 multiline={false}
+                                isNumeric={true}
                             /> 
                             <RadioButtonGroupVertical 
                                 parentCallback={this.FormComponentCallbackFunction} 
@@ -289,10 +320,11 @@ class FormScreen extends React.Component{
                                 values={['Male','Female','Mixed','Don\’t know']}
                             />
                              <TextInputGroupHorizontal
-                                title={'How many have tusks? (numerical response)'}
+                                title={'How many have tusks? (numerical responce)'}
                                 type={'noOfTusks'}
                                 parentCallback={this.FormComponentCallbackFunction}
                                 multiline={false}
+                                isNumeric={true}
                             /> 
                              <RadioButtonGroupVertical 
                                 parentCallback={this.FormComponentCallbackFunction} 
@@ -315,24 +347,23 @@ class FormScreen extends React.Component{
                     }
 
                     {this.state.isAlive===1 && this.state.isSingle!==0?
-                        <RadioButtonGroupVertical 
-                            parentCallback={this.FormComponentCallbackFunction} 
-                            type={'haveTusks'} 
-                            title={'How many have tusks?'} 
-                            values={['None','1 to 5 individuals','6 to 10 individuals', 'More than 10']}
-                        />
+                        <View>
+                            <RadioButtonGroupVertical 
+                                parentCallback={this.FormComponentCallbackFunction} 
+                                type={'noOfIndividuals'} 
+                                title={'How many individuals?'} 
+                                values={['2 to 5 individuals','6 to 10 individuals','Mixed','More than 10']}
+                            />
+                            <RadioButtonGroupVertical 
+                                parentCallback={this.FormComponentCallbackFunction} 
+                                type={'haveTusks'} 
+                                title={'How many have tusks?'} 
+                                values={['None','1 to 5 individuals','6 to 10 individuals', 'More than 10']}
+                            />
+                        </View>
                     :
                         <View></View>
                     }
-                    <View style={{margin: 10, flexDirection: 'row-reverse'}}>
-                        <Icon.Button
-                            name="upload"
-                            backgroundColor="#4b8b3b"
-                            onPress={()=>this.uploadData()}
-                        >
-                            Upload
-                        </Icon.Button>
-                    </View>
                 </ScrollView>
                 
             </View>
@@ -344,7 +375,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
-        alignSelf: 'stretch'
+        alignSelf: 'stretch',
         //backgroundColor: getRandomColor(),
     },
     welcome: {

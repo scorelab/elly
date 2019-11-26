@@ -25,8 +25,25 @@ export async function facebookLogin(navigate) {
     // login with credential
     const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
 
-    console.warn(JSON.stringify(firebaseUserCredential.user.toJSON()))
-    navigate('App', {name: 'Jane'})
+    const uid = firebaseUserCredential.user.toJSON().uid
+    const name = firebaseUserCredential.user.toJSON().displayName
+    const email = firebaseUserCredential.user.toJSON().email
+    const photo = firebaseUserCredential.user.toJSON().photoURL
+    
+    const ref = database().ref('/users/').child(uid);
+    const snapshot = await ref.once('value')
+
+    if(snapshot.val().name!==undefined){
+      navigate('App')
+    }else{
+      await ref.set({
+        name: name,
+        email: email,
+        photo: photo
+      });
+
+      navigate('App')
+    }
   } catch (e) {
         console.error(e);
   }

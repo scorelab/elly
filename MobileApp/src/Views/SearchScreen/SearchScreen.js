@@ -1,7 +1,9 @@
 import * as React from 'react';
-import {View, StyleSheet,ScrollView, Text,Image, Dimensions} from 'react-native'
+import {View, StyleSheet,ScrollView,TouchableOpacity, Text,Image, Dimensions} from 'react-native'
 import { Searchbar, Chip } from 'react-native-paper';
 import database from '@react-native-firebase/database';
+import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
+
 class SearchScreen extends React.Component{
     
     constructor(props){
@@ -35,16 +37,17 @@ class SearchScreen extends React.Component{
             handleText: (text)=>this.onTextChangeHandler(text),
             query: this.state.firstQuery
         });
-        database().ref('/users/').on("value", snapshot=>{
-            this.getObservations('all')
-        })
+        // database().ref('/users/').on("value", snapshot=>{
+        //     this.getObservations('all')
+        // })
+        this.getObservations('all')
     }
 
     onTextChangeHandler=(text)=>{
         this.setState({
             firstQuery: text
         })  
-        this.getObservations(text.toLowerCase()===''?'all':text.toLowerCase())
+        this.getObservations(text.toLowerCase())
         this.props.navigation.setParams({
             query: text
         });
@@ -63,30 +66,35 @@ class SearchScreen extends React.Component{
         for(let i in val){
             let name = val[i].name
             let photo = val[i].photo
-            //console.log(name)
-            //console.log(photo)
             let userNick = val[i].name.toLowerCase().replace(/ /g, '')
             let obs = val[i].observations
-            for(let j in obs){
-                //console.log(obs[j])
-                let photUrl = obs[j].photoURL
-                let location = obs[j].location
-                let time = obs[j].time
-                let sex = obs[j].sex
-                let single = obs[j].isSingle
-                
-                if(type==='all'){
-                    observations.push([name, photo, photUrl, location, time, userNick])
-                }else if(type==='male' && sex===0){
-                    observations.push([name, photo, photUrl, location, time, userNick])
-                }else if(type==='female' && sex===1){
-                    observations.push([name, photo, photUrl, location, time, userNick])
-                }else if(type==='single' && single===0){
-                    observations.push([name, photo, photUrl, location, time, userNick])
-                }else if(type==='group' && single!==0){
-                    observations.push([name, photo, photUrl, location, time, userNick])
+
+            if(obs!==undefined){
+                for(let j in obs){
+                    let photUrl = obs[j].photoURL
+                    let location = obs[j].location
+                    let time = new Date(obs[j].time)
+                    time = time.toString().split(" ")
+                    time = time.splice(0,time.length-1)
+                    time = time.toString().replace(/,/g, ' ')
+                    let result = generateResult(obs[j])
+
+                    type.split(" ").map((keywd)=>{
+                        console.log(keywd)
+                        let found = result.map((val)=>{
+                            console.log(val[1].toLowerCase(), type, val[1].toLowerCase().includes(type))
+                            return val[1].toLowerCase().includes(keywd)
+                        })
+                        console.log(found)
+                        if(found.includes(true)){  
+
+                            observations.push([name, photo, photUrl, location, time, userNick, result])
+                        }else if(type==='all'){
+                            observations.push([name, photo, photUrl, location, time, userNick, result])
+                        }
+                        })
+                     
                 }
-                
             }
         }
 
@@ -114,14 +122,26 @@ class SearchScreen extends React.Component{
                         {this.state.observations.length>0?
                             this.state.observations.map((val,i)=>{
                                 return(
-                                    <View key={i}>
+                                    <TouchableOpacity 
+                                        key={i}
+                                        onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
+                                            {
+                                                img: val[2],
+                                                title: val[0],
+                                                subtitle:val[5],
+                                                user: val[1],
+                                                content: val[6],
+                                                showPhoto: this.props.navigation
+                                            }
+                                            )}
+                                    >
                                         <Image style={styles.img} source={{uri: val[2]}}/>
-                                    </View>
+                                    </TouchableOpacity>
                                 )
                             
                             })
                             :
-                            <Text style={{fontSize: 20}}>Nothing found</Text>
+                            <Text style={{fontSize: 20, color: 'grey'}}>Sorry! We couldn't find anything</Text>
                         }
                     </View>
                 </ScrollView>

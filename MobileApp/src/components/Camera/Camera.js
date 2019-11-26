@@ -30,6 +30,8 @@ class Camera extends PureComponent{
 
   componentDidMount(){
     this.requestWriteStoragePermission()
+    this.requestReadStoragePermission()
+    this.requestCameraPermission()
   }
 
   sendData = () => {
@@ -42,24 +44,44 @@ class Camera extends PureComponent{
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the camera');
-        await this.setState({
-          cameraPermission: true
-        })
         return true
         
       } else {
-        console.log('Camera permission denied');
-        await this.setState({
-          cameraPermission: false
-        })
         return false
       }
     } catch (err) {
-      console.warn(err);
-      await this.setState({
-        cameraPermission: false
-      })
+      return false
+    }
+  }
+
+  requestCameraPermission = async function () {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return true
+        
+      } else {
+        return false
+      }
+    } catch (err) {
+      return false
+    }
+  }
+
+  requestReadStoragePermission = async function () {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return true
+        
+      } else {
+        return false
+      }
+    } catch (err) {
       return false
     }
   }

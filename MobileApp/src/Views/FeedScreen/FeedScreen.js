@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {View, StyleSheet} from 'react-native'
-import { Avatar } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
+import {View,Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native'
+import { Avatar, Menu } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 import {CardComponent} from '../../components/CardComponent/CardComponent'
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 class FeedScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
@@ -20,7 +20,27 @@ class FeedScreen extends React.Component{
             headerTitleStyle: {
             fontWeight: 'bold',
             },
-            headerLeft: ()=><Avatar.Image style={{marginLeft: 5}} size={40} source={{ uri: params.userPhoto }} />,
+            headerRight: ()=><Menu
+                                visible={params.menuVisible}
+                                onDismiss={()=>params.closeMenu()}
+                                anchor={
+                                    <TouchableOpacity
+                                        onPress={()=>params.openMenu()}
+                                    >
+                                        <Icon color='white' style={{marginRight: 5}} name='dots-vertical' size={24}/>
+                                    </TouchableOpacity>
+                                }
+                            >
+                                <Menu.Item onPress={() => params.onPressMenu()} title="About" />
+                            </Menu>,
+            headerLeft: ()=><TouchableOpacity
+                                onPress={()=>navigation.navigate("Profile")}
+                            >
+                                <Avatar.Image 
+                                    style={{marginLeft: 5, marginRight: 0, padding: 0}} 
+                                    size={40} source={{ uri: params.userPhoto }} 
+                                />
+                            </TouchableOpacity>,
         }
     }
 
@@ -28,16 +48,30 @@ class FeedScreen extends React.Component{
         super(props)
         this.state={
             observations: [],
-            activityIndicator: true
+            activityIndicator: true,
         }
     }
 
     componentDidMount(){
         this.getUserData()
-        database().ref('/users/').on("value", snapshot=>{
-            this.getObservations()
+        // database().ref('/users/').on("value", snapshot=>{
+        //     this.getObservations()
+        // })
+        this.getObservations()
+        this.props.navigation.setParams({
+            closeMenu: ()=>this._closeMenu(),
+            openMenu: ()=>this._openMenu(),
+            onPressMenu: ()=>{
+                this.props.navigation.navigate("AboutScreen")
+                this._closeMenu()
+            },
+            menuVisible: this.state.aboutMenu
         })
     }
+
+    _openMenu = () => this.props.navigation.setParams({menuVisible: true})
+
+    _closeMenu = () => this.props.navigation.setParams({menuVisible: false})
 
     getUserData = async function() {
         const uid = auth().currentUser.uid;
@@ -96,17 +130,19 @@ class FeedScreen extends React.Component{
             
             <View style={styles.container}>
                 <View style={{width: "100%", backgroundColor: 'grey'}}>
-                {/* <NavigationEvents onDidFocus={() => this.render()} /> */}
                     <ActivityIndicator title={"Loading"} showIndicator={this.state.activityIndicator}/>
                 </View>
                 <ScrollView style={{width: "100%"}}>
-                    {this.state.observations.map((val,i)=>{
-                        return (
-                            <CardComponent isNavigate={true} key={i} result={val[6]} showPhoto={this.props.navigation} title={val[0]} subtitle={"@"+val[5]} user={val[1]} image={val[2]} content={[['clock' ,val[4].toString()],['map-marker', val[3].toString()] ]}/>
-                           
-                        )
-                    })}
-                   
+                    {this.state.observations.length>0?
+                        this.state.observations.map((val,i)=>{
+                            return (
+                                <CardComponent isNavigate={true} key={i} result={val[6]} showPhoto={this.props.navigation} title={val[0]} subtitle={val[5]} user={val[1]} image={val[2]} content={[['calendar-clock' ,"On "+val[4].toString()],['map-marker', val[3].toString()] ]}/>
+                               
+                            )
+                        })
+                    :
+                        <View></View>
+                    }
                 </ScrollView>
                 
             </View>

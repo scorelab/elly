@@ -5,6 +5,7 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
+import {Button} from 'react-native-paper'
 class ProfileScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
@@ -32,10 +33,10 @@ class ProfileScreen extends React.Component{
     }
 
     componentDidMount(){
-        database().ref('/users/').on("value", snapshot=>{
-            this.getUserData()
-        })
-        
+        // database().ref('/users/').on("value", snapshot=>{
+            
+        // })
+        this.getUserData()
     }
 
     getUserData = async function () {
@@ -87,10 +88,16 @@ class ProfileScreen extends React.Component{
                     <Text style={styles.userNick}>Observations</Text>
                     <Text style={styles.obCount}>{this.state.noObs}</Text>
                 </ImageBackground>
-
+                <View style={{width: "100%"}}>
+                    <Text style={{fontSize: 20, margin:5, color: 'black'}}>OBSERVATIONS</Text>
+                </View>
+                
                 <ScrollView style={styles.scrollView}>
+                    
                     <View style={styles.imgConatiner}>
-                        {this.state.userObservations.map((val,i)=>{
+                        {this.state.userObservations.length>0
+                        ?
+                        this.state.userObservations.map((val,i)=>{
                                 return(
                                     <TouchableOpacity 
                                         key={i}
@@ -114,6 +121,17 @@ class ProfileScreen extends React.Component{
                                 )
                             
                             })
+                            :
+                            <View>
+                                
+                                <Button 
+                                    style={{margin: 5}} 
+                                    icon="plus" mode="contained" 
+                                    onPress={() => this.props.navigation.navigate("PhotoLandingScreen")}>
+                                        Add Observation
+                                </Button>
+                            </View>
+                            
                         }
                     </View>
                 </ScrollView>
@@ -170,11 +188,12 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 5,
         width: Dimensions.get('window').width
     },
     scrollView: {
-        width: Dimensions.get('window').width
+        width: Dimensions.get('window').width,
+        marginBottom: 10
     },
 })
 export default ProfileScreen;

@@ -157,9 +157,9 @@ MERGED from [:react-native-camera] /home/asitha/Documents/Mobile Apps/elly/Mobil
 	android:name
 		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:5:22-62
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:6:5-70
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:6:6-72
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:6:22-68
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:6:23-69
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:7:5-80
 MERGED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:5-80

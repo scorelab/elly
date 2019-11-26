@@ -3,7 +3,7 @@ export function generateResult(data){
     let result = []
     result.push(['map-marker',data.location.toString()])
     result.push(['clock',(new Date(data.time)).toString()])
-
+    result.push(['note-text', data.notes])
     if(data.isAlive===1){
         result.push(['cards-heart',"Alive"])
         if(data.isSingle===0){
@@ -47,7 +47,7 @@ export function generateResult(data){
         }else if(data.sex===0){
             result.push(['gender-male-female',"Female"])
         }else if(data.sex===0){
-            result.push(['gender-male-female',"Both mal and female"])
+            result.push(['gender-male-female',"Both male and female"])
         }else{
             result.push(['gender-male-female',"Don't know the gender"])
         }
@@ -63,7 +63,7 @@ export function generateResult(data){
             }else if(data.accidentKind===3){
                 result.push(['comment-question',"A Electrocution"])
             }else{
-                result.push(['comment-question',"Other (text note)"])
+                result.push(['comment-question',data.accidentOther])
             }
         }else if(data.cause===1){
             result.push(['comment-question',"Intentional Death."])
@@ -72,15 +72,15 @@ export function generateResult(data){
             }else if(data.intentionalKind===1){
                 result.push(['comment-question',"Hunting related"])
             }else if(data.intentionalKind===2){
-                result.push(['comment-question',"Other (text note)"])
+                result.push(['comment-question',data.intentionalOther])
             }else{
-                result.push(['comment-question',"Don’t know how it died intentionally."])
+                result.push(['comment-question',"Don’t know how it died."])
             }
         }else{
             result.push(['comment-question',"Don't know how the death happened."])
         }
         result.push(['comment-question',data.noOfDeaths+" died."])
-        result.push(['comment-question',data.noOfTusks+" tusks."])
+        result.push(['comment-question',data.noOfTusks+" tuskers."])
         if(data.tusksStatus===0){
             result.push(['comment-question',"Tusks naturally absent"])
         }else if(data.tusksStatus===1){

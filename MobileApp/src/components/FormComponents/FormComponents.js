@@ -2,8 +2,6 @@ import * as React from 'react';
 import {View, StyleSheet} from 'react-native'
 import { RadioButton, Text,Avatar, Divider, TextInput } from 'react-native-paper';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-
 class RadioButtonGroupVertical extends React.Component{
 
     constructor(props) {
@@ -28,7 +26,7 @@ class RadioButtonGroupVertical extends React.Component{
         return (
             <View style={styles.container}>
                 <View style={{flexDirection: 'row',alignItems: 'center'}}>
-                <Avatar.Icon size={30} color='white' icon="comment-question" />
+                <Avatar.Icon size={45} color='white' icon="comment-question" />
                     <Text style={styles.title}>{this.props.title} </Text>
                 </View>
                 <View style={{marginLeft: 10}}>
@@ -75,7 +73,7 @@ class RadioButtonGroupHorizontal extends React.Component{
         return (
             <View style={styles.container}>
                 <View style={styles.buttonGroup}>
-                    <Avatar.Icon size={30} color='white' icon="comment-question" />
+                    <Avatar.Icon size={45} color='white' icon="comment-question" />
                     <Text style={styles.title}>{this.props.title} </Text>
                     <RadioButton.Group
                         onValueChange={value => this.radioButtonOnChangeHandler(value)}
@@ -121,7 +119,7 @@ class TextInputGroupHorizontal extends React.Component{
         return (
             <View style={styles.container}>
                 <View style={styles.buttonGroup}>
-                    <Avatar.Icon size={30} color='white' icon="comment-question" />
+                    <Avatar.Icon size={45} color='white' icon="comment-question" />
                     <Text style={styles.title}>{this.props.title} </Text>
                 </View>
                 <View style={styles.textInput}>
@@ -131,7 +129,8 @@ class TextInputGroupHorizontal extends React.Component{
                         mode='outlined'
                         style={{width: '100%'}}
                         multiline
-                        keyboardType={'numeric'}
+                        keyboardType={this.props.isNumeric?'phone-pad':'default'}
+                        placeholder={this.props.isNumeric?'Numerical response':'Write something'}
                     />
                 </View>
                 <Divider />
@@ -150,8 +149,8 @@ class UneditableComponent extends React.Component{
         return (
             <View>
                 <View style={styles.uneditableComponent}>
-                    <Avatar.Icon size={30} color='white' icon={this.props.icon} />
-                    <Text style={styles.title}>{this.props.title} </Text>
+                    <Avatar.Icon size={45} color='white' icon={this.props.icon} />
+                    {/* <Text style={styles.title}>{this.props.title} </Text> */}
                     <Text style={styles.title}>{this.props.values.map((val, i)=>{return <Text key={i}>{val.toString()} </Text>})}</Text>
                 </View>
                 <Divider />
@@ -164,22 +163,25 @@ class UneditableComponent extends React.Component{
 const styles = StyleSheet.create({
     container: {
         marginLeft: 10, 
-        marginTop: 10
+        marginTop: 10,
+        justifyContent: 'center'
     },
     buttonGroup: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     title: {
-        marginLeft: 5
+        marginLeft: 5,
+        fontSize: 15.8,
+        flexShrink: 1
     },
     buttonContainer: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     buttonContainerVert: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     textInput: {
         marginRight: 10
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center', 
         marginLeft: 10, 
-        marginTop: 10
+        marginTop: 10,
     }
 })
 

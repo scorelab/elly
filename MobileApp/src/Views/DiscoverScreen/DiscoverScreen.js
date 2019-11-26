@@ -24,18 +24,19 @@ class DiscoverScreen extends React.Component{
 
     constructor(props){
         super(props)
+        
         this.state={
             observations: [],
             location: [82.0,6.8]
         }
+        this.requestLocationPermission()
     }
 
     componentDidMount(){
-        this.findCoordinates()
         database().ref('/users/').on("value", snapshot=>{
             this.getObservations()
         })
-        
+        this.findCoordinates()
     }
 
     componentDidUpdate(){
@@ -110,11 +111,8 @@ class DiscoverScreen extends React.Component{
     };
 
     render() {
-        const {navigate} = this.props.navigation;
-        console.log("Feed Screen")
         return (
             <View style={styles.MainContainer}>  
-  
                 <MapView  
                     customMapStyle={MapStyle}
                     style={styles.mapStyle}  
@@ -127,12 +125,13 @@ class DiscoverScreen extends React.Component{
                         latitudeDelta: 1.2922,  
                         longitudeDelta: 0.0421,  
                 }}>  
-                    {this.state.observations.map(marker => (
+                    {this.state.observations.map((marker, i) => (
                         <Marker
-                            key={marker.id}
+                            key={i}
                             coordinate={marker.cordinates}
                             title={marker.title}
                             description={marker.description}
+                            // image={require('../../Assets/landing2WS.png')}
                         />
                     ))}
                 </MapView>  

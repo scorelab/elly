@@ -3,7 +3,6 @@ import {View,Text, StyleSheet,Image, Dimensions, ImageBackground} from 'react-na
 import {facebookLogin} from '../../components/FaceBookLogin/FaceBookLogin'
 import {googleLogin} from '../../components/GoogleLogin/GoogleLogin'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Avatar } from 'react-native-paper';
 
 class LoginScreen extends React.Component{
     
