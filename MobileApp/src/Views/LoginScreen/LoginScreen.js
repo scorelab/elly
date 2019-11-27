@@ -35,9 +35,9 @@ class LoginScreen extends React.Component{
                     source={require('../../Assets/cover.jpg')}
                     style={styles.imgConatiner}
                 >
-                    <View style={{height: 400, borderRadius: 50,backgroundColor: 'rgba(0, 0, 0, 0.3)', padding: 20, width: Dimensions.get('window').width-40}}>
+                    <View style={{height: 400, borderRadius: 50,backgroundColor: 'rgba(0, 0, 0, 0.2)', padding: 20, width: Dimensions.get('window').width-40}}>
                         <View style={styles.logoIconContainer}>
-                            {/* <Image source={require('../../Assets/landing2W.png')} style={styles.logo}/> */}
+                            <Image source={require('../../Assets/landing2W.png')} style={styles.logo}/>
                             <Text style={styles.logoText}>Elly</Text>
                         </View>
                         <View style={{flexDirection: 'row-reverse', width: Dimensions.get('window').width-80, marginBottom: 15}}>

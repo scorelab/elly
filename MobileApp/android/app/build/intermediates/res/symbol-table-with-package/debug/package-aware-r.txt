@@ -1298,6 +1298,7 @@ string common_signin_button_text
 string common_signin_button_text_long
 string default_web_client_id
 string facebook_app_id
+string fb_login_protocol_scheme
 string firebase_database_url
 string gcm_defaultSenderId
 string google_api_key

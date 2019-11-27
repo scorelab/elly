@@ -17,7 +17,7 @@ class CardComponent extends React.Component{
                 <Card>
                     <Card.Title 
                         title={this.props.subtitle} subtitle={this.props.title} 
-                        left={() => <Avatar.Image size={52} source={{ uri: this.props.user }} />}
+                        left={() => <Avatar.Image size={40} source={{ uri: this.props.user }} />}
                         right={() => <Avatar.Icon style={{backgroundColor: 'white'}} size={35} color='#4b8b3b' icon="shield-check" />}
                     />
                     {this.props.isNavigate?
@@ -80,8 +80,6 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width
     },
     cover: {
-        borderRadius: 5, 
-        margin: 10, 
         height: 300
     },
     content: {

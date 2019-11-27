@@ -1,9 +1,10 @@
 import * as React from 'react';
-import {View, StyleSheet, PermissionsAndroid} from 'react-native'
+import {View, StyleSheet, PermissionsAndroid, TouchableOpacity} from 'react-native'
 import MapView from 'react-native-maps';  
 import { Marker } from 'react-native-maps';  
 import database from '@react-native-firebase/database';
 import Geolocation from '@react-native-community/geolocation';
+import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
 
 var MapStyle = require('../../config/map.json')
 
@@ -11,7 +12,7 @@ class DiscoverScreen extends React.Component{
     
     static navigationOptions = ({navigation})=>{
         return {
-            headerTitle: 'Explore',
+            headerTitle: 'Explore Near By',
             headerStyle: {
               backgroundColor: '#4b8b3b',
             },
@@ -54,28 +55,41 @@ class DiscoverScreen extends React.Component{
         let observations = []
 
         for(let i in val){
+            let name = val[i].name
+            let photo = val[i].photo
+            let userNick = val[i].name.toLowerCase().replace(/ /g, '')
             let obs = val[i].observations
-            for(let j in obs){
-                let marker = 
-                {
-                    title: obs[j].isSingle===0?"Single":"Group",
-                    cordinates: 
+            
+            if(obs!==undefined){
+                for(let j in obs){
+                    let photUrl = obs[j].photoURL
+                    let location = obs[j].location
+                    let time = new Date(obs[j].time)
+                    time = time.toString().split(" ")
+                    time = time.splice(0,time.length-1)
+                    time = time.toString().replace(/,/g, ' ')
+                    let result = generateResult(obs[j])
+                    let marker = 
                     {
-                        latitude: obs[j].location[1],
-                        longitude: obs[j].location[0]
-                    },
-                    // description: ''
-                   
+                        title: time,
+                        cordinates: 
+                        {
+                            latitude: obs[j].location[1],
+                            longitude: obs[j].location[0]
+                        },
+                        description: location.toString()
+                       
+                    }
+                    observations.push([name, photo, photUrl, location, time, userNick, result, marker])
                 }
-                
-                observations.push(marker)
             }
+            
         }
-        //console.log(observations)
-
         await this.setState({
-            observations: observations
+            observations: observations,
+            activityIndicator: false
         })
+
     }
 
     requestLocationPermission = async function () {
@@ -93,20 +107,28 @@ class DiscoverScreen extends React.Component{
         }
     }
 
-    findCoordinates = () => {
-        if(this.requestLocationPermission){
-            Geolocation.getCurrentPosition(
-                position => {
-                    const initialPosition = position;
-                    const lon = initialPosition['coords']['longitude']
-                    const lat = initialPosition['coords']['latitude']
-                    console.log(lon, lat)
-                    this.setState({location: [lon, lat]});
-                },
-                error => console.log('Error', JSON.stringify(error)),
-                {enableHighAccuracy: false},
+    findCoordinates = async () => {
+            try {
+                const granted = await PermissionsAndroid.request(
+                  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
               );
-        }
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                await Geolocation.getCurrentPosition(
+                    position => {
+                        const initialPosition = position;
+                        const lon = initialPosition['coords']['longitude']
+                        const lat = initialPosition['coords']['latitude']
+                        console.log(lon, lat)
+                        this.setState({location: [lon, lat]});
+                    },
+                    error => console.log('Error', JSON.stringify(error)),
+                    {enableHighAccuracy: false},
+                );
+              } else {
+              }
+              } catch (err) {
+              }
+            
         
     };
 
@@ -125,12 +147,22 @@ class DiscoverScreen extends React.Component{
                         latitudeDelta: 1.2922,  
                         longitudeDelta: 0.0421,  
                 }}>  
-                    {this.state.observations.map((marker, i) => (
+                    {this.state.observations.map((val, i) => (
                         <Marker
                             key={i}
-                            coordinate={marker.cordinates}
-                            title={marker.title}
-                            description={marker.description}
+                            coordinate={val[7].cordinates}
+                            title={val[7].title}
+                            description={val[7].description}
+                            onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
+                            {
+                                img: val[2],
+                                title: val[0],
+                                subtitle:val[5],
+                                user: val[1],
+                                content: val[6],
+                                showPhoto: this.props.navigation
+                            }
+                            )}
                             // image={require('../../Assets/landing2WS.png')}
                         />
                     ))}

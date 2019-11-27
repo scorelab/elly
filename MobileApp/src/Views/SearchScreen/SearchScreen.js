@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {View, StyleSheet,ScrollView,TouchableOpacity, Text,Image, Dimensions} from 'react-native'
+import {View, StyleSheet,ScrollView,RefreshControl, TouchableOpacity, Text,Image, Dimensions} from 'react-native'
 import { Searchbar, Chip } from 'react-native-paper';
 import database from '@react-native-firebase/database';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
+import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 
 class SearchScreen extends React.Component{
     
@@ -54,6 +55,9 @@ class SearchScreen extends React.Component{
     }
 
     getObservations = async function (type){
+        await this.setState({
+            activityIndicator: true
+        })
         const ref = database().ref('/users/');
         
         // Fetch the data snapshot
@@ -71,6 +75,7 @@ class SearchScreen extends React.Component{
 
             if(obs!==undefined){
                 for(let j in obs){
+                    if(!obs[j].verified){continue}
                     let photUrl = obs[j].photoURL
                     let location = obs[j].location
                     let time = new Date(obs[j].time)
@@ -80,12 +85,10 @@ class SearchScreen extends React.Component{
                     let result = generateResult(obs[j])
 
                     type.split(" ").map((keywd)=>{
-                        console.log(keywd)
                         let found = result.map((val)=>{
-                            console.log(val[1].toLowerCase(), type, val[1].toLowerCase().includes(type))
+                            //console.log(val[1].toLowerCase(), type, val[1].toLowerCase().includes(type))
                             return val[1].toLowerCase().includes(keywd)
                         })
-                        console.log(found)
                         if(found.includes(true)){  
 
                             observations.push([name, photo, photUrl, location, time, userNick, result])
@@ -93,58 +96,83 @@ class SearchScreen extends React.Component{
                             observations.push([name, photo, photUrl, location, time, userNick, result])
                         }
                         })
-                     
+                    this.setState({
+                        observations: observations,
+                    })
                 }
             }
         }
 
-        await this.setState({
-            observations: observations
+        this.setState({
+            activityIndicator: false
         })
     }
 
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.getObservations('all').then(() => {
+          this.setState({refreshing: false});
+        });
+      }
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.chipContainer}>
-                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('all')}>All</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('male')}>Male</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('female')}>Female</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('tuskers')}>Tuskers</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('dead')}>Dead</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('group')}>Groups</Chip>
-                    <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('single')}>Single</Chip>
-                    
-                </View>
-                <ScrollView style={styles.scrollView}>
-                    <View style={styles.imgConatiner}>
-                        {this.state.observations.length>0?
-                            this.state.observations.map((val,i)=>{
-                                return(
-                                    <TouchableOpacity 
-                                        key={i}
-                                        onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
-                                            {
-                                                img: val[2],
-                                                title: val[0],
-                                                subtitle:val[5],
-                                                user: val[1],
-                                                content: val[6],
-                                                showPhoto: this.props.navigation
-                                            }
-                                            )}
-                                    >
-                                        <Image style={styles.img} source={{uri: val[2]}}/>
-                                    </TouchableOpacity>
-                                )
-                            
-                            })
-                            :
-                            <Text style={{fontSize: 20, color: 'grey'}}>Sorry! We couldn't find anything</Text>
-                        }
+                {this.state.activityIndicator?
+                    <View style={{width: "100%", backgroundColor: 'grey'}}>
+                        <ActivityIndicator title={"Please wait..."} showIndicator={this.state.activityIndicator}/>
                     </View>
-                </ScrollView>
+                :
+                    <View>
+                        <View style={styles.chipContainer}>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('all')}>All</Chip>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('male')}>Male</Chip>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('female')}>Female</Chip>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('tuskers')}>Tuskers</Chip>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('dead')}>Dead</Chip>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('group')}>Groups</Chip>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('single')}>Single</Chip>
+                        
+                    </View>
+                    <ScrollView 
+                        style={styles.scrollView}
+                        refreshControl={<RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                            colors={['#4b8b3b']}
+                            title={'Fetching...'}
+                        />}
+                    >
+                        <View style={styles.imgConatiner}>
+                            {this.state.observations.length>0?
+                                this.state.observations.map((val,i)=>{
+                                    return(
+                                        <TouchableOpacity 
+                                            key={i}
+                                            onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
+                                                {
+                                                    img: val[2],
+                                                    title: val[0],
+                                                    subtitle:val[5],
+                                                    user: val[1],
+                                                    content: val[6],
+                                                    showPhoto: this.props.navigation
+                                                }
+                                                )}
+                                        >
+                                            <Image style={styles.img} source={{uri: val[2]}}/>
+                                        </TouchableOpacity>
+                                    )
+                                
+                                })
+                                :
+                                <Text style={{fontSize: 20, color: 'grey'}}>Sorry! We couldn't find anything</Text>
+                            }
+                        </View>
+                    </ScrollView>
+                </View>
+                }
+                
             </View>
             
         );

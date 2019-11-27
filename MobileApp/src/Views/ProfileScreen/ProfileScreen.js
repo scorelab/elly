@@ -6,11 +6,12 @@ import database from '@react-native-firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
 import {Button} from 'react-native-paper'
+import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 class ProfileScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
         return {
-            headerTitle: 'Profile',
+            headerTitle: 'My Profile',
             headerStyle: {
               backgroundColor: '#4b8b3b',
             },
@@ -28,7 +29,8 @@ class ProfileScreen extends React.Component{
             userPhoto: '',
             userNick: '',
             userObservations: [],
-            noObs: 0
+            noObs: 0,
+            activityIndicator: true,
         }
     }
 
@@ -55,8 +57,14 @@ class ProfileScreen extends React.Component{
         let photo = val.photo
         let userNick = val.name.toLowerCase().replace(/ /g, '')
         let obs = val.observations
+        await this.setState({
+            userName: snapshot.val().name,
+            userPhoto: snapshot.val().photo,
+            userNick: snapshot.val().name.toLowerCase().replace(/ /g, ''),
+        })
         if(obs!==undefined){
             for(let j in obs){
+                if(!obs[j].verified){continue}
                 let photUrl = obs[j].photoURL
                 let location = obs[j].location
                 let time = new Date(obs[j].time)
@@ -66,77 +74,81 @@ class ProfileScreen extends React.Component{
                 let result = generateResult(obs[j])
 
                 observations.push([name, photo, photUrl, location, time, userNick, result, true])
+                await this.setState({
+                    userObservations: observations,
+                    noObs: observations.length,
+                })
             }
         }
 
         await this.setState({
-            userName: snapshot.val().name,
-            userPhoto: snapshot.val().photo,
-            userNick: snapshot.val().name.toLowerCase().replace(/ /g, ''),
-            userObservations: observations,
-            noObs: observations.length
+            activityIndicator:false
         })
       }
 
     render() {
         return (
             <View style={styles.container}>
-                <ImageBackground blurRadius={1} style={styles.profileConatiner} source={{uri: this.state.userPhoto}}>
-                    <Text style={styles.userNick}>{this.state.userNick}</Text>
-                    <Image style={styles.userPhoto} source={{uri: this.state.userPhoto}}></Image>
-                    <Text style={styles.userName}>{this.state.userName}</Text>
-                    <Text style={styles.userNick}>Observations</Text>
-                    <Text style={styles.obCount}>{this.state.noObs}</Text>
-                </ImageBackground>
-                <View style={{width: "100%"}}>
-                    <Text style={{fontSize: 20, margin:5, color: 'black'}}>OBSERVATIONS</Text>
-                </View>
-                
-                <ScrollView style={styles.scrollView}>
-                    
-                    <View style={styles.imgConatiner}>
-                        {this.state.userObservations.length>0
-                        ?
-                        this.state.userObservations.map((val,i)=>{
-                                return(
-                                    <TouchableOpacity 
-                                        key={i}
-                                        onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
-                                            {
-                                                img: val[2],
-                                                title: this.state.userName,
-                                                subtitle:this.state.userNick,
-                                                user: this.state.userPhoto,
-                                                content: val[6],
-                                                showPhoto: this.props.navigation
-                                            }
-                                            )}
-                                    >
-                                        <ImageBackground style={styles.img} source={{uri: val[2]}}>
-                                            <View style={{backgroundColor: '#4b8b3b', justifyContent:'flex-start', width: "30%", alignItems: 'center'}}>
-                                                <Text style={{margin: 10, color: 'white'}}>{i+1}</Text>
-                                            </View>
-                                        </ImageBackground>
-                                    </TouchableOpacity>
-                                )
-                            
-                            })
-                            :
-                            <View>
-                                
-                                <Button 
-                                    style={{margin: 5}} 
-                                    icon="plus" mode="contained" 
-                                    onPress={() => this.props.navigation.navigate("PhotoLandingScreen")}>
-                                        Add Observation
-                                </Button>
-                            </View>
-                            
-                        }
+                {this.state.activityIndicator?
+                    <View style={{width: "100%", backgroundColor: 'grey'}}>
+                        <ActivityIndicator title={"Please wait..."} showIndicator={this.state.activityIndicator}/>
                     </View>
-                </ScrollView>
-            </View>
-            
+                :
+                <View>
+                    <ImageBackground blurRadius={1} style={styles.profileConatiner} source={{uri: this.state.userPhoto}}>
+                        <Text style={styles.userNick}>{this.state.userNick}</Text>
+                        <Image style={styles.userPhoto} source={{uri: this.state.userPhoto}}></Image>
+                        <Text style={styles.userName}>{this.state.userName}</Text>
+                        <Text style={styles.userNick}>Observations</Text>
+                        <Text style={styles.obCount}>{this.state.noObs}</Text>
+                    </ImageBackground>
+                
+                    <ScrollView style={styles.scrollView}>
+                        
+                        <View style={styles.imgConatiner}>
+                            {this.state.userObservations.length>0
+                            ?
+                            this.state.userObservations.map((val,i)=>{
+                                    return(
+                                        <TouchableOpacity 
+                                            key={i}
+                                            onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
+                                                {
+                                                    img: val[2],
+                                                    title: this.state.userName,
+                                                    subtitle:this.state.userNick,
+                                                    user: this.state.userPhoto,
+                                                    content: val[6],
+                                                    showPhoto: this.props.navigation
+                                                }
+                                                )}
+                                        >
+                                            <ImageBackground style={styles.img} source={{uri: val[2]}}>
+                                                <View style={{backgroundColor: '#4b8b3b', justifyContent:'flex-start', width: "30%", alignItems: 'center'}}>
+                                                    <Text style={{margin: 10, color: 'white'}}>{i+1}</Text>
+                                                </View>
+                                            </ImageBackground>
+                                        </TouchableOpacity>
+                                    )
+                                
+                                })
+                                :
+                                <View>
+                                    
+                                    <Button 
+                                        style={{margin: 5}} 
+                                        icon="plus" mode="contained" 
+                                        onPress={() => this.props.navigation.navigate("PhotoLandingScreen")}>
+                                            Add Observation
+                                    </Button>
+                                </View>
+                                
+                            }
+                        </View>
+                    </ScrollView>
+                </View>
+            }
+            </View> 
         );
     }
 }

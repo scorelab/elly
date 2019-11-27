@@ -1,15 +1,15 @@
 [
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout_abc_cascading_menu_item_layout.xml.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout/abc_cascading_menu_item_layout.xml"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_list_longpressed_holo.9.png.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-mdpi-v4/abc_list_longpressed_holo.9.png"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/anim_btn_checkbox_to_checked_box_outer_merged_animation.xml.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/anim/btn_checkbox_to_checked_box_outer_merged_animation.xml"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_list_longpressed_holo.9.png.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-mdpi-v4/abc_list_longpressed_holo.9.png"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout_abc_cascading_menu_item_layout.xml.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout/abc_cascading_menu_item_layout.xml"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_black_xout.png.flat",
@@ -80,32 +80,32 @@
         "source": "/root/.gradle/caches/transforms-2/files-2.1/18280c53b20389d5d5a5b8c9e00c50b3/res/layout/com_facebook_device_auth_dialog_fragment.xml"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/color_abc_background_cache_hint_selector_material_dark.xml.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/color/abc_background_cache_hint_selector_material_dark.xml"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/7fd34a3f9065e48bf10234cf623afdad/res/drawable-hdpi-v4/googleg_disabled_color_18.png"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable_notification_bg_low.xml.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/173079cfe39fb35b3937c2c588f5d858/res/drawable/notification_bg_low.xml"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_googleg_disabled_color_18.png.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/7fd34a3f9065e48bf10234cf623afdad/res/drawable-hdpi-v4/googleg_disabled_color_18.png"
-    },
-    {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout_abc_action_menu_item_layout.xml.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout/abc_action_menu_item_layout.xml"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/color_abc_background_cache_hint_selector_material_dark.xml.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/color/abc_background_cache_hint_selector_material_dark.xml"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_000.png"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-ldrtl-hdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-ldrtl-hdpi-v17/abc_spinner_mtrl_am_alpha.9.png"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout_abc_action_menu_item_layout.xml.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout/abc_action_menu_item_layout.xml"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout-watch-v20_abc_alert_dialog_button_bar_material.xml.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout-watch-v20/abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-ldrtl-hdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-ldrtl-hdpi-v17/abc_spinner_mtrl_am_alpha.9.png"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable_com_facebook_button_like_background.xml.flat",
@@ -132,32 +132,32 @@
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable/abc_ic_voice_search_api_material.xml"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_star_black_16dp.png.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-xxxhdpi-v4/abc_ic_star_black_16dp.png"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable_abc_tab_indicator_material.xml.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable/abc_tab_indicator_material.xml"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout_abc_screen_toolbar.xml.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout/abc_screen_toolbar.xml"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable_abc_tab_indicator_material.xml.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable/abc_tab_indicator_material.xml"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_star_black_16dp.png.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-xxxhdpi-v4/abc_ic_star_black_16dp.png"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_star_black_36dp.png.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-xxxhdpi-v4/abc_ic_star_black_36dp.png"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable_abc_ratingbar_indicator_material.xml.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable/abc_ratingbar_indicator_material.xml"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-v21_abc_list_divider_material.xml.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-v21/abc_list_divider_material.xml"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_googleg_standard_color_18.png.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/7fd34a3f9065e48bf10234cf623afdad/res/drawable-mdpi-v4/googleg_standard_color_18.png"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-v21_abc_list_divider_material.xml.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-v21/abc_list_divider_material.xml"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable_abc_ratingbar_indicator_material.xml.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable/abc_ratingbar_indicator_material.xml"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_list_divider_mtrl_alpha.9.png.flat",
@@ -224,12 +224,12 @@
         "source": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout_abc_list_menu_item_icon.xml.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout/abc_list_menu_item_icon.xml"
-    },
-    {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout_abc_dialog_title_material.xml.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout/abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/layout_abc_list_menu_item_icon.xml.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/layout/abc_list_menu_item_icon.xml"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_textfield_default_mtrl_alpha.9.png.flat",
@@ -244,12 +244,12 @@
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_015.png"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_close.png.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/18280c53b20389d5d5a5b8c9e00c50b3/res/drawable-xhdpi-v4/com_facebook_close.png"
-    },
-    {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_button_like_icon_selected.png.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/18280c53b20389d5d5a5b8c9e00c50b3/res/drawable-hdpi-v4/com_facebook_button_like_icon_selected.png"
+    },
+    {
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_close.png.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/18280c53b20389d5d5a5b8c9e00c50b3/res/drawable-xhdpi-v4/com_facebook_close.png"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-ldrtl-xxxhdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
@@ -280,16 +280,16 @@
         "source": "/root/.gradle/caches/transforms-2/files-2.1/ddc412adcabcea8adf7e6f0802f6891a/res/drawable-hdpi-v4/abc_ic_star_black_48dp.png"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_button_send_icon_white.png.flat",
+        "source": "/root/.gradle/caches/transforms-2/files-2.1/2bae68d7affbaf5122f8f36faf4de9fe/res/drawable-xhdpi-v4/com_facebook_button_send_icon_white.png"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_amu_bubble_shadow.9.png.flat",
         "source": "/root/.gradle/caches/transforms-2/files-2.1/3b7f0fc6bf9c150c5f3e5b3340ec1289/res/drawable-xhdpi-v4/amu_bubble_shadow.9.png"
     },
     {
-        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_button_send_icon_white.png.flat",
-        "source": "/root/.gradle/caches/transforms-2/files-2.1/2bae68d7affbaf5122f8f36faf4de9fe/res/drawable-xhdpi-v4/com_facebook_button_send_icon_white.png"
+        "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
     },
     {
         "merged": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/res/merged/debug/drawable_abc_list_selector_holo_light.xml.flat",

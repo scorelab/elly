@@ -29,62 +29,13 @@ class Camera extends PureComponent{
   }
 
   componentDidMount(){
-    this.requestWriteStoragePermission()
-    this.requestReadStoragePermission()
-    this.requestCameraPermission()
   }
 
   sendData = () => {
     this.props.parentCallback([this.state.snaped, this.state.dataUri]);
   }
 
-  requestWriteStoragePermission = async function () {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        return true
-        
-      } else {
-        return false
-      }
-    } catch (err) {
-      return false
-    }
-  }
 
-  requestCameraPermission = async function () {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        return true
-        
-      } else {
-        return false
-      }
-    } catch (err) {
-      return false
-    }
-  }
-
-  requestReadStoragePermission = async function () {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        return true
-        
-      } else {
-        return false
-      }
-    } catch (err) {
-      return false
-    }
-  }
 
   render() {
     const { isFocused } = this.props
@@ -149,19 +100,28 @@ class Camera extends PureComponent{
         const options = { quality: 0.5, base64: true };
         const data = await this.camera.takePictureAsync(options);
         console.log(data.uri);
-        if(this.requestWriteStoragePermission()){
-          console.log("Permision granted to write")
-          CameraRoll.saveToCameraRoll(data.uri);
-          this.setState({
-            snaped: true,
-            dataUri: data.uri
-          })
-          this.sendData()
-        }
+          try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              console.log("Permision granted to write")
+              CameraRoll.saveToCameraRoll(data.uri);
+              this.setState({
+                snaped: true,
+                dataUri: data.uri
+              })
+              this.sendData()
+              
+            } else {
+              await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              );
+            }
+          } catch (err) {
+            return false
+          }
       }
-     
-      
-      
   };
 }
 

@@ -143,7 +143,7 @@ class FormScreen extends React.Component{
                     .then((response) => response.json())
                     .then((responseJson) => {
                         this.setState({
-                            address: responseJson.results[0].formatted_address.split(",")
+                            address: responseJson.results.length>0?responseJson.results[0].formatted_address.split(","):"Unnamed location"
                         })
                         console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
                     })

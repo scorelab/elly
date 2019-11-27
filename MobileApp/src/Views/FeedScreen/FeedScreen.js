@@ -1,12 +1,16 @@
 import * as React from 'react';
-import {View,Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native'
-import { Avatar, Menu } from 'react-native-paper';
+import {View,Text, StyleSheet, ScrollView,RefreshControl, TouchableOpacity} from 'react-native'
+import { Avatar, Menu} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 import {CardComponent} from '../../components/CardComponent/CardComponent'
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {googleMapAPIKey} from '../../config/config'
+// database().setPersistenceEnabled(true);
+// database().setPersistenceCacheSizeBytes(2000000); // 2MB
+const ref = database().ref('/users/').orderByKey();
 class FeedScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
@@ -38,19 +42,27 @@ class FeedScreen extends React.Component{
                             >
                                 <Avatar.Image 
                                     style={{marginLeft: 5, marginRight: 0, padding: 0}} 
-                                    size={40} source={{ uri: params.userPhoto }} 
+                                    size={35} source={{ uri: params.userPhoto }} 
                                 />
                             </TouchableOpacity>,
         }
     }
-
+    
     constructor(props){
         super(props)
         this.state={
             observations: [],
             activityIndicator: true,
+            refreshing: false,
         }
     }
+
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.getObservations().then(() => {
+          this.setState({refreshing: false});
+        });
+      }
 
     componentDidMount(){
         this.getUserData()
@@ -88,8 +100,6 @@ class FeedScreen extends React.Component{
     }
 
     getObservations = async function (){
-        const ref = database().ref('/users/');
-        
         // Fetch the data snapshot
         const snapshot = await ref.once('value');
 
@@ -105,6 +115,8 @@ class FeedScreen extends React.Component{
             
             if(obs!==undefined){
                 for(let j in obs){
+                    console.log(obs[j].verified)
+                    if(!obs[j].verified){continue}
                     let photUrl = obs[j].photoURL
                     let location = obs[j].location
                     let time = new Date(obs[j].time)
@@ -112,16 +124,25 @@ class FeedScreen extends React.Component{
                     time = time.splice(0,time.length-1)
                     time = time.toString().replace(/,/g, ' ')
                     let result = generateResult(obs[j])
-    
-                    observations.push([name, photo, photUrl, location, time, userNick, result])
+                    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location[1] + ',' + location[0] + '&key=' + googleMapAPIKey)
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+                        let address = responseJson.results.length>0?responseJson.results[0].formatted_address.split(","):"Unnamed location"
+                        observations.push([name, photo, photUrl, location, time, userNick, result, address])
+                        this.setState({
+                            observations: observations,
+                        })
+                    })
                 }
+                
             }
+            this.setState({
+                activityIndicator: false
+            })
             
         }
-        await this.setState({
-            observations: observations,
-            activityIndicator: false
-        })
+        
     }
 
     render() {
@@ -129,21 +150,39 @@ class FeedScreen extends React.Component{
         return (
             
             <View style={styles.container}>
-                <View style={{width: "100%", backgroundColor: 'grey'}}>
-                    <ActivityIndicator title={"Loading"} showIndicator={this.state.activityIndicator}/>
-                </View>
-                <ScrollView style={{width: "100%"}}>
-                    {this.state.observations.length>0?
-                        this.state.observations.map((val,i)=>{
-                            return (
-                                <CardComponent isNavigate={true} key={i} result={val[6]} showPhoto={this.props.navigation} title={val[0]} subtitle={val[5]} user={val[1]} image={val[2]} content={[['calendar-clock' ,"On "+val[4].toString()],['map-marker', val[3].toString()] ]}/>
-                               
-                            )
-                        })
-                    :
-                        <View></View>
-                    }
-                </ScrollView>
+                {this.state.activityIndicator?
+                    <View style={{width: "100%", backgroundColor: 'grey'}}>
+                        <ActivityIndicator title={"Please wait..."} showIndicator={this.state.activityIndicator}/>
+                    </View>
+                :
+                    <View>
+                        
+                        <View>
+                            <ScrollView 
+                                style={{width: "100%"}}
+                                refreshControl={<RefreshControl
+                                                    refreshing={this.state.refreshing}
+                                                    onRefresh={this._onRefresh.bind(this)}
+                                                    colors={['#4b8b3b']}
+                                                    title={'Fetching...'}
+                                                />}
+                            >
+                            {this.state.observations.length>0?
+                                this.state.observations.map((val,i)=>{
+                                    return (
+                                        <CardComponent isNavigate={true} key={i} result={val[6]} showPhoto={this.props.navigation} title={val[7]} subtitle={val[5]} user={val[1]} image={val[2]} content={[['calendar-clock' ,"On "+val[4].toString()],['map-marker', val[3].toString()] ]}/>
+                                    
+                                    )
+                                })
+                            :
+                                <View></View>
+                            }
+                            </ScrollView>
+                        </View>
+                        
+                    </View>
+                }
+                
                 
             </View>
             

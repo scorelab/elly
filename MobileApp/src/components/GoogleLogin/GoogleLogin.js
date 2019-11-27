@@ -35,7 +35,7 @@ export async function googleLogin(navigate) {
     const ref = database().ref('/users/').child(uid);
     const snapshot = await ref.once('value')
 
-    if(snapshot.val().name!==undefined){
+    if(snapshot.val()!==null){
       navigate('App')
     }else{
       await ref.set({

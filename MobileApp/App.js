@@ -53,6 +53,8 @@ const CameraStack = createStackNavigator({
 
 const DiscoverStack = createStackNavigator({
   Discover: DiscoverScreen,
+  showDetailedPhoto: ShowDetailedPhotoScreen,
+  showLocationScreen: showLocationScreen
 });
 
 const SearchStack = createStackNavigator({
