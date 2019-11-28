@@ -7,6 +7,16 @@ MobileApp/android/app/google-services.json
 
 MobileApp/android/app/debug.keystore
 
+MobileApp/android/app/my-upload-key.keystore
+
+MobileApp/android/app/build
+
+MobileApp/android/local.properties
+
+MobileApp/android/gradle.properties
+
+MobileApp/src/config/config.js
+
 # Xcode
 #
 MobileApp/build/
@@ -43,7 +53,7 @@ MobileApp/yarn-error.log
 # BUCK
 MobileApp/buck-out/
 MobileApp\.buckd/
-MobileApp/*.keystore
+MobileApp/android/app/*.keystore
 MobileApp/debug.keystore
 
 # fastlane
