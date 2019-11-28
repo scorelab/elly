@@ -46,7 +46,7 @@
             android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPqJDuRc5SEtclLOI66KLItYuWDK5sWWM" />
+            android:value="AIzaSyAzZ0St9RVLUhRW9m6I9A-ULfWmjbycX5g" />
 
         <activity
             android:name="com.elly.MainActivity"

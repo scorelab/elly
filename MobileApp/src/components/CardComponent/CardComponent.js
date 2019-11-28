@@ -14,7 +14,7 @@ class CardComponent extends React.Component{
         
         return (
             <View style={styles.container}>
-                <Card>
+                <Card style={{borderRadius: 0}}>
                     <Card.Title 
                         title={this.props.subtitle} subtitle={this.props.title} 
                         left={() => <Avatar.Image size={40} source={{ uri: this.props.user }} />}
@@ -76,7 +76,7 @@ class CardComponent extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 5,
+        marginTop: 2,
         width: Dimensions.get('window').width
     },
     cover: {

@@ -1,4 +1,8 @@
 -- Merging decision tree log ---
+meta-data#com.google.android.geo.API_KEY
+INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:18:7-100
+	android:value
+		INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml
 manifest
 ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
 INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
@@ -278,12 +282,6 @@ ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/mai
 		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:17:64-103
 	android:name
 		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:17:18-63
-meta-data#com.google.android.geo.API_KEY
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:18:7-121
-	android:value
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:18:64-119
-	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:18:18-63
 activity#com.elly.MainActivity
 ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:19:7-28:18
 	android:label

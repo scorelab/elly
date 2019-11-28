@@ -1,10 +1,9 @@
 import * as React from 'react';
 import {View, StyleSheet,ScrollView,RefreshControl, TouchableOpacity, Text,Image, Dimensions} from 'react-native'
 import { Searchbar, Chip } from 'react-native-paper';
-import database from '@react-native-firebase/database';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
-
+import {ref,refUser} from '../../components/Database/Database'
 class SearchScreen extends React.Component{
     
     constructor(props){
@@ -57,9 +56,7 @@ class SearchScreen extends React.Component{
     getObservations = async function (type){
         await this.setState({
             activityIndicator: true
-        })
-        const ref = database().ref('/users/');
-        
+        })        
         // Fetch the data snapshot
         const snapshot = await ref.once('value');
 
@@ -75,10 +72,12 @@ class SearchScreen extends React.Component{
 
             if(obs!==undefined){
                 for(let j in obs){
-                    if(!obs[j].verified){continue}
+                    let time = new Date(obs[j].time)
+                    let crntTime = new Date().getTime()
+                    let dif = crntTime-time
+                    if(dif<=604800000){continue}
                     let photUrl = obs[j].photoURL
                     let location = obs[j].location
-                    let time = new Date(obs[j].time)
                     time = time.toString().split(" ")
                     time = time.splice(0,time.length-1)
                     time = time.toString().replace(/,/g, ' ')
@@ -128,8 +127,8 @@ class SearchScreen extends React.Component{
                         <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('all')}>All</Chip>
                         <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('male')}>Male</Chip>
                         <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('female')}>Female</Chip>
-                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('tuskers')}>Tuskers</Chip>
-                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('dead')}>Dead</Chip>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('tusker')}>Tuskers</Chip>
+                        <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('die')}>Dead</Chip>
                         <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('group')}>Groups</Chip>
                         <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('single')}>Single</Chip>
                         

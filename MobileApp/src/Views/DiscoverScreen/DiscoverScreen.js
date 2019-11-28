@@ -1,10 +1,13 @@
 import * as React from 'react';
-import {View, StyleSheet, PermissionsAndroid, TouchableOpacity} from 'react-native'
+import {View, StyleSheet, PermissionsAndroid,} from 'react-native'
 import MapView from 'react-native-maps';  
 import { Marker } from 'react-native-maps';  
 import database from '@react-native-firebase/database';
 import Geolocation from '@react-native-community/geolocation';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
+import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
+import {NavigationEvents} from 'react-navigation'
+import {ref} from '../../components/Database/Database'
 
 var MapStyle = require('../../config/map.json')
 
@@ -28,25 +31,21 @@ class DiscoverScreen extends React.Component{
         
         this.state={
             observations: [],
-            location: [82.0,6.8]
+            location: [82.0,6.8],
+            activityIndicator: true,
+            locationPermission: false
         }
-        this.requestLocationPermission()
     }
 
     componentDidMount(){
+        this.findCoordinates()
         database().ref('/users/').on("value", snapshot=>{
             this.getObservations()
         })
-        this.findCoordinates()
-    }
-
-    componentDidUpdate(){
         
     }
 
-    getObservations = async function (){
-        const ref = database().ref('/users/');
-        
+    getObservations = async function (){        
         // Fetch the data snapshot
         const snapshot = await ref.once('value');
 
@@ -62,9 +61,12 @@ class DiscoverScreen extends React.Component{
             
             if(obs!==undefined){
                 for(let j in obs){
+                    let time = new Date(obs[j].time)
+                    let crntTime = new Date().getTime()
+                    let dif = crntTime-time
+                    if(dif<=604800000){continue}
                     let photUrl = obs[j].photoURL
                     let location = obs[j].location
-                    let time = new Date(obs[j].time)
                     time = time.toString().split(" ")
                     time = time.splice(0,time.length-1)
                     time = time.toString().replace(/,/g, ' ')
@@ -81,34 +83,20 @@ class DiscoverScreen extends React.Component{
                        
                     }
                     observations.push([name, photo, photUrl, location, time, userNick, result, marker])
+                    await this.setState({
+                        observations: observations,
+                    })
                 }
             }
             
-        }
-        await this.setState({
-            observations: observations,
-            activityIndicator: false
-        })
-
-    }
-
-    requestLocationPermission = async function () {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            return true
-        } else {
-            return false
-        }
-        } catch (err) {
-            return false
         }
     }
 
     findCoordinates = async () => {
             try {
+                await this.setState({
+                    activityIndicator: true
+                })
                 const granted = await PermissionsAndroid.request(
                   PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
               );
@@ -124,7 +112,15 @@ class DiscoverScreen extends React.Component{
                     error => console.log('Error', JSON.stringify(error)),
                     {enableHighAccuracy: false},
                 );
+                await this.setState({
+                    activityIndicator: false,
+                    locationPermission: true
+                })
               } else {
+                await this.setState({
+                    activityIndicator: false
+                })
+                
               }
               } catch (err) {
               }
@@ -134,41 +130,47 @@ class DiscoverScreen extends React.Component{
 
     render() {
         return (
-            <View style={styles.MainContainer}>  
-                <MapView  
-                    customMapStyle={MapStyle}
-                    style={styles.mapStyle}  
-                    showsUserLocation={true}  
-                    zoomEnabled={true}  
-                    zoomControlEnabled={true}  
-                    initialRegion={{  
-                        latitude: this.state.location[1],   
-                        longitude: this.state.location[0],  
-                        latitudeDelta: 1.2922,  
-                        longitudeDelta: 0.0421,  
-                }}>  
-                    {this.state.observations.map((val, i) => (
-                        <Marker
-                            key={i}
-                            coordinate={val[7].cordinates}
-                            title={val[7].title}
-                            description={val[7].description}
-                            onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
-                            {
-                                img: val[2],
-                                title: val[0],
-                                subtitle:val[5],
-                                user: val[1],
-                                content: val[6],
-                                showPhoto: this.props.navigation
-                            }
-                            )}
-                            // image={require('../../Assets/landing2WS.png')}
-                        />
-                    ))}
-                </MapView>  
-              
-          </View>  
+            <View style={styles.MainContainer}>
+                <NavigationEvents onDidFocus={!this.state.locationPermission?this.findCoordinates:null}/>
+                {this.state.activityIndicator?
+                    <View style={{width: "100%", backgroundColor: 'grey'}}>
+                        <ActivityIndicator title={"Loading"} showIndicator={this.state.activityIndicator}/>
+                    </View>
+                :
+                    <MapView  
+                        customMapStyle={MapStyle}
+                        style={styles.mapStyle}  
+                        showsUserLocation={true}  
+                        zoomEnabled={true}  
+                        zoomControlEnabled={true}  
+                        initialRegion={{  
+                            latitude: this.state.location[1],   
+                            longitude: this.state.location[0],  
+                            latitudeDelta: 1.2922,  
+                            longitudeDelta: 0.0421,  
+                    }}>  
+                        {this.state.observations.map((val, i) => (
+                            <Marker
+                                key={i}
+                                coordinate={val[7].cordinates}
+                                title={val[7].title}
+                                description={val[7].description}
+                                onPress={()=>this.props.navigation.navigate('showDetailedPhoto',
+                                {
+                                    img: val[2],
+                                    title: val[0],
+                                    subtitle:val[5],
+                                    user: val[1],
+                                    content: val[6],
+                                    showPhoto: this.props.navigation
+                                }
+                                )}
+                                // image={require('../../Assets/landing2WS.png')}
+                            />
+                        ))}
+                    </MapView> 
+                    }  
+            </View>  
             
         );
     }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View,Image,Text,Dimensions,ImageBackground, StyleSheet} from 'react-native'
+import {View,Image,Text,Dimensions,ImageBackground, StyleSheet, Linking} from 'react-native'
 import { Divider } from 'react-native-paper';
 
 class AboutScreen extends React.Component{
@@ -10,7 +10,7 @@ class AboutScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
         return {
-            headerTitle: "About",
+            headerTitle: "About Elly",
             headerStyle: {
               backgroundColor: '#4b8b3b',
             },
@@ -22,26 +22,27 @@ class AboutScreen extends React.Component{
     render() {
         return (
             <View style={styles.container}>
-               
+                
+                <Image style={{width: 80, height: 60, margin: 10,resizeMode: 'stretch'}} source={require('../../Assets/landing2.png')}/>
+                <Text style={{textAlign: 'center',color: 'black', fontSize: 20}}> Developed By  </Text>
                 <View style={{margin:10,flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                    <Image style={{width: 100, height: 100}} source={require('../../Assets/trunks.png')}/>
-                    <Text>&  </Text>
-                    <Image style={{width: 200, height: 100}} source={require('../../Assets/score.jpg')}/>
+                    <Image style={{width: 100, height: 100,resizeMode: 'stretch', borderRadius: 20}} source={require('../../Assets/score.jpg')}/>
+                    <Text style={{textAlign: 'center',color: 'black', fontSize: 20}}> & </Text>
+                    <Image style={{width: 100, height: 100,resizeMode: 'stretch', borderRadius: 20}} source={require('../../Assets/trunks2.png')}/>
                 </View>
                 <Divider/>
-                <View style={{marginTop: 20, padding: 5}}>
-                    <Text style={{textAlign: 'center',color: 'black', fontSize: 20}}>This app is developed by ScoreLab origanization with the Trunks & Leaves
-                         origanization for elephant conservation purposes.</Text>
-                </View>
-                <View style={{marginTop: 40,justifyContent: 'flex-end', alignItems: 'center', width: '100%', padding: 10}}>
-                    <Text style={{fontSize: 20}}>
-                        Address{'\n'}
-                        Sustainable Computing Research Group,{'\n'}
-                        University of Colombo School of Computing,{'\n'}
-                        No. 35, Reid Avenue,{'\n'}
-                        Colombo 7, Sri Lanka{'\n'}{'\n'}
-                        Phone{'\n'}
-                        +94-11-2158919{'\n'}
+                <View style={{marginTop: 20, padding: 0}}>
+                    <Text style={{textAlign: 'justify',color: 'black', fontSize: 17, margin: 5, fontWeight: '100'}}>This app is developed by 
+                        ScoreLab origanization with the collaboration of Trunks & Leaves organization for elephant conservation purposes.{'\n'}{'\n'}
+                        For more information contact us: 
+                        <Text style={{fontStyle: 'italic'}} onPress={() => Linking.openURL('https://mail.google.com')}> elly@scorelab.org</Text>{'\n'}{'\n'}
+                        <Text onPress={() => Linking.openURL('http://www.scorelab.org/')}>Visits http://www.scorelab.org/
+                        </Text>{'\n'}
+                        
+                        <Text onPress={() => Linking.openURL('http://www.trunksnleaves.org/index.html')}>Visits http://www.trunksnleaves.org
+                        </Text>{'\n'}{'\n'}
+                        
+                             
                     </Text>
                 </View>
             </View>

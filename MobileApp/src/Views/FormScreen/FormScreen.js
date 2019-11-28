@@ -24,7 +24,7 @@ class FormScreen extends React.Component{
             headerTitleStyle: {
             fontWeight: 'bold',
             },
-            headerRight: ()=><Button style={{margin: 5}} icon="plus" mode="contained" onPress={() => params.handlePress()}>Add</Button>
+            headerRight: ()=><Button style={{margin: 5}} mode="contained" onPress={() => params.handlePress()}>Share</Button>
         }
     }
 

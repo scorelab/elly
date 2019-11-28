@@ -7,7 +7,8 @@ export async function facebookLogin(navigate) {
     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
     if (result.isCancelled) {
-        throw new Error('User cancelled the login process');
+        // throw new Error('User cancelled the login process');
+        return
     }
 
     console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);

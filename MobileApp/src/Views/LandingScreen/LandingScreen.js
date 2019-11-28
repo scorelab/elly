@@ -10,10 +10,12 @@ class LandingScreen extends React.Component{
             this._interval = setInterval(() => {
                 this.props.navigation.navigate('App')
             }, 2000);
+        }else{
+            this._interval = setInterval(() => {
+                this.props.navigation.navigate('SignIn')
+            }, 2000);
         }
-        this._interval = setInterval(() => {
-            this.props.navigation.navigate('SignIn')
-        }, 2000);
+        
        
         
       }

@@ -1,6 +1,6 @@
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { firebase } from '@react-native-firebase/auth';
-import {webClientID, androidClientID} from '../../config/config'
+import {webClientID, androidClientID, devAndroidClientID} from '../../config/config'
 import database from '@react-native-firebase/database';
 // Calling this function will open Google for login.
 export async function googleLogin(navigate) {

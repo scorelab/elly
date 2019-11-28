@@ -40,10 +40,6 @@ class LoginScreen extends React.Component{
                             <Image source={require('../../Assets/landing2W.png')} style={styles.logo}/>
                             <Text style={styles.logoText}>Elly</Text>
                         </View>
-                        <View style={{flexDirection: 'row-reverse', width: Dimensions.get('window').width-80, marginBottom: 15}}>
-                            <Icon style={{flexDirection: 'row'}} color='white' name='question-circle-o' size={24}/>
-                        </View>
-                        
                         <View style={styles.btnContainer}>
                             <Icon.Button
                                 style={styles.btn}

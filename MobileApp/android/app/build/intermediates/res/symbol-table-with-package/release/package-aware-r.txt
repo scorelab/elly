@@ -829,7 +829,10 @@ drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable redbox_top_border_background
 drawable src_assets_cover
+drawable src_assets_landing2
 drawable src_assets_landing2w
+drawable src_assets_score
+drawable src_assets_trunks2
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id ALT
@@ -1307,6 +1310,7 @@ string common_signin_button_text
 string common_signin_button_text_long
 string default_web_client_id
 string facebook_app_id
+string fb_login_protocol_scheme
 string firebase_database_url
 string gcm_defaultSenderId
 string google_api_key

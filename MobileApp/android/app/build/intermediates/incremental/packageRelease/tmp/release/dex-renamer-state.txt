@@ -1,4 +1,4 @@
-#Tue Nov 26 22:23:17 IST 2019
+#Thu Nov 28 23:23:17 IST 2019
 base.0=/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/intermediates/transforms/dexMerger/release/0
 path.1=classes2.dex
 renamed.1=classes2.dex

@@ -101,9 +101,11 @@
                 {
                     "source": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/generated/res/google-services/debug/values/values.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1"
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,304,386,490,599,719,813",
+                        "endColumns": "143,104,81,103,108,119,93,70",
+                        "endOffsets": "194,299,381,485,594,714,808,879"
                     },
                     "to": {
                         "startLines": "432,435,436,437,438,439,440,449",
@@ -271,11 +273,9 @@
                 {
                     "source": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/res/values/strings.xml",
                     "from": {
-                        "startLines": "-1,2,3",
-                        "startColumns": "-1,4,4",
-                        "startOffsets": "-1,58,118",
-                        "endColumns": "-1,59,70",
-                        "endOffsets": "-1,113,184"
+                        "startLines": "-1,-1,-1",
+                        "startColumns": "-1,-1,-1",
+                        "startOffsets": "-1,-1,-1"
                     },
                     "to": {
                         "startLines": "361,433,434",

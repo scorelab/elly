@@ -1,1 +1,1 @@
-{"mName":"debug","mStoreFile":"/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/debug.keystore","mStorePassword":"android","mKeyAlias":"androiddebugkey","mKeyPassword":"android","mStoreType":"jks","mV1SigningEnabled":true,"mV2SigningEnabled":true}
+{"mName":"debug","mStoreFile":"/root/.android/debug.keystore","mStorePassword":"android","mKeyAlias":"AndroidDebugKey","mKeyPassword":"android","mStoreType":"jks","mV1SigningEnabled":true,"mV2SigningEnabled":true}

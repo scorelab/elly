@@ -666,8 +666,8 @@ public final class R {
         public static final int notification_template_icon_low_bg = 0x7f060098;
         public static final int notification_tile_bg = 0x7f060099;
         public static final int notify_panel_notification_icon_bg = 0x7f06009a;
-        public static final int tooltip_frame_dark = 0x7f06009e;
-        public static final int tooltip_frame_light = 0x7f06009f;
+        public static final int tooltip_frame_dark = 0x7f0600a1;
+        public static final int tooltip_frame_light = 0x7f0600a2;
     }
     public static final class id {
         private id() {}
@@ -909,8 +909,8 @@ public final class R {
         public static final int com_facebook_smart_login_confirmation_continue_as = 0x7f0d004d;
         public static final int com_facebook_smart_login_confirmation_title = 0x7f0d004e;
         public static final int com_facebook_tooltip_default = 0x7f0d004f;
-        public static final int search_menu_title = 0x7f0d0078;
-        public static final int status_bar_notification_info_overflow = 0x7f0d0080;
+        public static final int search_menu_title = 0x7f0d0079;
+        public static final int status_bar_notification_info_overflow = 0x7f0d0081;
     }
     public static final class style {
         private style() {}

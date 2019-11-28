@@ -60,6 +60,9 @@ class Camera extends PureComponent{
               buttonPositive: 'Ok',
               buttonNegative: 'Cancel',
             }}
+            captureAudio={false}
+            playSoundOnCapture={true}
+            pendingAuthorizationView={<PendingView/>}
             // onGoogleVisionBarcodesDetected={({ barcodes }) => {
             //   console.log(barcodes);
             // }}

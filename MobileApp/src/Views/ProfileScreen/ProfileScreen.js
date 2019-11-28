@@ -1,15 +1,16 @@
 import * as React from 'react';
-import {View, StyleSheet,ImageBackground, Text, Image,Dimensions, ScrollView} from 'react-native'
-import {List, Avatar, Divider} from 'react-native-paper'
-import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
+import {View, StyleSheet,ImageBackground,RefreshControl, Text, Image,Dimensions, ScrollView} from 'react-native'
+import {Button} from 'react-native-paper'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
-import {Button} from 'react-native-paper'
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+
 class ProfileScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
+        const {params=[]} = navigation.state
         return {
             headerTitle: 'My Profile',
             headerStyle: {
@@ -19,6 +20,7 @@ class ProfileScreen extends React.Component{
             headerTitleStyle: {
             fontWeight: 'bold',
             },
+            headerRight: ()=><Button onPress={()=>params.onPressMenu()} mode='contained' style={{marginRight: 5}}>ABOUT ELLY</Button>
         }
     }
 
@@ -31,25 +33,37 @@ class ProfileScreen extends React.Component{
             userObservations: [],
             noObs: 0,
             activityIndicator: true,
+            refreshing: false
         }
     }
+
+    
 
     componentDidMount(){
         // database().ref('/users/').on("value", snapshot=>{
             
         // })
         this.getUserData()
+        this.props.navigation.setParams({
+            onPressMenu: ()=>{
+                this.props.navigation.navigate("AboutScreen")
+            },
+        })
     }
 
-    getUserData = async function () {
-        // Get the users ID
-        const uid = auth().currentUser.uid;
-       
-        // Create a reference
-        const ref = database().ref(`/users/${uid}`);
-       
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.getUserData().then(() => {
+          this.setState({refreshing: false});
+        });
+      }
+
+    getUserData = async function () {       
         // Fetch the data snapshot
-        const snapshot = await ref.once('value');
+        const uid = auth().currentUser.uid;
+    
+        const refUser = database().ref(`/users/${uid}`).orderByChild('observations');
+        const snapshot = await refUser.once('value');
 
         let val = snapshot.val()
         let observations = []
@@ -64,10 +78,12 @@ class ProfileScreen extends React.Component{
         })
         if(obs!==undefined){
             for(let j in obs){
-                if(!obs[j].verified){continue}
+                let time = new Date(obs[j].time)
+                let crntTime = new Date().getTime()
+                let dif = crntTime-time
+                if(dif<=604800000){continue}
                 let photUrl = obs[j].photoURL
                 let location = obs[j].location
-                let time = new Date(obs[j].time)
                 time = time.toString().split(" ")
                 time = time.splice(0,time.length-1)
                 time = time.toString().replace(/,/g, ' ')
@@ -103,7 +119,15 @@ class ProfileScreen extends React.Component{
                         <Text style={styles.obCount}>{this.state.noObs}</Text>
                     </ImageBackground>
                 
-                    <ScrollView style={styles.scrollView}>
+                    <ScrollView 
+                        style={styles.scrollView}
+                        refreshControl={<RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                            colors={['#4b8b3b']}
+                            title={'Fetching...'}
+                        />}
+                    >
                         
                         <View style={styles.imgConatiner}>
                             {this.state.userObservations.length>0

@@ -42,7 +42,6 @@ const FeedStack = createStackNavigator({
   FeedScreen: FeedScreen,
   showDetailedPhoto: ShowDetailedPhotoScreen ,
   showLocationScreen: showLocationScreen,
-  AboutScreen: AboutScreen
 });
 
 const CameraStack = createStackNavigator({
@@ -66,7 +65,8 @@ const SearchStack = createStackNavigator({
 const ProfileStack = createStackNavigator({
   ProfileScreen: ProfileScreen,
   showDetailedPhoto: ShowDetailedPhotoScreen,
-  showLocationScreen: showLocationScreen
+  showLocationScreen: showLocationScreen,
+  AboutScreen: AboutScreen
 },);
 
 const MainTabs = createMaterialBottomTabNavigator({

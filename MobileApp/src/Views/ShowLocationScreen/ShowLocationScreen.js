@@ -43,8 +43,8 @@ class ShowLocationScreen extends React.Component{
                             latitude: parseFloat(this.props.navigation.getParam('location').split(",")[1]), 
                             longitude: parseFloat(this.props.navigation.getParam('location').split(",")[0])
                         }}
-                        title={"hello"}
-                        description={"Hello"}
+                        title={this.props.navigation.getParam('location').split(",")[1]+", "+this.props.navigation.getParam('location').split(",")[0]}
+                        // description={"Hello"}
                     />
                 </MapView>  
               

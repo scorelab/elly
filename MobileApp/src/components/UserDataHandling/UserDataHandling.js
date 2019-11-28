@@ -2,7 +2,11 @@
 export function generateResult(data){
     let result = []
     result.push(['map-marker',data.location.toString()])
-    result.push(['clock',(new Date(data.time)).toString()])
+    let time = new Date(data.time)
+    time = time.toString().split(" ")
+    time = time.splice(0,time.length-1)
+    time = time.toString().replace(/,/g, ' ')
+    result.push(['clock',time.toString()])
     data.notes!==''?result.push(['note-text', data.notes]):null
     if(data.isAlive===1){
         result.push(['cards-heart',"Alive"])

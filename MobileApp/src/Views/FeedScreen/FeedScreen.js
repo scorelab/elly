@@ -1,16 +1,14 @@
 import * as React from 'react';
-import {View,Text, StyleSheet, ScrollView,RefreshControl, TouchableOpacity} from 'react-native'
-import { Avatar, Menu} from 'react-native-paper';
-import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
+import {View, StyleSheet, ScrollView,RefreshControl, TouchableOpacity} from 'react-native'
+import { Avatar, } from 'react-native-paper';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 import {CardComponent} from '../../components/CardComponent/CardComponent'
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {googleMapAPIKey} from '../../config/config'
-// database().setPersistenceEnabled(true);
-// database().setPersistenceCacheSizeBytes(2000000); // 2MB
-const ref = database().ref('/users/').orderByKey();
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+import {ref} from '../../components/Database/Database'
+
 class FeedScreen extends React.Component{
 
     static navigationOptions = ({navigation})=>{
@@ -24,19 +22,7 @@ class FeedScreen extends React.Component{
             headerTitleStyle: {
             fontWeight: 'bold',
             },
-            headerRight: ()=><Menu
-                                visible={params.menuVisible}
-                                onDismiss={()=>params.closeMenu()}
-                                anchor={
-                                    <TouchableOpacity
-                                        onPress={()=>params.openMenu()}
-                                    >
-                                        <Icon color='white' style={{marginRight: 5}} name='dots-vertical' size={24}/>
-                                    </TouchableOpacity>
-                                }
-                            >
-                                <Menu.Item onPress={() => params.onPressMenu()} title="About" />
-                            </Menu>,
+            
             headerLeft: ()=><TouchableOpacity
                                 onPress={()=>navigation.navigate("Profile")}
                             >
@@ -70,29 +56,13 @@ class FeedScreen extends React.Component{
         //     this.getObservations()
         // })
         this.getObservations()
-        this.props.navigation.setParams({
-            closeMenu: ()=>this._closeMenu(),
-            openMenu: ()=>this._openMenu(),
-            onPressMenu: ()=>{
-                this.props.navigation.navigate("AboutScreen")
-                this._closeMenu()
-            },
-            menuVisible: this.state.aboutMenu
-        })
     }
-
-    _openMenu = () => this.props.navigation.setParams({menuVisible: true})
-
-    _closeMenu = () => this.props.navigation.setParams({menuVisible: false})
-
-    getUserData = async function() {
-        const uid = auth().currentUser.uid;
-       
-        // Create a reference
-        const ref = database().ref(`/users/${uid}`);
-       
+        
+    getUserData = async function() {       
         // Fetch the data snapshot
-        const snapshot = await ref.once('value');
+        const uid = auth().currentUser.uid;
+        const refUser = database().ref(`/users/${uid}`);
+        const snapshot = await refUser.once('value');
         
         await this.props.navigation.setParams({
             userPhoto: snapshot.val().photo
@@ -115,11 +85,12 @@ class FeedScreen extends React.Component{
             
             if(obs!==undefined){
                 for(let j in obs){
-                    console.log(obs[j].verified)
-                    if(!obs[j].verified){continue}
+                    let time = new Date(obs[j].time)
+                    let crntTime = new Date().getTime()
+                    let dif = crntTime-time
+                    if(dif<=604800000){continue}
                     let photUrl = obs[j].photoURL
                     let location = obs[j].location
-                    let time = new Date(obs[j].time)
                     time = time.toString().split(" ")
                     time = time.splice(0,time.length-1)
                     time = time.toString().replace(/,/g, ' ')
@@ -127,7 +98,7 @@ class FeedScreen extends React.Component{
                     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location[1] + ',' + location[0] + '&key=' + googleMapAPIKey)
                     .then((response) => response.json())
                     .then((responseJson) => {
-                        console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+                        //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
                         let address = responseJson.results.length>0?responseJson.results[0].formatted_address.split(","):"Unnamed location"
                         observations.push([name, photo, photUrl, location, time, userNick, result, address])
                         this.setState({

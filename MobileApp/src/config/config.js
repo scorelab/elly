@@ -1,3 +1,5 @@
-export const googleMapAPIKey = "AIzaSyBPqJDuRc5SEtclLOI66KLItYuWDK5sWWM"
-export const webClientID = "481165231932-ukaldksg16h5f2h78qfocgp0856er5aa.apps.googleusercontent.com"
-export const androidClientID = "481165231932-btaodd993ed6eqh194o4hgggn8pjrh9e.apps.googleusercontent.com"
+export const googleMapAPIKey = "AIzaSyAzZ0St9RVLUhRW9m6I9A-ULfWmjbycX5g" 
+export const devAndroidClientID = "228779869496-55hqj8t8bfkhfvnq5e3c9p2qomhf8sdc.apps.googleusercontent.com"
+
+export const webClientID = "228779869496-d353q1fcdngcgi7rl964irk3njhfojmh.apps.googleusercontent.com"
+export const androidClientID = "228779869496-pff5iehhodra6h02gvilndumgkicpmv2.apps.googleusercontent.com"

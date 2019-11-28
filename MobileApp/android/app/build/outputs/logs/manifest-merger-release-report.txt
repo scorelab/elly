@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
-INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
-INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
-INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
 MERGED from [:react-native-fbsdk] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/react-native-fbsdk/android/build/intermediates/library_manifest/release/AndroidManifest.xml:21:1-30:12
 MERGED from [:react-native-maps] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/react-native-maps/lib/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-12:12
 MERGED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-18:12
@@ -101,20 +101,20 @@ MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] /root/.gradle/caches/
 MERGED from [com.facebook.soloader:soloader:0.6.0] /root/.gradle/caches/transforms-2/files-2.1/b9f3cc70cc353e07a8842d40a85ce29c/AndroidManifest.xml:2:1-13:12
 MERGED from [com.facebook.fresco:fbcore:2.0.0] /root/.gradle/caches/transforms-2/files-2.1/0309dfbf68b8ad7f1a3468859453e51a/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-database-collection:17.0.0] /root/.gradle/caches/transforms-2/files-2.1/0103194f69cadb0c8415fb46505724c3/AndroidManifest.xml:2:1-7:12
-INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
-INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
-INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
+INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
 	package
 		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:2:3-21
 		INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
 		INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-34:12
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:1-32:12
 		INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:1:11-69
@@ -152,28 +152,18 @@ MERGED from [:react-native-camera] /home/asitha/Documents/Mobile Apps/elly/Mobil
 MERGED from [:react-native-camera] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalRelease/AndroidManifest.xml:9:5-65
 	android:name
 		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:5:22-62
-uses-permission#android.permission.RECORD_AUDIO
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:6:6-72
-	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:6:23-69
-uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:7:5-80
-MERGED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/release/AndroidManifest.xml:15:5-80
-MERGED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/release/AndroidManifest.xml:15:5-80
-	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:7:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:8:5-81
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:6:5-81
 MERGED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/release/AndroidManifest.xml:16:5-81
 MERGED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/release/AndroidManifest.xml:16:5-81
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:8:22-78
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:6:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:9:5-79
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:7:5-79
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:9:22-76
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:7:22-76
 application
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:12:5-32:19
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:10:5-30:19
 MERGED from [:react-native-fbsdk] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/react-native-fbsdk/android/build/intermediates/library_manifest/release/AndroidManifest.xml:28:5-20
 MERGED from [:react-native-fbsdk] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/react-native-fbsdk/android/build/intermediates/library_manifest/release/AndroidManifest.xml:28:5-20
 MERGED from [com.facebook.react:react-native:0.61.2] /root/.gradle/caches/transforms-2/files-2.1/01ef7f4427a0ca053d01b04f4eaa1f44/AndroidManifest.xml:11:5-20
@@ -253,53 +243,53 @@ MERGED from [com.facebook.soloader:soloader:0.6.0] /root/.gradle/caches/transfor
 	android:supportsRtl
 		ADDED from [com.facebook.android:facebook-login:5.11.0] /root/.gradle/caches/transforms-2/files-2.1/354c26ded9969d2e372c531a493ed06f/AndroidManifest.xml:28:18-44
 	android:label
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:14:7-39
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:12:7-39
 	android:roundIcon
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:16:7-52
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:14:7-52
 	android:icon
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:15:7-41
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:13:7-41
 	android:allowBackup
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:17:7-34
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:15:7-34
 	android:theme
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:18:7-38
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:16:7-38
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:13:7-38
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:11:7-38
 meta-data#com.facebook.sdk.ApplicationId
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:19:7-105
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:17:7-105
 	android:value
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:19:64-103
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:17:64-103
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:19:18-63
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:17:18-63
 meta-data#com.google.android.geo.API_KEY
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:20:7-121
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:18:7-121
 	android:value
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:20:64-119
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:18:64-119
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:20:18-63
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:18:18-63
 activity#com.elly.MainActivity
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:21:7-30:18
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:19:7-28:18
 	android:label
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:23:9-41
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:21:9-41
 	android:windowSoftInputMode
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:25:9-51
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:23:9-51
 	android:configChanges
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:24:9-79
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:22:9-79
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:22:9-37
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:20:9-37
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:26:9-29:25
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:24:9-27:25
 action#android.intent.action.MAIN
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:27:13-65
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:25:13-65
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:27:21-62
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:25:21-62
 category#android.intent.category.LAUNCHER
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:28:13-73
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:26:13-73
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:28:23-70
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:26:23-70
 activity#com.facebook.react.devsupport.DevSettingsActivity
-ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:31:7-84
+ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:29:7-84
 	android:name
-		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:31:17-81
+		ADDED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml:29:17-81
 uses-sdk
 INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/src/main/AndroidManifest.xml
@@ -554,6 +544,10 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.0.1] /r
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.0.1] /root/.gradle/caches/transforms-2/files-2.1/27af19f03ce48399213f63203bc53d72/AndroidManifest.xml:24:5-79
 	android:name
 		ADDED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/release/AndroidManifest.xml:13:22-76
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/release/AndroidManifest.xml:15:5-80
+	android:name
+		ADDED from [:@react-native-firebase_storage] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/release/AndroidManifest.xml:15:22-77
 uses-feature#android.hardware.camera
 ADDED from [:react-native-camera] /home/asitha/Documents/Mobile Apps/elly/MobileApp/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalRelease/AndroidManifest.xml:11:5-13:36
 	android:required
