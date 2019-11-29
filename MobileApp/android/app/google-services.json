@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "228779869496",
+    "firebase_url": "https://elly-fe124.firebaseio.com",
+    "project_id": "elly-fe124",
+    "storage_bucket": "elly-fe124.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228779869496:android:bc805292c6ad3668acadcd",
+        "android_client_info": {
+          "package_name": "com.elly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228779869496-55hqj8t8bfkhfvnq5e3c9p2qomhf8sdc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elly",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "228779869496-pff5iehhodra6h02gvilndumgkicpmv2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elly",
+            "certificate_hash": "1a7a5a04d997cdb442cae0b2447d6e1af061156e"
+          }
+        },
+        {
+          "client_id": "228779869496-d353q1fcdngcgi7rl964irk3njhfojmh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5Dcx_XAntmZedROJPlzyfn8gjyFWTIpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228779869496-d353q1fcdngcgi7rl964irk3njhfojmh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

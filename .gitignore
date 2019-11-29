@@ -1,60 +1,82 @@
 # OSX
 #
-MobileApp/.DS_Store
+./MobileApp/.DS_Store
 
 #google-json
-MobileApp/android/app/google-services.json
+./MobileApp/android/app/google-services.json
 
-MobileApp/android/app/debug.keystore
+./MobileApp/android/app/debug.keystore
 
-MobileApp/android/app/my-upload-key.keystore
+./MobileApp/android/app/my-upload-key.keystore
 
-MobileApp/android/app/build
+./MobileApp/android/app/build
 
-MobileApp/android/local.properties
+./MobileApp/android/local.properties
 
-MobileApp/android/gradle.properties
+./MobileApp/android/gradle.properties
 
-MobileApp/src/config/config.js
+./MobileApp/src/config/config.js
+
+./MobileApp/android/*.apk
+./MobileApp/android/*.ap_
+
+# files for the dex VM
+./MobileApp/android/*.dex
+
+# Java class files
+./MobileApp/android/*.class
+
+# generated files
+MobileApp/android/bin/
+MobileApp/android/gen/
+
+# Local configuration file (sdk path, etc)
+./MobileApp/android/local.properties
+
+# Windows thumbnail db
+./MobileApp/android/Thumbs.db
+
+# OSX files
+./MobileApp/android/.DS_Store
 
 # Xcode
 #
-MobileApp/build/
-MobileApp/*.pbxuser
-MobileApp/!default.pbxuser
-MobileApp/*.mode1v3
-MobileApp/!default.mode1v3
-MobileApp/*.mode2v3
-MobileApp/!default.mode2v3
-MobileApp/*.perspectivev3
-MobileApp/!default.perspectivev3
-MobileApp/xcuserdata
-MobileApp/*.xccheckout
-MobileApp/*.moved-aside
-MobileApp/DerivedData
-MobileApp/*.hmap
-MobileApp/*.ipa
-MobileApp/*.xcuserstate
+./MobileApp/build/
+./MobileApp/*.pbxuser
+./MobileApp/!default.pbxuser
+./MobileApp/*.mode1v3
+./MobileApp/!default.mode1v3
+./MobileApp/*.mode2v3
+./MobileApp/!default.mode2v3
+./MobileApp/*.perspectivev3
+./MobileApp/!default.perspectivev3
+./MobileApp/xcuserdata
+./MobileApp/*.xccheckout
+./MobileApp/*.moved-aside
+./MobileApp/DerivedData
+./MobileApp/*.hmap
+./MobileApp/*.ipa
+./MobileApp/*.xcuserstate
 
 # Android/IntelliJ
 #
-MobileApp/build/
-MobileApp/.idea
-MobileApp/.gradle
-MobileApp/local.properties
-MobileApp/*.iml
+./MobileApp/build/
+./MobileApp/.idea
+./MobileApp/.gradle
+./MobileApp/local.properties
+./MobileApp/*.iml
 
 # node.js
 #
-MobileApp/node_modules/
-MobileApp/npm-debug.log
-MobileApp/yarn-error.log
+./MobileApp/node_modules/
+./MobileApp/npm-debug.log
+./MobileApp/yarn-error.log
 
 # BUCK
-MobileApp/buck-out/
-MobileApp\.buckd/
-MobileApp/android/app/*.keystore
-MobileApp/debug.keystore
+./MobileApp/buck-out/
+./MobileApp/.buckd/
+./MobileApp/android/app/*.keystore
+./MobileApp/debug.keystore
 
 # fastlane
 #
@@ -63,12 +85,12 @@ MobileApp/debug.keystore
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/
 
-MobileApp/*/fastlane/report.xml
-MobileApp/*/fastlane/Preview.html
-MobileApp/*/fastlane/screenshots
+./MobileApp/*/fastlane/report.xml
+./MobileApp/*/fastlane/Preview.html
+./MobileApp/*/fastlane/screenshots
 
 # Bundle artifact
-MobileApp/*.jsbundle
+./MobileApp/*.jsbundle
 
 # CocoaPods
-MobileApp/ios/Pods/
+./MobileApp/ios/Pods/

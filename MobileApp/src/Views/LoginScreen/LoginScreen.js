@@ -3,7 +3,6 @@ import {View,Text, StyleSheet,Image, Dimensions, ImageBackground} from 'react-na
 import {facebookLogin} from '../../components/FaceBookLogin/FaceBookLogin'
 import {googleLogin} from '../../components/GoogleLogin/GoogleLogin'
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 class LoginScreen extends React.Component{
     
     static navigationOptions = ({navigation})=>{
@@ -17,6 +16,10 @@ class LoginScreen extends React.Component{
             fontWeight: 'bold',
             },
         }
+    }
+
+    constructor(props){
+        super(props)
     }
 
     facebookLoginBtnHandler = (navigate) =>{

@@ -39,9 +39,7 @@ class DiscoverScreen extends React.Component{
 
     componentDidMount(){
         this.findCoordinates()
-        database().ref('/users/').on("value", snapshot=>{
-            this.getObservations()
-        })
+        this.getObservations()
         
     }
 
@@ -93,14 +91,14 @@ class DiscoverScreen extends React.Component{
     }
 
     findCoordinates = async () => {
-            try {
-                await this.setState({
-                    activityIndicator: true
-                })
-                const granted = await PermissionsAndroid.request(
-                  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-              );
-              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        try {
+            await this.setState({
+                activityIndicator: true
+            })
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 await Geolocation.getCurrentPosition(
                     position => {
                         const initialPosition = position;
@@ -116,16 +114,15 @@ class DiscoverScreen extends React.Component{
                     activityIndicator: false,
                     locationPermission: true
                 })
-              } else {
-                await this.setState({
-                    activityIndicator: false
-                })
-                
-              }
-              } catch (err) {
-              }
-            
+        } else {
+            await this.setState({
+                activityIndicator: false
+            })
         
+        }
+        } catch (err) {
+            
+        }
     };
 
     render() {

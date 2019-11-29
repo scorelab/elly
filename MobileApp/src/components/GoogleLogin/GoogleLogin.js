@@ -2,6 +2,7 @@ import { GoogleSignin, statusCodes } from '@react-native-community/google-signin
 import { firebase } from '@react-native-firebase/auth';
 import {webClientID, androidClientID, devAndroidClientID} from '../../config/config'
 import database from '@react-native-firebase/database';
+import {Alert} from 'react-native'
 // Calling this function will open Google for login.
 export async function googleLogin(navigate) {
   try {
@@ -17,6 +18,7 @@ export async function googleLogin(navigate) {
         //forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login.
         //accountName: '', // [Android] specifies an account name on the device that should be used
     });
+    console.log(androidClientID)
     console.log("has play services")
     await GoogleSignin.hasPlayServices();
     const { accessToken, idToken } = await GoogleSignin.signIn();
@@ -34,7 +36,7 @@ export async function googleLogin(navigate) {
 
     const ref = database().ref('/users/').child(uid);
     const snapshot = await ref.once('value')
-
+    
     if(snapshot.val()!==null){
       navigate('App')
     }else{
@@ -52,15 +54,39 @@ export async function googleLogin(navigate) {
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         console.log(error.code+": "+error.message+"user cancelled the login flow")
+        Alert.alert(
+          error.code,
+          error.message,
+          [{text: 'OK', onPress: () => console.log('OK Pressed')},],
+          {cancelable: false},
+        );
         } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
         console.log(error.code+": "+error.message+"operation (e.g. sign in) is in progress already")
+        Alert.alert(
+          error.code,
+          error.message,
+          [{text: 'OK', onPress: () => console.log('OK Pressed')},],
+          {cancelable: false},
+        );
         } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
         console.log(error.code+": "+error.message+"play services not available or outdated")
+        Alert.alert(
+          error.code,
+          error.message,
+          [{text: 'OK', onPress: () => console.log('OK Pressed')},],
+          {cancelable: false},
+        );
         } else {
         // some other error happened
         console.log(error.code+": "+error.message+"some other error happened")
+        Alert.alert(
+          error.code,
+          error.message,
+          [{text: 'OK', onPress: () => console.log('OK Pressed')},],
+          {cancelable: false},
+        );
         }
   }
 }

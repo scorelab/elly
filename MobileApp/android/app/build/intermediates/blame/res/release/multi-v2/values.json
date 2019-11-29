@@ -147,11 +147,11 @@
                 {
                     "source": "/home/asitha/Documents/Mobile Apps/elly/MobileApp/android/app/build/generated/res/google-services/release/values/values.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,5,-1,7,-1,-1",
-                        "startColumns": "-1,-1,-1,4,-1,4,-1,-1",
-                        "startOffsets": "-1,-1,-1,386,-1,599,-1,-1",
-                        "endColumns": "-1,-1,-1,103,-1,119,-1,-1",
-                        "endOffsets": "-1,-1,-1,485,-1,714,-1,-1"
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,304,386,490,599,719,813",
+                        "endColumns": "143,104,81,103,108,119,93,70",
+                        "endOffsets": "194,299,381,485,594,714,808,879"
                     },
                     "to": {
                         "startLines": "432,435,436,437,438,439,440,449",
