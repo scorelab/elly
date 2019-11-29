@@ -7,6 +7,53 @@ MobileApp/android/app/google-services.json
 
 MobileApp/android/app/debug.keystore
 
+MobileApp/android/app/my-upload-key.keystore
+
+MobileApp/android/app/build
+
+MobileApp/android/local.properties
+
+MobileApp/android/gradle.properties
+
+MobileApp/package-lock.json
+
+MobileApp/android/*.iml
+MobileApp/android/.idea
+#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+MobileApp/android/.gradle
+MobileApp/android/build/
+MobileApp/android/.navigation
+MobileApp/android/captures/
+MobileApp/android/output.json 
+
+#NDK
+MobileApp/android/obj/
+MobileApp/android/.externalNativeBuild
+
+MobileApp/src/config/config.js
+
+MobileApp/android/*.apk
+MobileApp/android/*.ap_
+
+# files for the dex VM
+MobileApp/android/*.dex
+
+# Java class files
+MobileApp/android/*.class
+
+# generated files
+MobileApp/android/bin/
+MobileApp/android/gen/
+
+# Local configuration file (sdk path, etc)
+MobileApp/android/local.properties
+
+# Windows thumbnail db
+MobileApp/android/Thumbs.db
+
+# OSX files
+MobileApp/android/.DS_Store
+
 # Xcode
 #
 MobileApp/build/
@@ -42,8 +89,8 @@ MobileApp/yarn-error.log
 
 # BUCK
 MobileApp/buck-out/
-MobileApp\.buckd/
-MobileApp/*.keystore
+MobileApp/.buckd/
+MobileApp/android/app/*.keystore
 MobileApp/debug.keystore
 
 # fastlane

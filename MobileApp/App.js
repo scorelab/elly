@@ -14,25 +14,36 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 // import { createDrawerNavigator } from "react-navigation-drawer";
 
 //Screens
-import LoginScreen from './src/Views/LoginScreen/LoginScreen'
-import CameraViewScreen from './src/Views/CameraViewScreen/CameraViewScreen'
-import LandingScreen from './src/Views/LandingScreen/LandingScreen'
-import FormScreen from './src/Views/FormScreen/FormScreen'
-import FeedScreen from './src/Views/FeedScreen/FeedScreen'
-import ProfileScreen from './src/Views/ProfileScreen/ProfileScreen'
-import SearchScreen from './src/Views/SearchScreen/SearchScreen'
-import DiscoverScreen from './src/Views/DiscoverScreen/DiscoverScreen'
-import ShowPhotoScreen from './src/Views/ShowPhotoScreen/ShowPhotoScreen'
-
+import LoginScreen from './src/screens/LoginScreen/LoginScreen'
+import CameraViewScreen from './src/screens/CameraViewScreen/CameraViewScreen'
+import LandingScreen from './src/screens/LandingScreen/LandingScreen'
+import FormScreen from './src/screens/FormScreen/FormScreen'
+import FeedScreen from './src/screens/FeedScreen/FeedScreen'
+import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen'
+import SearchScreen from './src/screens/SearchScreen/SearchScreen'
+import DiscoverScreen from './src/screens/DiscoverScreen/DiscoverScreen'
+import ShowPhotoScreen from './src/screens/ShowPhotoScreen/ShowPhotoScreen'
+import ShowDetailedPhotoScreen from './src/screens/ShowDetailedPhotoScreen/ShowDetailedPhotoScreen'
+import showLocationScreen from './src/screens/ShowLocationScreen/ShowLocationScreen'
+import AboutScreen from './src/screens/AboutScreen/AboutScreen'
 import {Avatar} from 'react-native-paper'
 
+//SignIn stack
 const AuthStack = createStackNavigator({
-  SignIn: LoginScreen
-});
+  SignIn: LoginScreen,
+  
+},
+{
+  mode: 'modal',
+  headerMode: 'none',
+}
+);
 
+//Home stack
 const FeedStack = createStackNavigator({
   FeedScreen: FeedScreen,
-  showPhoto:  ShowPhotoScreen,
+  showDetailedPhoto: ShowDetailedPhotoScreen ,
+  showLocationScreen: showLocationScreen,
 });
 
 const CameraStack = createStackNavigator({
@@ -43,16 +54,24 @@ const CameraStack = createStackNavigator({
 
 const DiscoverStack = createStackNavigator({
   Discover: DiscoverScreen,
+  showDetailedPhoto: ShowDetailedPhotoScreen,
+  showLocationScreen: showLocationScreen
 });
 
 const SearchStack = createStackNavigator({
   Search:  SearchScreen,
+  showDetailedPhoto: ShowDetailedPhotoScreen,
+  showLocationScreen: showLocationScreen
 });
 
 const ProfileStack = createStackNavigator({
   ProfileScreen: ProfileScreen,
+  showDetailedPhoto: ShowDetailedPhotoScreen,
+  showLocationScreen: showLocationScreen,
+  AboutScreen: AboutScreen
 });
 
+//Bottom navigator
 const MainTabs = createMaterialBottomTabNavigator({
   FeedStack: {
     screen: FeedStack,
@@ -99,7 +118,7 @@ const MainTabs = createMaterialBottomTabNavigator({
       ),
     },
   },
-},);
+});
 
 const AppModalStack = createStackNavigator(
   {

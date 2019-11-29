@@ -135,6 +135,8 @@ android {
         multiDexEnabled true
         versionName "1.0"
         missingDimensionStrategy 'react-native-camera', 'general'
+        manifestPlaceholders = [GoogleMapAPIKey:"AIzaSyAzZ0St9RVLUhRW9m6I9A-ULfWmjbycX5g" ]
+
     }
     splits {
         abi {
@@ -145,21 +147,24 @@ android {
         }
     }
     signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-        }
+        // debug {
+        //     signingConfig signingConfigs.debug
+        // }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            //signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -181,14 +186,13 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-fbsdk')
     implementation project(':react-native-maps')
     implementation project(':@react-native-firebase_storage')
-    implementation project(':react-native-fs')
     implementation project(':@react-native-firebase_database')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation project(':@react-native-community_google-signin')
-    implementation project(':react-native-fbsdk')
     implementation project(':@react-native-firebase_app')
     implementation project(':@react-native-firebase_auth')
     implementation project(':@react-native-community_cameraroll')
@@ -206,7 +210,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
 
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation 'com.facebook.android:facebook-core:5.11.2'
     implementation 'com.android.support:multidex:1.0.3'
 
     if (enableHermes) {

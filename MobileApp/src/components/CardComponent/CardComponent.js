@@ -1,70 +1,89 @@
 import * as React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native'
-import { Card, Text,Avatar } from 'react-native-paper';
+import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { Card, Text, Avatar } from 'react-native-paper';
 
 
-class CardComponent extends React.Component{
+class CardComponent extends React.Component {
 
     constructor(props) {
         super(props);
-    
     }
 
     render() {
-        
         return (
             <View style={styles.container}>
-                <Card>
-                    <Card.Title 
-                        title={this.props.title} subtitle={this.props.subtitle} 
-                        left={() => <Avatar.Image size={50} source={{ uri: this.props.user }} />}
-                        // right={() => <Avatar.Icon style={{backgroundColor: 'white'}} size={50} color='black' icon="dots-vertical" />}
+                <Card style={{ borderRadius: 0 }}>
+                    <Card.Title
+                        title={this.props.subtitle} subtitle={this.props.title}
+                        left={() => <Avatar.Image size={40} source={{ uri: this.props.user }} />}
+                        right={() => <Avatar.Icon style={{ backgroundColor: 'white' }} size={35} color='#4b8b3b' icon="shield-check" />}
                     />
-                    <TouchableOpacity
-                        onPress={()=>this.props.showPhoto.navigate('showPhoto',{img: this.props.image})}
-                    >
-                        <Card.Cover style={styles.cover} source={{ uri: this.props.image }} />
-                    </TouchableOpacity>
-                    <Card.Content>
-                        {this.props.content.map((val,i)=>{
-                            return(
-                                <View key={i} style={styles.content}>
-                                    <Avatar.Icon size={35} color='white' icon={val[0]} />
-                                    <Text> {val[1]}</Text>
-                                </View>
+                    {this.props.isNavigate ?
+                        <TouchableOpacity
+                            onPress={() => this.props.showPhoto.navigate('showDetailedPhoto',
+                                {
+                                    img: this.props.image,
+                                    title: this.props.title,
+                                    subtitle: this.props.subtitle,
+                                    user: this.props.user,
+                                    content: this.props.result,
+                                    showPhoto: this.props.navigation
+                                }
                             )
-                            
+                            }
+                        >
+                            <Card.Cover style={styles.cover} source={{ uri: this.props.image }} />
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity>
+                            <Card.Cover style={styles.cover} source={{ uri: this.props.image }} />
+                        </TouchableOpacity>
+                    }
+
+                    <Card.Content>
+                        {this.props.content.map((val, i) => {
+
+                            return (
+                                val[0] === 'map-marker' ?
+                                    <TouchableOpacity
+                                        key={i}
+                                        style={styles.content}
+                                        onPress={() => this.props.showPhoto.navigate('showLocationScreen', { location: val[1] })}
+                                    >
+                                        <Avatar.Icon size={36} color='white' icon={val[0]} />
+                                        <Text> View location</Text>
+                                    </TouchableOpacity>
+                                    :
+                                    <View key={i} style={styles.content}>
+                                        <Avatar.Icon size={36} color='white' icon={val[0]} />
+                                        <Text> {val[1]}</Text>
+                                    </View>
+                            )
+
                         })}
-                        
-                        {/* <View >
-                            <Avatar.Icon size={25} color='white' icon="map-marker" />
-                            <Text> {val[3].toString()}</Text>
-                            
-                        </View> */}
-                            
+
                     </Card.Content>
                     <Card.Actions>
                     </Card.Actions>
                 </Card>
             </View>
-            
+
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 5
+        marginTop: 2,
+        width: Dimensions.get('window').width
     },
     cover: {
-        borderRadius: 5, 
-        margin: 10, 
         height: 300
     },
     content: {
-        marginTop: 5, 
+        marginTop: 5,
         flexDirection: 'row',
-        flexWrap: 'wrap', 
+        flexWrap: 'wrap',
         alignItems: 'center'
     },
 })

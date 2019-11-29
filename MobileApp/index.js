@@ -4,7 +4,7 @@
 import * as React from 'react';
 import {AppRegistry, StatusBar} from 'react-native';
 import App from './App';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import {configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import {name as appName} from './app.json';
 
 const theme = {
@@ -15,6 +15,28 @@ const theme = {
       primary: '#4b8b3b',
       accent: '#f1c40f',
     },
+    fonts: configureFonts(fontConfig),
+};
+
+const fontConfig = {
+  default: {
+    regular: {
+      fontFamily: 'sans-serif',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'sans-serif-medium',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'sans-serif-light',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'sans-serif-thin',
+      fontWeight: 'normal',
+    },
+  },
 };
 
 export default function Main() {
