@@ -15,6 +15,19 @@ MobileApp/android/local.properties
 
 MobileApp/android/gradle.properties
 
+MobileApp/android/*.iml
+MobileApp/android/.idea
+#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+MobileApp/android/.gradle
+MobileApp/android/build/
+MobileApp/android/.navigation
+MobileApp/android/captures/
+MobileApp/android/output.json 
+
+#NDK
+MobileApp/android/obj/
+MobileApp/android/.externalNativeBuild
+
 MobileApp/src/config/config.js
 
 MobileApp/android/*.apk

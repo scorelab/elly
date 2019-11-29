@@ -1,2 +1,0 @@
-# elly
-Elly app
