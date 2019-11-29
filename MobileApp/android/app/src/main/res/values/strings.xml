@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Elly</string>
+    <string name="facebook_app_id">515087955882398</string>
+    <string name="fb_login_protocol_scheme">fb515087955882398</string>
+</resources>
