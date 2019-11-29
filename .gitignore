@@ -1,11 +1,11 @@
 # OSX
 #
-./MobileApp/.DS_Store
+MobileApp/.DS_Store
 
 #google-json
-./MobileApp/android/app/google-services.json
+MobileApp/android/app/google-services.json
 
-./MobileApp/android/app/debug.keystore
+MobileApp/android/app/debug.keystore
 
 MobileApp/android/app/my-upload-key.keystore
 
@@ -14,6 +14,8 @@ MobileApp/android/app/build
 MobileApp/android/local.properties
 
 MobileApp/android/gradle.properties
+
+MobileApp/package-lock.json
 
 MobileApp/android/*.iml
 MobileApp/android/.idea

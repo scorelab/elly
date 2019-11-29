@@ -1,48 +1,47 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import Camera from '../../components/Camera/Camera'
 
-class CameraViewScreen extends React.Component{
+class CameraViewScreen extends React.Component {
     state = {
         dataUri: "",
         snaped: false
     }
 
-    static navigationOptions = ({navigation})=>{
+    static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: 'Photo',
+            headerTitle: 'Take a Snapshot',
             headerStyle: {
-              backgroundColor: '#4b8b3b',
+                backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
-            fontWeight: 'bold',
+                fontWeight: 'bold',
             },
         }
     }
-    
+
     CameracallbackFunction = (childData) => {
-        this.setState({snaped: childData[0], dataUri: childData[1]})
-        if(this.state.snaped){
+        this.setState({ snaped: childData[0], dataUri: childData[1] })
+        if (this.state.snaped) {
             this.setState({
                 snaped: false
             })
-            this.props.navigation.navigate('FormScreenStack', {dataUri: this.state.dataUri})
+            this.props.navigation.navigate('FormScreenStack', { dataUri: this.state.dataUri })
         }
-        
+
     }
 
     render() {
-        const {navigate} = this.props.navigation;
-        //const next_route = navigate('Details', {name: 'Jane'})
+        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <View style={styles.cameraView}>
                     <Camera parentCallback={this.CameracallbackFunction} takePicture={this.state.takePicture} />
-                    
+
                 </View>
             </View>
-            
+
         );
     }
 }

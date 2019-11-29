@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {View, StyleSheet} from 'react-native'
-import { RadioButton, Text,Avatar, Divider, TextInput } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native'
+import { RadioButton, Text, Avatar, Divider, TextInput } from 'react-native-paper';
 
-class RadioButtonGroupVertical extends React.Component{
+class RadioButtonGroupVertical extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             feild: 0,
         }
     }
@@ -25,17 +25,17 @@ class RadioButtonGroupVertical extends React.Component{
     render() {
         return (
             <View style={styles.container}>
-                <View style={{flexDirection: 'row',alignItems: 'center'}}>
-                <Avatar.Icon size={45} color='white' icon="comment-question" />
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Avatar.Icon size={45} color='white' icon="comment-question" />
                     <Text style={styles.title}>{this.props.title} </Text>
                 </View>
-                <View style={{marginLeft: 10}}>
+                <View style={{ marginLeft: 10 }}>
                     <RadioButton.Group
                         onValueChange={value => this.radioButtonOnChangeHandler(value)}
                         value={this.state.feild}
                     >
-                        {this.props.values.map((val, i)=>{
-                            return  (
+                        {this.props.values.map((val, i) => {
+                            return (
                                 <View key={i} style={styles.buttonContainer}>
                                     <RadioButton value={i} />
                                     <Text>{val}</Text>
@@ -50,11 +50,11 @@ class RadioButtonGroupVertical extends React.Component{
     }
 }
 
-class RadioButtonGroupHorizontal extends React.Component{
+class RadioButtonGroupHorizontal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             feild: 0,
             type: this.props.type
         }
@@ -64,7 +64,7 @@ class RadioButtonGroupHorizontal extends React.Component{
         this.props.parentCallback([this.state.feild, this.state.type]);
     }
 
-    radioButtonOnChangeHandler = (value)=> {
+    radioButtonOnChangeHandler = (value) => {
         this.setState({ feild: value })
         this.sendData()
     }
@@ -79,9 +79,9 @@ class RadioButtonGroupHorizontal extends React.Component{
                         onValueChange={value => this.radioButtonOnChangeHandler(value)}
                         value={this.state.feild}
                     >
-                        {this.props.values.map((val, i)=>{
-                            
-                            return  (
+                        {this.props.values.map((val, i) => {
+
+                            return (
                                 <View key={i} style={styles.buttonContainer}>
                                     <Text>{val}</Text>
                                     <RadioButton value={i} />
@@ -96,11 +96,11 @@ class RadioButtonGroupHorizontal extends React.Component{
     }
 }
 
-class TextInputGroupHorizontal extends React.Component{
+class TextInputGroupHorizontal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             feild: '',
             type: this.props.type
         }
@@ -110,7 +110,7 @@ class TextInputGroupHorizontal extends React.Component{
         this.props.parentCallback([value, this.props.type]);
     }
 
-    textInputOnChangeHandler = (value)=> {
+    textInputOnChangeHandler = (value) => {
         this.setState({ feild: value })
         this.sendData(value)
     }
@@ -127,10 +127,10 @@ class TextInputGroupHorizontal extends React.Component{
                         value={this.state.feild}
                         onChangeText={text => this.textInputOnChangeHandler(text)}
                         mode='outlined'
-                        style={{width: '100%'}}
+                        style={{ width: '100%' }}
                         multiline
-                        keyboardType={this.props.isNumeric?'phone-pad':'default'}
-                        placeholder={this.props.isNumeric?'Numerical response':'Write something'}
+                        keyboardType={this.props.isNumeric ? 'phone-pad' : 'default'}
+                        placeholder={this.props.isNumeric ? 'Numerical response' : 'Write something'}
                     />
                 </View>
                 <Divider />
@@ -139,11 +139,11 @@ class TextInputGroupHorizontal extends React.Component{
     }
 }
 
-class UneditableComponent extends React.Component{
+class UneditableComponent extends React.Component {
 
     constructor(props) {
         super(props);
-    
+
     }
     render() {
         return (
@@ -151,18 +151,18 @@ class UneditableComponent extends React.Component{
                 <View style={styles.uneditableComponent}>
                     <Avatar.Icon size={45} color='white' icon={this.props.icon} />
                     {/* <Text style={styles.title}>{this.props.title} </Text> */}
-                    <Text style={styles.title}>{this.props.values.map((val, i)=>{return <Text key={i}>{val.toString()} </Text>})}</Text>
+                    <Text style={styles.title}>{this.props.values.map((val, i) => { return <Text key={i}>{val.toString()} </Text> })}</Text>
                 </View>
                 <Divider />
             </View>
-            
+
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginLeft: 10, 
+        marginLeft: 10,
         marginTop: 10,
         justifyContent: 'center'
     },
@@ -188,11 +188,11 @@ const styles = StyleSheet.create({
     },
     uneditableComponent: {
         flexDirection: 'row',
-        alignItems: 'center', 
-        marginLeft: 10, 
+        alignItems: 'center',
+        marginLeft: 10,
         marginTop: 10,
     }
 })
 
-export {RadioButtonGroupVertical, RadioButtonGroupHorizontal, TextInputGroupHorizontal, UneditableComponent};
+export { RadioButtonGroupVertical, RadioButtonGroupHorizontal, TextInputGroupHorizontal, UneditableComponent };
 

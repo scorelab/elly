@@ -1,46 +1,48 @@
 import * as React from 'react';
-import {View,Text, StyleSheet,Image, Dimensions, ImageBackground} from 'react-native'
-import {facebookLogin} from '../../components/FaceBookLogin/FaceBookLogin'
-import {googleLogin} from '../../components/GoogleLogin/GoogleLogin'
+import { View, Text, StyleSheet, Image, Dimensions, ImageBackground } from 'react-native'
+import { facebookLogin } from '../../components/FaceBookLogin/FaceBookLogin'
+import { googleLogin } from '../../components/GoogleLogin/GoogleLogin'
 import Icon from 'react-native-vector-icons/FontAwesome';
-class LoginScreen extends React.Component{
-    
-    static navigationOptions = ({navigation})=>{
+import {COVER, LOGO} from '../../images/index'
+
+class LoginScreen extends React.Component {
+
+    static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: 'Sign In',
             headerStyle: {
-              backgroundColor: '#4b8b3b',
+                backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
-            fontWeight: 'bold',
+                fontWeight: 'bold',
             },
         }
     }
 
-    constructor(props){
+    constructor(props) {
         super(props)
     }
 
-    facebookLoginBtnHandler = (navigate) =>{
+    facebookLoginBtnHandler = (navigate) => {
         facebookLogin(navigate)
     }
 
     GoogleLoginBtnHandler = (navigate) => {
-        googleLogin(navigate)        
+        googleLogin(navigate)
     }
 
     render() {
-        const {navigate} = this.props.navigation;
+        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <ImageBackground
-                    source={require('../../Assets/cover.jpg')}
+                    source={COVER}
                     style={styles.imgConatiner}
                 >
-                    <View style={{height: 400, borderRadius: 50,backgroundColor: 'rgba(0, 0, 0, 0.2)', padding: 20, width: Dimensions.get('window').width-40}}>
+                    <View style={styles.logoBtnCntner}>
                         <View style={styles.logoIconContainer}>
-                            <Image source={require('../../Assets/landing2W.png')} style={styles.logo}/>
+                            <Image source={LOGO} style={styles.logo} />
                             <Text style={styles.logoText}>Elly</Text>
                         </View>
                         <View style={styles.btnContainer}>
@@ -65,11 +67,11 @@ class LoginScreen extends React.Component{
                         </View>
 
                     </View>
-                    
+
                 </ImageBackground>
-                
+
             </View>
-            
+
         );
     }
 }
@@ -86,11 +88,11 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     btn: {
-        width: Dimensions.get('window').width-80,
+        width: Dimensions.get('window').width - 80,
         height: 60,
     },
     logoIconContainer: {
-        justifyContent: 'center', 
+        justifyContent: 'center',
         alignItems: "center",
         marginBottom: 25
     },
@@ -110,13 +112,20 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         alignItems: 'center',
         marginBottom: 20
-      },
-    imgConatiner:{
+    },
+    imgConatiner: {
         width: Dimensions.get('window').width,
         justifyContent: 'center',
         alignItems: 'center',
         height: Dimensions.get('window').height,
     },
+    logoBtnCntner: {
+        height: 400,
+        borderRadius: 50,
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        padding: 20,
+        width: Dimensions.get('window').width - 40
+    }
 })
 export default LoginScreen;
 

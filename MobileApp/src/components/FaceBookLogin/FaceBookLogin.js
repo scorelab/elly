@@ -7,8 +7,8 @@ export async function facebookLogin(navigate) {
     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
     if (result.isCancelled) {
-        // throw new Error('User cancelled the login process');
-        return
+      // throw new Error('User cancelled the login process');
+      return
     }
 
     console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
@@ -17,7 +17,7 @@ export async function facebookLogin(navigate) {
     const data = await AccessToken.getCurrentAccessToken();
 
     if (!data) {
-        throw new Error('Something went wrong obtaining access token');
+      throw new Error('Something went wrong obtaining access token');
     }
 
     // create a new firebase credential with the token
@@ -30,13 +30,13 @@ export async function facebookLogin(navigate) {
     const name = firebaseUserCredential.user.toJSON().displayName
     const email = firebaseUserCredential.user.toJSON().email
     const photo = firebaseUserCredential.user.toJSON().photoURL
-    
+
     const ref = database().ref('/users/').child(uid);
     const snapshot = await ref.once('value')
-    
-    if(snapshot.val()!==null){
+
+    if (snapshot.val() !== null) {
       navigate('App')
-    }else{
+    } else {
       await ref.set({
         name: name,
         email: email,
@@ -46,6 +46,6 @@ export async function facebookLogin(navigate) {
       navigate('App')
     }
   } catch (e) {
-        console.error(e);
+    console.error(e);
   }
 }

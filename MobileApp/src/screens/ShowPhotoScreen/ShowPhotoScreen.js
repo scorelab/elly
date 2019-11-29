@@ -1,48 +1,48 @@
 import * as React from 'react';
-import {View, StyleSheet, PermissionsAndroid, Dimensions, Image} from 'react-native'
+import { View, StyleSheet, PermissionsAndroid, Dimensions, Image } from 'react-native'
 
-class ShowPhotoScreen extends React.Component{
+class ShowPhotoScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = { photos: [] };
     }
 
-    static navigationOptions = ({navigation})=>{
-        const {params=[]} = navigation.state
+    static navigationOptions = ({ navigation }) => {
+        const { params = [] } = navigation.state
         return {
             headerTitle: 'Snapshot',
             headerStyle: {
-              backgroundColor: '#4b8b3b',
+                backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
-            fontWeight: 'bold',
+                fontWeight: 'bold',
             },
         }
     }
 
     requestStoragePermission = async function () {
         try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            return true
-            
-          } else {
-            return false
-          }
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                return true
+
+            } else {
+                return false
+            }
         } catch (err) {
-          //console.warn(err);
-          return false
+            //console.warn(err);
+            return false
         }
     }
 
     render() {
         return (
             <View style={styles.container}>
-                {this.state.photos!==""?
-                    <View style={{flex: 1}}>
+                {this.state.photos !== "" ?
+                    <View style={{ flex: 1 }}>
                         <Image
                             style={{
                                 flex: 1,
@@ -53,11 +53,11 @@ class ShowPhotoScreen extends React.Component{
                             source={{ uri: this.props.navigation.getParam('img') }}
                         />
                     </View>
-                :
+                    :
                     <View></View>
                 }
             </View>
-            
+
         );
     }
 }

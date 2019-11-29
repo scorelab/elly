@@ -14,20 +14,21 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 // import { createDrawerNavigator } from "react-navigation-drawer";
 
 //Screens
-import LoginScreen from './src/Views/LoginScreen/LoginScreen'
-import CameraViewScreen from './src/Views/CameraViewScreen/CameraViewScreen'
-import LandingScreen from './src/Views/LandingScreen/LandingScreen'
-import FormScreen from './src/Views/FormScreen/FormScreen'
-import FeedScreen from './src/Views/FeedScreen/FeedScreen'
-import ProfileScreen from './src/Views/ProfileScreen/ProfileScreen'
-import SearchScreen from './src/Views/SearchScreen/SearchScreen'
-import DiscoverScreen from './src/Views/DiscoverScreen/DiscoverScreen'
-import ShowPhotoScreen from './src/Views/ShowPhotoScreen/ShowPhotoScreen'
-import ShowDetailedPhotoScreen from './src/Views/ShowDetailedPhotoScreen/ShowDetailedPhotoScreen'
-import showLocationScreen from './src/Views/ShowLocationScreen/ShowLocationScreen'
-import AboutScreen from './src/Views/AboutScreen/AboutScreen'
+import LoginScreen from './src/screens/LoginScreen/LoginScreen'
+import CameraViewScreen from './src/screens/CameraViewScreen/CameraViewScreen'
+import LandingScreen from './src/screens/LandingScreen/LandingScreen'
+import FormScreen from './src/screens/FormScreen/FormScreen'
+import FeedScreen from './src/screens/FeedScreen/FeedScreen'
+import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen'
+import SearchScreen from './src/screens/SearchScreen/SearchScreen'
+import DiscoverScreen from './src/screens/DiscoverScreen/DiscoverScreen'
+import ShowPhotoScreen from './src/screens/ShowPhotoScreen/ShowPhotoScreen'
+import ShowDetailedPhotoScreen from './src/screens/ShowDetailedPhotoScreen/ShowDetailedPhotoScreen'
+import showLocationScreen from './src/screens/ShowLocationScreen/ShowLocationScreen'
+import AboutScreen from './src/screens/AboutScreen/AboutScreen'
 import {Avatar} from 'react-native-paper'
 
+//SignIn stack
 const AuthStack = createStackNavigator({
   SignIn: LoginScreen,
   
@@ -38,6 +39,7 @@ const AuthStack = createStackNavigator({
 }
 );
 
+//Home stack
 const FeedStack = createStackNavigator({
   FeedScreen: FeedScreen,
   showDetailedPhoto: ShowDetailedPhotoScreen ,
@@ -67,8 +69,9 @@ const ProfileStack = createStackNavigator({
   showDetailedPhoto: ShowDetailedPhotoScreen,
   showLocationScreen: showLocationScreen,
   AboutScreen: AboutScreen
-},);
+});
 
+//Bottom navigator
 const MainTabs = createMaterialBottomTabNavigator({
   FeedStack: {
     screen: FeedStack,
@@ -115,7 +118,7 @@ const MainTabs = createMaterialBottomTabNavigator({
       ),
     },
   },
-},);
+});
 
 const AppModalStack = createStackNavigator(
   {

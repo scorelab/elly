@@ -1,36 +1,36 @@
 import * as React from 'react';
-import {View, StyleSheet, Image, Dimensions} from 'react-native'
+import { View, StyleSheet, Image, Dimensions } from 'react-native'
 import auth from '@react-native-firebase/auth';
-
-class LandingScreen extends React.Component{
+import {LOGO} from '../../images/index'
+class LandingScreen extends React.Component {
     componentDidMount() {
         const user = auth().currentUser
 
-        if(user!==null){
+        if (user !== null) {
             this._interval = setInterval(() => {
                 this.props.navigation.navigate('App')
             }, 2000);
-        }else{
+        } else {
             this._interval = setInterval(() => {
                 this.props.navigation.navigate('SignIn')
             }, 2000);
         }
-        
-       
-        
-      }
 
-      
-      componentWillUnmount() {
+
+
+    }
+
+
+    componentWillUnmount() {
         clearInterval(this._interval);
-      }
+    }
 
     render() {
         return (
             <View style={styles.container}>
-                <Image style={{width: 80, height: 58}} source={require('../../Assets/landing2W.png')}/>
+                <Image style={{ width: 80, height: 58 }} source={LOGO} />
             </View>
-            
+
         );
     }
 }
