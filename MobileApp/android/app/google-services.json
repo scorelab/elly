@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "228779869496-06c2s1651jhjqjj6l5srsqgu9jht0i3u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elly",
+            "certificate_hash": "330ac3265e17cbd92bb63cc5816f042b27c91752"
+          }
+        },
+        {
           "client_id": "228779869496-55hqj8t8bfkhfvnq5e3c9p2qomhf8sdc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
