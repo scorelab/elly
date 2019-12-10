@@ -121,6 +121,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -131,12 +132,12 @@ android {
         applicationId "com.elly"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 3
         multiDexEnabled true
         versionName "1.0"
         missingDimensionStrategy 'react-native-camera', 'general'
         manifestPlaceholders = [GoogleMapAPIKey:"AIzaSyAzZ0St9RVLUhRW9m6I9A-ULfWmjbycX5g" ]
-
+        resConfigs "en"
     }
     splits {
         abi {
@@ -164,6 +165,7 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             //signingConfig signingConfigs.debug
+            multiDexKeepFile file('multidex-config.txt')
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
