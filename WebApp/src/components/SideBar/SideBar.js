@@ -1,24 +1,20 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import CheckBoxRounded from '@material-ui/icons/CheckBoxRounded';
-import InfoRounded from '@material-ui/icons/InfoRounded';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  NavLink
 } from "react-router-dom";
-
-
-import Pending from '../../containers/pending/Pending';
-import Approved from '../../containers/Approved/Approved';
-import { Divider } from '@material-ui/core';
+import Pending from "../../containers/pending/Pending";
+import Approved from "../../containers/Approved/Approved";
 
 const drawerWidth = 240;
 
@@ -26,13 +22,56 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    whiteSpace: "nowrap"
   },
   drawerPaper: {
     width: drawerWidth,
-
-    marginTop: 57
+    marginTop: -8
   },
   toolbar: theme.mixins.toolbar,
+  root: {
+    display: "flex"
+  },
+  menuButton: {
+    marginRight: 36
+  },
+  hide: {
+    display: "none"
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap"
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  drawerClose: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1
+    }
+  },
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  }
 }));
 
 const routes = [
@@ -50,64 +89,65 @@ const routes = [
 
 export const SideBar = () => {
   const classes = useStyles();
-  return <Router>
-    <div style={{ display: "flex" }}>
-      <div>
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <List component={'nav'} aria-label="main mailbox folders">
-            <ListItem style={{backgroundColor: 'green', color:'white'}} component={Link}  to={"/home/approved"} key={'approved'}>
-              <ListItemAvatar>
-                <Avatar>
-                  <CheckBoxRounded style={{backgroundColor: 'green', color:'white'}}/>
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={'APPROVED'} />
-            </ListItem>
-            <Divider/>
-            <ListItem style={{backgroundColor: 'green', color:'white'}} component={Link} to={"/home/pending"} key={'pending'}>
-              <ListItemAvatar>
-                <Avatar>
-                  <InfoRounded style={{backgroundColor: 'green', color:'white'}}/>
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={'PENDING'} />
-            </ListItem>
-          </List>
-        </Drawer>
 
-        <Switch>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              children={<route.sidebar />}
-            />
-          ))}
-        </Switch>
+  return (
+    <Router>
+      <div style={{ display: "flex" }}>
+        <div>
+          <Drawer
+            className={classes.drawer}
+            variant="permanent"
+            classes={{
+              paper: classes.drawerPaper
+            }}
+          >
+            <div className={classes.toolbar} />
+            <List>
+              <ListItem
+                button
+                component={NavLink}
+                to={"/home/approved"}
+                selected={false}
+              >
+                <ListItemIcon>
+                  <DoneAllIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Approved"} />
+              </ListItem>
+              <ListItem button component={NavLink} to={"/home/pending"}>
+                <ListItemIcon>
+                  <HourglassEmptyIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Pending"} />
+              </ListItem>
+            </List>
+          </Drawer>
+
+          <Switch>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.sidebar />}
+              />
+            ))}
+          </Switch>
+        </div>
+
+        <div style={{ flex: 1, padding: "10px" }}>
+          <Switch>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.main />}
+              />
+            ))}
+          </Switch>
+        </div>
       </div>
-
-      <div style={{ flex: 1, padding: "10px" }}>
-        <Switch>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              children={<route.main />}
-            />
-          ))}
-        </Switch>
-
-      </div>
-    </div>
-  </Router>
-
-
-}
+    </Router>
+  );
+};

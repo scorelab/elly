@@ -1,17 +1,14 @@
 import React from "react";
-import {
-  BrowserRouter as Router, 
-  Switch,
-  Route,
-} from "react-router-dom";
-import NotFoundPage from './containers/notFound/NotFoundPage';
-import LoginPage from './containers/login/LoginPage';
-import Home from './containers/home/Home';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import NotFoundPage from "./containers/notFound/NotFoundPage";
+import LoginPage from "./containers/login/LoginPage";
+import Home from "./containers/home/Home";
+import "./index.css";
 
 export default function App() {
   return (
     <Router>
-    <Switch>
+      <Switch>
         <Route exact path="/">
           <LoginPage />
         </Route>
@@ -19,11 +16,9 @@ export default function App() {
           <Home />
         </Route>
         <Route path="*">
-          <NotFoundPage/>
+          <NotFoundPage />
         </Route>
       </Switch>
-  </Router>
-     
-
+    </Router>
   );
 }
