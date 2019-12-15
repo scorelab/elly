@@ -12,7 +12,7 @@ const theme = {
     roundness: 10,
     colors: {
       ...DefaultTheme.colors,
-      primary: '#4b8b3b',
+      primary: '#0b6623',
       accent: '#f1c40f',
     },
     fonts: configureFonts(fontConfig),
@@ -21,19 +21,19 @@ const theme = {
 const fontConfig = {
   default: {
     regular: {
-      fontFamily: 'sans-serif',
+      fontFamily: 'ProximaNova-Regular',
       fontWeight: 'normal',
     },
     medium: {
-      fontFamily: 'sans-serif-medium',
+      fontFamily: 'Proxima Nova Alt Thin',
       fontWeight: 'normal',
     },
     light: {
-      fontFamily: 'sans-serif-light',
+      fontFamily: 'Proxima Nova Alt Light',
       fontWeight: 'normal',
     },
     thin: {
-      fontFamily: 'sans-serif-thin',
+      fontFamily: 'Proxima Nova Thin',
       fontWeight: 'normal',
     },
   },
@@ -42,7 +42,7 @@ const fontConfig = {
 export default function Main() {
     return (
       <PaperProvider theme={theme}>
-        <StatusBar backgroundColor="#4b8b3b" barStyle="light-content" />
+        <StatusBar backgroundColor="#006400" barStyle="light-content" />
         <App />
       </PaperProvider>
     );

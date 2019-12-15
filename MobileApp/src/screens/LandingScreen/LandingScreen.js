@@ -28,7 +28,7 @@ class LandingScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image style={{ width: 80, height: 58 }} source={LOGO} />
+                <Image style={{ width: 60, height: 46, resizeMode: 'stretch' }} source={LOGO} />
             </View>
 
         );
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#4b8b3b',
+        backgroundColor: '#0b6623',
         width: Dimensions.get('window').width
     },
     welcome: {

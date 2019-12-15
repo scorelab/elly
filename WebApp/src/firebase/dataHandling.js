@@ -1,6 +1,8 @@
 export function generateResult(data) {
     let result = []
+    result.push(['map-marker', data.address.toString()])
     result.push(['map-marker', data.location.toString()])
+    
     let time = new Date(data.time)
     time = time.toString().split(" ")
     time = time.splice(0, time.length - 3)

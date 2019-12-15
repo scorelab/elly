@@ -12,12 +12,9 @@ class CameraViewScreen extends React.Component {
         return {
             headerTitle: 'Take a Snapshot',
             headerStyle: {
-                backgroundColor: '#4b8b3b',
+                backgroundColor: '#0b6623',
             },
             headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
         }
     }
 
@@ -27,6 +24,7 @@ class CameraViewScreen extends React.Component {
             this.setState({
                 snaped: false
             })
+            console.log(this.state.dataUri)
             this.props.navigation.navigate('FormScreenStack', { dataUri: this.state.dataUri })
         }
 

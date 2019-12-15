@@ -14,17 +14,15 @@ class ShowDetailedPhotoScreen extends React.Component {
         return {
             headerTitle: 'Observation',
             headerStyle: {
-                backgroundColor: '#4b8b3b',
+                backgroundColor: '#0b6623',
             },
             headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
         }
     }
 
 
     render() {
+        console.log(this.props.navigation.getParam('content'))
         return (
             <View style={styles.container}>
                 <ScrollView>

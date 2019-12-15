@@ -4,23 +4,22 @@ import ReviewCard from '../../components/ReviewCard/ReviewCard';
 import firebase from 'firebase/app'
 import PageHeader from '../../components/pageHeader/PageHeader'
 import ObservationDialog from '../../components/ObservationDialog/ObservationDialog'
-class Pending extends React.Component {
+class Rejected extends React.Component {
   constructor(props){
     super(props)
     this.state={
       observations: [],
-      month: [],
       showModal: false,
       item: 0
     }
   }
   componentDidMount(){
-    firebase.database().ref("usersObservations").orderByKey().on("value", snapshot => {
+    firebase.database().ref("usersObservations").on("value", snapshot => {
       const result = snapshot.val()
       let observations = []
       for(let i in result){
         console.log(result[i].verified)
-        if(result[i].verified!=='pending'){
+        if(result[i].verified!=='rejected'){
           continue
         }
         let user = result[i].uname
@@ -38,7 +37,6 @@ class Pending extends React.Component {
       console.log(observations)
     })
   }
-
   reviewCard = (child)=>{
     this.setState({
       showModal: child[0],
@@ -59,10 +57,11 @@ class Pending extends React.Component {
     })
     
   };
+
   render(){
     return (
       <div style={{marginTop:60, width: '100%' }}>
-          <PageHeader title={'Pending Observations'} subtitle={''}/>
+          <PageHeader title={'Rejected Observations'} subtitle={''}/>
           <div style={{ display: 'inline-flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
             {this.state.observations.map((ob,i)=>{
               let component = []
@@ -113,4 +112,4 @@ class Pending extends React.Component {
   
 };
 
-export default Pending;
+export default Rejected;

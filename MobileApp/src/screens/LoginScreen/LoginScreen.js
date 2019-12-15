@@ -4,7 +4,9 @@ import { facebookLogin } from '../../components/FaceBookLogin/FaceBookLogin'
 import { googleLogin } from '../../components/GoogleLogin/GoogleLogin'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {COVER, LOGO} from '../../images/index'
-
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+import { generateUUID } from '../../components/UserDataHandling/UserDataHandling';
 class LoginScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -14,22 +16,58 @@ class LoginScreen extends React.Component {
                 backgroundColor: '#4b8b3b',
             },
             headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
         }
     }
 
     constructor(props) {
         super(props)
+        this.state={
+            signFb: false,
+            signGoogle: false,
+            signPhone: false,
+        }
+    }
+
+    componentDidMount(){
+        if(!this.state.signPhone){
+            auth().onAuthStateChanged(async user => {
+                if (user) {
+                    const uid = user.uid;
+                    const ref = database().ref('/users/').child(uid);
+                    
+                    const name = user.displayName!==null?user.displayName:''
+                    const email = user.email!==null?user.email:''
+                    const photo = user.photoURL!==null?user.photoURL:''
+                    const phone = user.phoneNumber!==null?user.phoneNumber:''
+    
+                    await ref.set({
+                        name: name,
+                        email: email,
+                        photo: photo,
+                        phone: phone,
+                        profile: 'user'
+                    });
+    
+                    this.props.navigation.navigate('App')
+                }
+            });
+        }
+        
     }
 
     facebookLoginBtnHandler = (navigate) => {
+        this.setState({signFb: true})
         facebookLogin(navigate)
     }
 
     GoogleLoginBtnHandler = (navigate) => {
+        this.setState({signGoogle: true})
         googleLogin(navigate)
+    }
+
+    phoneLoginBtnHandler = ()=>{
+        this.setState({signPhone: true})
+        this.props.navigation.navigate('Phone')
     }
 
     render() {
@@ -65,6 +103,16 @@ class LoginScreen extends React.Component {
                                 Login with Google
                             </Icon.Button>
                         </View>
+                        <View style={styles.btnContainer}>
+                            <Icon.Button
+                                style={styles.btn}
+                                name="phone"
+                                backgroundColor="grey"
+                                onPress={() => this.phoneLoginBtnHandler()}
+                            >
+                                Login with Phone Number
+                            </Icon.Button>
+                        </View>
 
                     </View>
 
@@ -85,7 +133,10 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width
     },
     btnContainer: {
-        marginBottom: 8,
+        padding: 3,
+        marginBottom: 3,
+        backgroundColor: 'white',
+        borderRadius: 10
     },
     btn: {
         width: Dimensions.get('window').width - 80,
@@ -122,7 +173,7 @@ const styles = StyleSheet.create({
     logoBtnCntner: {
         height: 400,
         borderRadius: 50,
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        // backgroundColor: 'rgba(0, 0, 0, 0.2)',
         padding: 20,
         width: Dimensions.get('window').width - 40
     }

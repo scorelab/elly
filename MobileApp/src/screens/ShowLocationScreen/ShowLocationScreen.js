@@ -14,12 +14,9 @@ class ShowLocationScreen extends React.Component {
         return {
             headerTitle: 'Observation',
             headerStyle: {
-                backgroundColor: '#4b8b3b',
+                backgroundColor: '#0b6623',
             },
             headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
         }
     }
 
