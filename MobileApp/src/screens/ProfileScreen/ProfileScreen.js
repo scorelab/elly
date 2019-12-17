@@ -100,12 +100,11 @@ class ProfileScreen extends React.Component {
 
     getUserProfile = async () =>{
         const user = auth().currentUser
-        const data = await database().ref(`/users/${user.uid}`).once('value')
-        const val = data.val()
+        console.log(user)
         this.setState({
-            userName: val.name,
-            userNick: val.name.toLowerCase().replace(/ /g, ''),
-            userPhoto: val.photo,
+            userName: user.displayName,
+            userNick: user.displayName.toLowerCase().replace(/ /g, ''),
+            userPhoto: user.photoURL,
             uid: user.uid
         })
     }
@@ -207,17 +206,29 @@ class ProfileScreen extends React.Component {
                     </View>
                     :
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <ImageBackground blurRadius={1} style={styles.profileConatiner} source={{ uri: this.state.userPhoto }}>
-                            <Text style={styles.userNick}>{this.state.userNick}</Text>
-                            
-                            <Avatar.Image
-                                style={{ marginLeft: 5, marginRight: 0, padding: 0 }}
-                                size={100} source={{ uri: this.state.userPhoto }}
-                            />
-                            <Text style={styles.userName}>{this.state.userName}</Text>
-                            <Button mode='contained' style={styles.observationTxt}>Observations</Button>
-                            <Text style={styles.obCount}>{this.state.noObs}</Text>
-                        </ImageBackground>
+                        {this.state.userPhoto!==null?
+                            <ImageBackground blurRadius={1} style={styles.profileConatiner} source={{ uri: this.state.userPhoto }}>
+                                <Text style={styles.userNick}>{this.state.userNick}</Text>
+                                
+                                <Avatar.Image
+                                    style={{ marginLeft: 5, marginRight: 0, padding: 0 }}
+                                    size={100} source={{ uri: this.state.userPhoto }}
+                                />
+                                <Text style={styles.userName}>{this.state.userName}</Text>
+                                <Button mode='contained' style={styles.observationTxt}>Observations</Button>
+                                <Text style={styles.obCount}>{this.state.noObs}</Text>
+                            </ImageBackground>
+                        :
+                            <View style={styles.profileConatiner}>
+                                <Text style={styles.userNick}>{this.state.userNick}</Text>
+                                <Avatar.Text color={'white'} size={100} label={this.state.userName.substr(0,2).toUpperCase()} />
+                                <Text style={styles.userName}>{this.state.userName}</Text>
+                                <Button mode='contained' style={styles.observationTxt}>Observations</Button>
+                                <Text style={styles.obCount}>{this.state.noObs}</Text>
+                            </View>
+                        }
+                       
+                        
                         {this.state.userObservations.length > 0
                             ?
                             <FlatList

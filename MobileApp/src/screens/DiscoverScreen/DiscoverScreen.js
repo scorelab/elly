@@ -35,11 +35,7 @@ class DiscoverScreen extends React.Component {
 
     componentDidMount() {
         this.findCoordinates()
-        // database().ref('/users/').on("value", snapshot=>{
-        //     this.getObservations()
-        // })
         this.getObservations()
-
     }
 
     getObservations = async function () {
@@ -95,6 +91,9 @@ class DiscoverScreen extends React.Component {
                 PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                await this.setState({
+                    locationPermission: true
+                })
                 await Geolocation.getCurrentPosition(
                     position => {
                         const initialPosition = position;
@@ -158,7 +157,7 @@ class DiscoverScreen extends React.Component {
                                         showPhoto: this.props.navigation
                                     }
                                 )}
-                            // image={require('../../Assets/landing2WS.png')}
+                            // image={require('../../images/landing2W.png')}
                             />
                         ))}
                     </MapView>

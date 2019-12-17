@@ -21,10 +21,15 @@ class FeedScreen extends React.Component {
             headerRight: () => <TouchableOpacity
                 onPress={() => navigation.navigate("Profile")}
             >
-                <Avatar.Image
-                    style={{ marginRight: 5, padding: 0 }}
-                    size={35} source={{ uri: params.userPhoto }}
-                />
+                {params.userPhoto!==null?
+                    <Avatar.Image
+                        style={{ marginRight: 5, padding: 0 }}
+                        size={35} source={{ uri: params.userPhoto }}
+                    />
+                :
+                    <Avatar.Text size={35} style={{ marginRight: 5, padding: 0,backgroundColor: 'white' }} label={params.userName.substr(0,2).toUpperCase()} />
+                }
+                
             </TouchableOpacity>,
         }
     }
@@ -40,21 +45,17 @@ class FeedScreen extends React.Component {
 
     componentDidMount() {
         this.getUserData()
-        // database().ref('/users/').on("value", snapshot=>{
-        //     this.getObservations()
-        // })
         this.getObservations()
     }
 
     getUserData = async function () {
         // Fetch the data snapshot
-        const uid = auth().currentUser.uid;
-        const refUser = database().ref(`/users/${uid}`);
-        const snapshot = await refUser.once('value');
-        await this.props.navigation.setParams({
-            userPhoto: snapshot.val().photo
+        const user = auth().currentUser;
+        console.log(user)
+        this.props.navigation.setParams({
+            userPhoto: user.photoURL,
+            userName: user.displayName
         })
-        // console.log(snapshot.val().photo)
     }
 
     getObservations = async() =>{

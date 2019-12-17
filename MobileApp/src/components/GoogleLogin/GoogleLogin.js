@@ -1,7 +1,6 @@
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { firebase } from '@react-native-firebase/auth';
 import { webClientID, playAndroidClientID } from '../../config/config'
-import { Alert } from 'react-native'
 
 // Calling this function will open Google for login.
 export async function googleLogin(navigate) {
@@ -53,39 +52,19 @@ export async function googleLogin(navigate) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       // user cancelled the login flow
       console.log(error.code + ": " + error.message + "user cancelled the login flow")
-      Alert.alert(
-        error.code,
-        error.message,
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
-        { cancelable: false },
-      );
+      
     } else if (error.code === statusCodes.IN_PROGRESS) {
       // operation (e.g. sign in) is in progress already
       console.log(error.code + ": " + error.message + "operation (e.g. sign in) is in progress already")
-      Alert.alert(
-        error.code,
-        error.message,
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
-        { cancelable: false },
-      );
+     
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
       // play services not available or outdated
       console.log(error.code + ": " + error.message + "play services not available or outdated")
-      Alert.alert(
-        error.code,
-        error.message,
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
-        { cancelable: false },
-      );
+      
     } else {
       // some other error happened
       console.log(error.code + ": " + error.message + "some other error happened")
-      Alert.alert(
-        error.code,
-        error.message,
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') },],
-        { cancelable: false },
-      );
+     
     }
   }
 }
