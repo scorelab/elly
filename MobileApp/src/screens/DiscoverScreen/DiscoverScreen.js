@@ -3,10 +3,10 @@ import { View, StyleSheet, PermissionsAndroid, } from 'react-native'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
-import { generateResult } from '../../components/UserDataHandling/UserDataHandling'
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 import { NavigationEvents } from 'react-navigation'
-import { ref } from '../../components/Database/Database'
+import database from '@react-native-firebase/database';
+import { generateResult } from '../../components/UserDataHandling/UserDataHandling';
 
 var MapStyle = require('../../config/map.json')
 
@@ -16,12 +16,9 @@ class DiscoverScreen extends React.Component {
         return {
             headerTitle: 'Explore Near By',
             headerStyle: {
-                backgroundColor: '#4b8b3b',
+                backgroundColor: '#0b6623',
             },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
+            headerTintColor: 'white',
         }
     }
 
@@ -38,54 +35,54 @@ class DiscoverScreen extends React.Component {
 
     componentDidMount() {
         this.findCoordinates()
+        // database().ref('/users/').on("value", snapshot=>{
+        //     this.getObservations()
+        // })
         this.getObservations()
 
     }
 
     getObservations = async function () {
         // Fetch the data snapshot
-        const snapshot = await ref.once('value');
-
-        const val = snapshot.val()
+        const data = await database().ref(`/usersObservations/`).once('value')
+        console.log(data)
+        const val = data.val()
 
         let observations = []
-
+        console.log(val[0])
         for (let i in val) {
-            let name = val[i].name
-            let photo = val[i].photo
-            let userNick = val[i].name.toLowerCase().replace(/ /g, '')
-            let obs = val[i].observations
-
-            if (obs !== undefined) {
-                for (let j in obs) {
-                    let time = new Date(obs[j].time)
-                    let crntTime = new Date().getTime()
-                    let dif = crntTime - time
-                    if (dif <= 604800000) { continue }
-                    let photUrl = obs[j].photoURL
-                    let location = obs[j].location
-                    time = time.toString().split(" ")
-                    time = time.splice(0, time.length - 1)
-                    time = time.toString().replace(/,/g, ' ')
-                    let result = generateResult(obs[j])
-                    let marker =
+            console.log(val[i].address)
+            let name = val[i].uname
+            let photo = val[i].uimg
+            let userNick = name.toLowerCase().replace(/ /g, '')
+            let time = new Date(val[i].time)
+            let crntTime = new Date().getTime()
+            let dif = crntTime - time
+            if (dif <= 604800000) { continue }
+            let photUrl = val[i].photoURL
+            let location = val[i].location
+            time = time.toString().split(" ")
+            time = time.splice(0, time.length - 1)
+            time = time.toString().replace(/,/g, ' ')
+            let result = generateResult(val[i])
+            let address = val[i].address
+            let marker =
+                {
+                    title: time,
+                    cordinates:
                     {
-                        title: time,
-                        cordinates:
-                        {
-                            latitude: obs[j].location[1],
-                            longitude: obs[j].location[0]
-                        },
-                        description: location.toString()
+                        latitude: location[1],
+                        longitude: location[0]
+                    },
+                    description: address.toString()
 
-                    }
-                    observations.push([name, photo, photUrl, location, time, userNick, result, marker])
-                    await this.setState({
-                        observations: observations,
-                    })
                 }
-            }
-
+            console.log(observations)
+            observations.push([name, photo, photUrl, location, time, userNick, result, marker, address])
+            await this.setState({
+                observations: observations,
+                activityIndicator: false
+            })
         }
     }
 

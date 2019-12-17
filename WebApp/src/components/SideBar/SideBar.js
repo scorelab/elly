@@ -1,13 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Avatar from '@material-ui/core/Avatar';
+import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import CheckBoxRounded from '@material-ui/icons/CheckBoxRounded';
-import InfoRounded from '@material-ui/icons/InfoRounded';
+
+import Icon from '@material-ui/core/Icon';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,6 +18,8 @@ import {
 
 import Pending from '../../containers/pending/Pending';
 import Approved from '../../containers/Approved/Approved';
+import Rejected from '../../containers/Rejected/Rejected'
+
 import { Divider } from '@material-ui/core';
 
 const drawerWidth = 240;
@@ -45,6 +47,11 @@ const routes = [
     path: "/home/pending",
     sidebar: () => <div></div>,
     main: () => <Pending />
+  },
+  {
+    path: "/home/rejected",
+    sidebar: () => <div></div>,
+    main: () => <Rejected />
   }
 ];
 
@@ -63,20 +70,23 @@ export const SideBar = () => {
           <List component={'nav'} aria-label="main mailbox folders">
             <ListItem style={{backgroundColor: 'green', color:'white'}} component={Link}  to={"/home/approved"} key={'approved'}>
               <ListItemAvatar>
-                <Avatar>
-                  <CheckBoxRounded style={{backgroundColor: 'green', color:'white'}}/>
-                </Avatar>
+                <Icon style={{ fontSize: 50, color: 'white' }} >thumb_up</Icon>
               </ListItemAvatar>
               <ListItemText primary={'APPROVED'} />
             </ListItem>
             <Divider/>
             <ListItem style={{backgroundColor: 'green', color:'white'}} component={Link} to={"/home/pending"} key={'pending'}>
               <ListItemAvatar>
-                <Avatar>
-                  <InfoRounded style={{backgroundColor: 'green', color:'white'}}/>
-                </Avatar>
+                <Icon style={{ fontSize: 50, color: 'white' }}>hourglass_empty</Icon>
               </ListItemAvatar>
               <ListItemText primary={'PENDING'} />
+            </ListItem>
+            <Divider/>
+            <ListItem style={{backgroundColor: 'green', color:'white'}} component={Link} to={"/home/rejected"} key={'rejected'}>
+              <ListItemAvatar>
+                <Icon style={{ fontSize: 50, color: 'white' }}>thumb_down</Icon>
+              </ListItemAvatar>
+              <ListItemText primary={'REJECTED'} />
             </ListItem>
           </List>
         </Drawer>

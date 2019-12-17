@@ -26,11 +26,14 @@ import ShowPhotoScreen from './src/screens/ShowPhotoScreen/ShowPhotoScreen'
 import ShowDetailedPhotoScreen from './src/screens/ShowDetailedPhotoScreen/ShowDetailedPhotoScreen'
 import showLocationScreen from './src/screens/ShowLocationScreen/ShowLocationScreen'
 import AboutScreen from './src/screens/AboutScreen/AboutScreen'
+import PhoneAuthScreen from './src/screens/PhoneAuthScreen/PhoneAuthScreen'
+
 import {Avatar} from 'react-native-paper'
 
 //SignIn stack
 const AuthStack = createStackNavigator({
   SignIn: LoginScreen,
+  Phone: PhoneAuthScreen
   
 },
 {

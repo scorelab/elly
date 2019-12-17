@@ -13,7 +13,7 @@ class AboutScreen extends React.Component {
         return {
             headerTitle: "About Elly",
             headerStyle: {
-                backgroundColor: '#4b8b3b',
+                backgroundColor: '#0b6623',
             },
             headerTintColor: '#fff',
 
