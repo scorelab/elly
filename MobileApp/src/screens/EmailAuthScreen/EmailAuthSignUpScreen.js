@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, ImageBackground, Alert } from 'react-native'
-import {TextInput,HelperText, Button} from 'react-native-paper'
+import {TextInput,Snackbar, Button} from 'react-native-paper'
 import {COVER, LOGO} from '../../images/index'
 import auth from '@react-native-firebase/auth';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
+import database from '@react-native-firebase/database';
 
 export default class EmailAuthScreen extends React.Component {
 
@@ -29,63 +30,82 @@ export default class EmailAuthScreen extends React.Component {
             emailPattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             passwordPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#\$%\^&\*])(?=.{8,})/,
             activityIndicator: false,
+            usernameErrMessage: 'Username is invalid!',
+            usernameErr: false,
+            passwordErrMessage: 'Password is invalid',
+            passwordErr: false,
+            emailErrMessage: 'Email is invalid',
+            emailErr: false,
+            confirmErrMessage: 'Passwords does not match',
+            confirmErr: false,
         }
     }
 
     checkSignUpValidity(){
-        if(this.state.username.match(this.state.usernamePattern)
-            && this.state.password.match(this.state.passwordPattern) &&
-            this.state.email.match(this.state.emailPattern) && this.state.confirmPassword.match(this.state.password)
-        ){
+        let valid = true
+        if(!this.state.username.match(this.state.usernamePattern)){
+            this.setState({
+                usernameErr: true
+            })
+            valid = false
+        }
+        if(!this.state.password.match(this.state.passwordPattern)){
+            this.setState({
+                passwordErr: true
+            })
+            valid = false
+        }
+        if(!this.state.email.match(this.state.emailPattern)){
+            this.setState({
+                emailErr: true
+            })
+            valid = false
+        }
+        if(!this.state.confirmPassword.match(this.state.password)){
+            this.setState({
+                confirmErr: true
+            })
+            valid = false
+        }
+        if(!valid){
+            return false
+        }else{
             return true
         }
-        return false
-    }
-
-    componentDidMount(){
-        auth().onAuthStateChanged(async user => {
-            if (user) {
-                await user.updateProfile({
-                    displayName: this.state.username,
-                    photoURL: ""
-                })
-               
-            }
-            
-        })
+        
+       
     }
 
     signUpBtnHandler = async () => {
         this.setState({activityIndicator: true})
-        try{
+        console.log(this.checkSignUpValidity())
+        if(this.checkSignUpValidity()){
+            await auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then((user) => { 
+                console.log(JSON.stringify(user.user.toJSON().uid))
+                const uid = user.user.toJSON().uid
+                // alert('Successfully Registered!')
+                const ref = database().ref('/users/').child(uid);
             
-            if(this.checkSignUpValidity()){
-                await auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-                .then((err) => { 
-                    // console.log("error1")
-                    // alert('Successfully Registered!')
-                })
-                .catch((err) => {
-                    console.log(err.message.split(" ")[0])
-                    this.setState({activityIndicator: false})
-                    alert(err.message.split(" ").splice(1,err.message.length).join(" "))
-                    
-            });
+                ref.set({
+                    name: this.state.username,
+                    email: this.state.email,
+                    photo: '',
+                    profile: 'user'
+                });
 
-            }else{
                 this.setState({activityIndicator: false})
-                alert("Re-check the input fields!")
-            }
-           
-        }catch(err){
-            console.log(err)
+            })  
+            .catch((err) => {
+                console.log(err.message)
+                this.setState({activityIndicator: false})
+                alert("SignUp Failed")
+                
+        });
+
+        }else{
             this.setState({activityIndicator: false})
-        }
-       
-    }
-
-    textInputCallback = (child) => {
-
+        } 
     }
 
     render() {
@@ -98,32 +118,42 @@ export default class EmailAuthScreen extends React.Component {
                 >
                     <ScrollView 
                         contentContainerStyle={{flexGrow: 1}} 
-                        style={{marginTop: 80,marginBottom: 80,flex:1,height: Dimensions.get('window').height}}
+                        style={{marginTop: 60,marginBottom: 60,flex:1,height: Dimensions.get('window').height}}
                         showsVerticalScrollIndicator={false}
                     >
                     <View style={styles.logoBtnCntner}>
                         <View style={styles.logoIconContainer}>
-                            <Image source={LOGO} style={styles.logo} />
-                            <Text style={styles.logoText}>SignUp</Text>
+                            <View style={{padding: 20, backgroundColor: 'black', borderRadius: 100}}>
+                                <Image source={LOGO} style={styles.logo} />
+                            </View>
+                            <Text style={styles.logoText}>SIGN UP</Text>
                         </View>
-
+                        
                         <View style={styles.btnContainer}>
                             <TextInput
                                 value={this.state.username}
                                 onChangeText={text => this.setState({ username: text })}
                                 placeholder={'Eg. Nimal Perera'}
-                                mode='flat'
+                                mode='outlined'
                                 style={{borderRadius: 0}}
                                 inlineImageLeft={'account'}
                                 inlineImagePadding={20}
                                 autoCompleteType={'username'}
                             />
-                            <HelperText
-                                type="error"
-                                visible={!this.state.username.match(this.state.usernamePattern)}
-                            >
-                                Username is invalid!
-                            </HelperText>
+                             <Snackbar
+                                visible={this.state.usernameErr}
+                                onDismiss={() => this.setState({ usernameErr: false })}
+                                style={styles.snackbar}
+                                action={{
+                                    label: 'OK',
+                                    onPress: () => {
+                                        this.setState({ usernameErr: false })
+                                    },
+                                    color: 'white'
+                                  }}
+                                >
+                                {this.state.usernameErrMessage}
+                            </Snackbar>
                         </View>
 
                         <View style={styles.btnContainer}>
@@ -131,18 +161,26 @@ export default class EmailAuthScreen extends React.Component {
                                 value={this.state.email}
                                 onChangeText={text => this.setState({ email: text })}
                                 placeholder={'Eg. abc@gmail.com'}
-                                mode='flat'
+                                mode='outlined'
                                 style={{borderRadius: 0}}
                                 inlineImageLeft={'email'}
                                 inlineImagePadding={20}
                                 autoCompleteType={'email'}
                             />
-                            <HelperText
-                                type="error"
-                                visible={!this.state.email.match(this.state.emailPattern)}
-                            >
-                                Email is invalid!
-                            </HelperText>
+                            <Snackbar
+                                visible={this.state.emailErr}
+                                onDismiss={() => console.log("On dismiss")}
+                                style={styles.snackbar}
+                                action={{
+                                    label: 'OK',
+                                    onPress: () => {
+                                        this.setState({ emailErr: false })
+                                    },
+                                    color: 'white'
+                                  }}
+                                >
+                                {this.state.emailErrMessage}
+                            </Snackbar>
                         </View>
 
                         <View style={styles.btnContainer}>
@@ -150,19 +188,27 @@ export default class EmailAuthScreen extends React.Component {
                                 value={this.state.password}
                                 onChangeText={text => this.setState({ password: text })}
                                 placeholder={'Password'}
-                                mode='flat'
+                                mode='outlined'
                                 inlineImageLeft={'lock'}
                                 secureTextEntry={true}
                                 inlineImagePadding={20}
                                 style={{borderRadius: 0}}
                                 autoCompleteType={'password'}
                             />
-                            <HelperText
-                                type="error"
-                                visible={!this.state.password.match(this.state.passwordPattern)}
-                            >
-                                Password is invalid
-                            </HelperText>
+                            <Snackbar
+                                visible={this.state.passwordErr}
+                                onDismiss={() => console.log("On dismiss")}
+                                style={styles.snackbar}
+                                action={{
+                                    label: 'OK',
+                                    onPress: () => {
+                                        this.setState({ passwordErr: false })
+                                    },
+                                    color: 'white'
+                                  }}
+                                >
+                                {this.state.passwordErrMessage}
+                            </Snackbar>
                         </View>
 
                         <View style={styles.btnContainer}>
@@ -170,32 +216,38 @@ export default class EmailAuthScreen extends React.Component {
                                 value={this.state.confirmPassword}
                                 onChangeText={text => this.setState({ confirmPassword: text })}
                                 placeholder={'Confirm Password'}
-                                mode='flat'
+                                mode='outlined'
                                 style={{borderRadius: 0}}
                                 inlineImageLeft={'lock'}
                                 secureTextEntry={true}
                                 inlineImagePadding={20}
                                 autoCompleteType={'password'}
                             />
-                            <HelperText
-                                type="error"
-                                visible={!this.state.confirmPassword.match(this.state.password)}
-                            >
-                                Password does not match!
-                            </HelperText>
+                            <Snackbar
+                                visible={this.state.confirmErr}
+                                onDismiss={() => console.log("On dismiss")}
+                                style={styles.snackbar}
+                                action={{
+                                    label: 'OK',
+                                    onPress: () => {
+                                        this.setState({ confirmErr: false })
+                                    },
+                                    color: 'white'
+                                  }}
+                                >
+                                {this.state.confirmErrMessage}
+                            </Snackbar>
                         </View>
 
-                        <View style={[styles.btnContainer, {backgroundColor: 'none'}]}>
+                        <View style={styles.btnContainer}>
                             <Button
-                                style={styles.btn}
+                                style={[styles.btn, {marginTop: 20}]}
                                 onPress={()=>this.signUpBtnHandler()}
                                 mode='contained'
                             >
                                 SignUp
                             </Button>
                         </View>
-                        
-                        
                     </View>
                 
                     </ScrollView>
@@ -216,15 +268,14 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width
     },
     btnContainer: {
-        padding: 3,
-        marginBottom: 3,
         borderRadius: 10,
         justifyContent: 'center',
     },
     btn: {
         width: "100%",
         height: 60,
-        justifyContent:'center'
+        justifyContent:'center',
+        borderRadius: 50
     },
     logoIconContainer: {
         justifyContent: 'center',
@@ -232,14 +283,16 @@ const styles = StyleSheet.create({
         marginBottom: 25
     },
     logo: {
-        width: 70,
-        height: 50
+        width: 60,
+        height: 60,
+        resizeMode: 'stretch'
     },
     logoText: {
         color: 'white',
-        fontSize: 50,
+        fontSize: 30,
         fontWeight: 'bold',
-        marginBottom: 20
+        marginBottom: 20,
+        fontFamily: 'ProximaNova-Regular'
     },
     imgConatiner: {
         width: Dimensions.get('window').width,
@@ -251,9 +304,13 @@ const styles = StyleSheet.create({
         flex:1,
         height: "100%",
         borderRadius: 50,
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 20,
         width: Dimensions.get('window').width - 40,
+    },
+    snackbar: {
+        backgroundColor: 'red',
+        marginBottom: -30
     }
 })
 

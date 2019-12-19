@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet,FlatList, ImageBackground, RefreshControl, Text, Image, Dimensions, ScrollView } from 'react-native'
+import { View, StyleSheet,FlatList, ImageBackground, Text, Image, Dimensions } from 'react-native'
 import { Button, Menu, Avatar } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { generateResult } from '../../components/UserDataHandling/UserDataHandling'
@@ -7,6 +7,7 @@ import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndica
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+
 class ProfileScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -49,9 +50,6 @@ class ProfileScreen extends React.Component {
     }
 
     componentDidMount() {
-        // database().ref('/users/').on("value", snapshot=>{
-        // })
-        
         this.getUserProfile()
         this.props.navigation.setParams({
             onPressMenuAbout: () => {
@@ -64,17 +62,14 @@ class ProfileScreen extends React.Component {
             closeMenu: ()=> this.closeMenu()
 
         })
-
         this.getUserData()
     }
 
     logutHandler = async () => {
         this.closeMenu()
         let result = await auth().signOut().then(
-            ()=>this.props.navigation.navigate("SignIn")
-        )
-        console.log(result)
-        
+            ()=>console.log("Log out")
+        ) 
     }
 
     openMenu(){
@@ -99,13 +94,16 @@ class ProfileScreen extends React.Component {
     }
 
     getUserProfile = async () =>{
-        const user = auth().currentUser
-        console.log(user)
-        this.setState({
-            userName: user.displayName,
-            userNick: user.displayName.toLowerCase().replace(/ /g, ''),
-            userPhoto: user.photoURL,
-            uid: user.uid
+        const user = auth().currentUser;
+        const uid = user.uid
+        const ref = await database().ref('/users/').child(uid).once('value');
+        const data = ref.val()
+        console.log(data)
+        await this.setState({
+            userName: data.name,
+            userNick: data.name.toLowerCase().replace(/ /g, ''),
+            userPhoto: data.photo,
+            uid: uid
         })
     }
 
@@ -146,17 +144,15 @@ class ProfileScreen extends React.Component {
         if(userObservations.length>2){
             userObservations.pop()
         }
-        console.log(userObservations)
+        // console.log(userObservations)
         await this.setState({
             activityIndicator: false,
             lastVisible: lastVisible,
             noObs: userObservations.length
         })
-        console.log("Get "+lastVisible)
     }
 
     getMoreUserData= async () => {
-        console.log("hello")
         let lastVisible = this.state.lastVisible
         
         const data = await database().ref(`/usersObservations/`).orderByValue('uid').endAt(lastVisible).limitToLast(10).once('value')
@@ -165,7 +161,6 @@ class ProfileScreen extends React.Component {
         // console.log(val)
         let userObservations = []
         for (let i in val) {
-            console.log(val[i])
             let name = val[i].uname
             let photo = val[i].uimg
             let userNick = name.toLowerCase().replace(/ /g, '')
@@ -187,14 +182,12 @@ class ProfileScreen extends React.Component {
         if(userObservations.length>2){
             userObservations.pop()
         }
-        console.log(userObservations)
         await this.setState({
             userObservations: [...this.state.userObservations,...userObservations],
             activityIndicator: false,
             lastVisible: lastVisible,
             noObs: this.state.userObservations.length
         })
-        console.log("Get more"+lastVisible)
     }
 
     render() {
@@ -206,7 +199,7 @@ class ProfileScreen extends React.Component {
                     </View>
                     :
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                        {this.state.userPhoto!==null?
+                        {this.state.userPhoto!==''?
                             <ImageBackground blurRadius={1} style={styles.profileConatiner} source={{ uri: this.state.userPhoto }}>
                                 <Text style={styles.userNick}>{this.state.userNick}</Text>
                                 
@@ -228,7 +221,6 @@ class ProfileScreen extends React.Component {
                             </View>
                         }
                        
-                        
                         {this.state.userObservations.length > 0
                             ?
                             <FlatList
@@ -291,7 +283,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'stretch',
         width: '100%'
-        //backgroundColor: getRandomColor(),
     },
     profileConatiner: {
         width: Dimensions.get('window').width,
@@ -312,7 +303,8 @@ const styles = StyleSheet.create({
     },
     userName: {
         fontWeight: 'bold',
-        color: 'white'
+        color: 'white',
+        margin:5
     },
     obCount: {
         color: 'white',

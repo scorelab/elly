@@ -1,5 +1,6 @@
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { firebase } from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 // Calling the following function will open the FB login dialogue:
 export async function facebookLogin(navigate) {
   try {
@@ -23,7 +24,23 @@ export async function facebookLogin(navigate) {
     const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
 
     // login with credential
-    const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
+    await firebase.auth().signInWithCredential(credential).then((user)=>{
+      console.log(JSON.stringify(user.user.toJSON().uid))
+      const uid = user.user.toJSON().uid
+      const name = user.user.toJSON().displayName
+      const email = user.user.toJSON().email
+      const photo = user.user.toJSON().photoURL
+      const ref = database().ref('/users/').child(uid)
+      ref.set({
+        name: name,
+        email: email,
+        photo: photo,
+        profile: 'user'
+      });
+    })
+    .catch((err)=>{
+      console.log(err.message)
+    })
 
   } catch (e) {
     console.error(e);

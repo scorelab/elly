@@ -10,7 +10,6 @@ import { generateUUID } from '../../components/UserDataHandling/UserDataHandling
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 import { googleMapAPIKey } from '../../config/config'
 
-
 class FormScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -80,13 +79,13 @@ class FormScreen extends React.Component {
         // Create a reference
         const ref = database().ref(`/usersObservations`);
         const randomID = generateUUID()
-        console.log(randomID)
+        // console.log(randomID)
         const storageRef = storage().ref('/observations/' + randomID + '.jpeg')
 
         await storageRef.putFile(this.state.photos)
 
         const url = await storageRef.getDownloadURL()
-        console.log(url)
+        // console.log(url)
         //let time = new Date().getTime();
         await ref.push({
             photoURL: url,
@@ -141,17 +140,17 @@ class FormScreen extends React.Component {
             Geolocation.getCurrentPosition(
                 position => {
                     const initialPosition = position;
-                    console.log(initialPosition)
+                    // console.log(initialPosition)
                     const lon = initialPosition['coords']['longitude']
                     const lat = initialPosition['coords']['latitude']
-                    console.log(lon, lat, googleMapAPIKey)
+                    // console.log(lon, lat, googleMapAPIKey)
                     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lon + '&key=' + googleMapAPIKey)
                         .then((response) => response.json())
                         .then((responseJson) => {
                             this.setState({
                                 address: responseJson.results.length > 0 ? responseJson.results[0].formatted_address.split(",") : "Unnamed location"
                             })
-                            console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+                            console.log('ADDRESS GEOCODE is !! => ' + JSON.stringify(responseJson.results[0].formatted_address));
                         })
                     this.setState({ location: [initialPosition['coords']['longitude'], initialPosition['coords']['latitude']] });
                 },
@@ -167,10 +166,8 @@ class FormScreen extends React.Component {
         let obj = {}
         obj[type] = childData[0]
         this.setState(obj)
-
-        console.log(this.state)
-
-        console.log(childData[1] + ": " + childData[0])
+        // console.log(this.state)
+        // console.log(childData[1] + ": " + childData[0])
     }
 
     render() {
@@ -231,7 +228,6 @@ class FormScreen extends React.Component {
                             title={'Group type?'}
                             values={['Single individual', 'Group with calves', 'Group withutout calves']}
                         />
-
 
                         :
                         <RadioButtonGroupVertical
@@ -369,7 +365,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignSelf: 'stretch',
-        //backgroundColor: getRandomColor(),
     },
     welcome: {
         fontSize: 25

@@ -16,7 +16,6 @@ class AboutScreen extends React.Component {
                 backgroundColor: '#0b6623',
             },
             headerTintColor: '#fff',
-
         }
     }
 
@@ -42,8 +41,6 @@ class AboutScreen extends React.Component {
 
                         <Text onPress={() => Linking.openURL('http://www.trunksnleaves.org/index.html')}>Visits http://www.trunksnleaves.org
                         </Text>{'\n'}{'\n'}
-
-
                     </Text>
                 </View>
             </View>

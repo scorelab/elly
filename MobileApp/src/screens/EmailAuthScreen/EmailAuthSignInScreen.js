@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, ImageBackground, Alert } from 'react-native'
-import {TextInput,HelperText, Button} from 'react-native-paper'
+import { View, Text, StyleSheet, Image, Dimensions, ImageBackground } from 'react-native'
+import {TextInput,Snackbar, Button} from 'react-native-paper'
 import {COVER, LOGO} from '../../images/index'
 import auth from '@react-native-firebase/auth';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
+
 
 export default class EmailAuthScreen extends React.Component {
 
@@ -26,40 +27,53 @@ export default class EmailAuthScreen extends React.Component {
             emailPattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             passwordPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#\$%\^&\*])(?=.{8,})/,
             activityIndicator: false,
+            passwordErrMessage: 'Password is invalid',
+            passwordErr: false,
+            emailErrMessage: 'Email is invalid',
+            emailErr: false,
         }
     }
 
     checkSignInValidity(){
-        if(this.state.password.match(this.state.passwordPattern) &&
-            this.state.email.match(this.state.emailPattern)
-        ){
+        let valid = true
+        if(!this.state.password.match(this.state.passwordPattern)){
+            this.setState({
+                passwordErr: true
+            })
+            valid = false
+        }
+        if(!this.state.email.match(this.state.emailPattern)){
+            this.setState({
+                emailErr: true
+            })
+            valid = false
+        }
+        if(!valid){
+            return false
+        }else{
             return true
         }
-        return false
        
     }
 
     signInBtnHandler = async () => {
-        this.setState({signIn: true, activityIndicator: true})
-        try{
-            
-            if(this.checkSignInValidity()){
-                await auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-                .then(() => { console.log("error0") })
-                .catch((err) => {
-                    console.log(err.message.split(" ").splice(1,err.message.length).toString())
-                    alert(err.message.split(" ").splice(1,err.message.length).join(" "))
-                })
-            }else{
-                alert("Re-check the input fields!")
-            }
+        this.setState({activityIndicator: true})
+        if(this.checkSignInValidity()){
+            await auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then((user) => { 
+                // console.log(JSON.stringify(user.user.toJSON().uid))
+                this.setState({activityIndicator: false})
+            })  
+            .catch((err) => {
+                console.log(err.message)
+                this.setState({activityIndicator: false})
+                alert("SignUp Failed")
+                
+        })
+        }else{
             this.setState({activityIndicator: false})
-        }catch(err){
-            console.log(err)
-            this.setState({activityIndicator: false})
-            alert(err.message)
+            alert("Re-check the input fields!")
         }
-        
         
     }
 
@@ -77,13 +91,15 @@ export default class EmailAuthScreen extends React.Component {
                 >
                     <ScrollView 
                         contentContainerStyle={{flexGrow: 1}} 
-                        style={{marginTop: 80,marginBottom: 80,flex:1,height: Dimensions.get('window').height}}
+                        style={{marginTop: 60,marginBottom: 60,flex:1,height: Dimensions.get('window').height}}
                         showsVerticalScrollIndicator={false}
                     >
                     <View style={styles.logoBtnCntner}>
                         <View style={styles.logoIconContainer}>
-                            <Image source={LOGO} style={styles.logo} />
-                            <Text style={styles.logoText}>SignIn</Text>
+                            <View style={{padding: 20, backgroundColor: 'black', borderRadius: 100}}>
+                                <Image source={LOGO} style={styles.logo} />
+                            </View>
+                            <Text style={styles.logoText}>SIGN IN</Text>
                         </View>
 
                         <View style={styles.btnContainer}>
@@ -91,18 +107,26 @@ export default class EmailAuthScreen extends React.Component {
                                 value={this.state.email}
                                 onChangeText={text => this.setState({ email: text })}
                                 placeholder={'Eg. abc@gmail.com'}
-                                mode='flat'
+                                mode='outlined'
                                 style={{borderRadius: 0}}
                                 inlineImageLeft={'email'}
                                 inlineImagePadding={20}
                                 autoCompleteType={'email'}
                             />
-                            <HelperText
-                                type="error"
-                                visible={!this.state.email.match(this.state.emailPattern)}
-                            >
-                                Email is invalid!
-                            </HelperText>
+                            <Snackbar
+                                visible={this.state.emailErr}
+                                onDismiss={() => console.log("On dismiss")}
+                                style={styles.snackbar}
+                                action={{
+                                    label: 'OK',
+                                    onPress: () => {
+                                        this.setState({ emailErr: false })
+                                    },
+                                    color: 'white'
+                                  }}
+                                >
+                                {this.state.emailErrMessage}
+                            </Snackbar>
                         </View>
 
                         <View style={styles.btnContainer}>
@@ -110,22 +134,30 @@ export default class EmailAuthScreen extends React.Component {
                                 value={this.state.password}
                                 onChangeText={text => this.setState({ password: text })}
                                 placeholder={'Password'}
-                                mode='flat'
+                                mode='outlined'
                                 inlineImageLeft={'lock'}
                                 secureTextEntry={true}
                                 inlineImagePadding={20}
                                 style={{borderRadius: 0}}
                                 autoCompleteType={'password'}
                             />
-                            <HelperText
-                                type="error"
-                                visible={!this.state.password.match(this.state.passwordPattern)}
-                            >
-                                Password is invalid
-                            </HelperText>
+                            <Snackbar
+                                visible={this.state.passwordErr}
+                                onDismiss={() => console.log("On dismiss")}
+                                style={styles.snackbar}
+                                action={{
+                                    label: 'OK',
+                                    onPress: () => {
+                                        this.setState({ passwordErr: false })
+                                    },
+                                    color: 'white'
+                                  }}
+                                >
+                                {this.state.passwordErrMessage}
+                            </Snackbar>
                         </View>
 
-                        <View style={[styles.btnContainer, {backgroundColor: 'none'}]}>
+                        <View style={[styles.btnContainer, {backgroundColor: 'none', marginTop: 20, marginBottom: 4}]}>
                             <Button
                                 style={styles.btn}
                                 onPress={()=>this.signInBtnHandler()}
@@ -165,15 +197,14 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width
     },
     btnContainer: {
-        padding: 3,
-        marginBottom: 3,
         borderRadius: 10,
         justifyContent: 'center',
     },
     btn: {
         width: "100%",
         height: 60,
-        justifyContent:'center'
+        justifyContent:'center',
+        borderRadius: 50,
     },
     logoIconContainer: {
         justifyContent: 'center',
@@ -181,14 +212,16 @@ const styles = StyleSheet.create({
         marginBottom: 25
     },
     logo: {
-        width: 70,
-        height: 50
+        width: 60,
+        height: 60,
+        resizeMode: 'stretch'
     },
     logoText: {
         color: 'white',
-        fontSize: 50,
+        fontSize: 30,
         fontWeight: 'bold',
-        marginBottom: 20
+        marginBottom: 20,
+        fontFamily: 'ProximaNova-Regular'
     },
     imgConatiner: {
         width: Dimensions.get('window').width,
@@ -200,9 +233,13 @@ const styles = StyleSheet.create({
         flex:1,
         height: "100%",
         borderRadius: 50,
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 20,
         width: Dimensions.get('window').width - 40,
+    },
+    snackbar: {
+        backgroundColor: 'red',
+        marginBottom: -30
     }
 })
 
