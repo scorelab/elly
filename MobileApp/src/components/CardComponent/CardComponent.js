@@ -16,7 +16,7 @@ class CardComponent extends React.Component {
                     <Card.Title
                         title={this.props.subtitle} subtitle={this.props.title}
                         left={() => <Avatar.Image size={40} source={{ uri: this.props.user }} />}
-                        right={() => <Avatar.Icon style={{ backgroundColor: 'white' }} size={35} color='#4b8b3b' icon="shield-check" />}
+                        right={() => <Avatar.Icon style={{ backgroundColor: 'white' }} size={35} color='#0b6623' icon="shield-check" />}
                     />
                     {this.props.isNavigate ?
                         <TouchableOpacity

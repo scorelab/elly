@@ -13,8 +13,12 @@ import {
   Route,
   NavLink
 } from "react-router-dom";
+
 import Pending from "../../containers/pending/Pending";
 import Approved from "../../containers/Approved/Approved";
+import Rejected from "../../containers/Rejected/Rejected";
+
+import { Divider } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -84,12 +88,16 @@ const routes = [
     path: "/home/pending",
     sidebar: () => <div></div>,
     main: () => <Pending />
+  },
+  {
+    path: "/home/rejected",
+    sidebar: () => <div></div>,
+    main: () => <Rejected />
   }
 ];
 
 export const SideBar = () => {
   const classes = useStyles();
-
   return (
     <Router>
       <div style={{ display: "flex" }}>
@@ -119,6 +127,12 @@ export const SideBar = () => {
                   <HourglassEmptyIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Pending"} />
+              </ListItem>
+              <ListItem button component={NavLink} to={"/home/rejected"}>
+                <ListItemIcon>
+                  <HourglassEmptyIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Rejected"} />
               </ListItem>
             </List>
           </Drawer>

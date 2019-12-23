@@ -1,7 +1,6 @@
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { firebase } from '@react-native-firebase/auth';
 import { webClientID, playAndroidClientID } from '../../config/config'
-import database from '@react-native-firebase/database';
 import { Alert } from 'react-native'
 
 // Calling this function will open Google for login.
@@ -28,26 +27,26 @@ export async function googleLogin(navigate) {
     // login with credential
     const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
 
-    const uid = firebaseUserCredential.user.toJSON().uid
-    const name = firebaseUserCredential.user.toJSON().displayName
-    const email = firebaseUserCredential.user.toJSON().email
-    const photo = firebaseUserCredential.user.toJSON().photoURL
-    //console.warn(JSON.stringify(firebaseUserCredential.user.toJSON().uid));
+    // const uid = firebaseUserCredential.user.toJSON().uid
+    // const name = firebaseUserCredential.user.toJSON().displayName
+    // const email = firebaseUserCredential.user.toJSON().email
+    // const photo = firebaseUserCredential.user.toJSON().photoURL
+    // //console.warn(JSON.stringify(firebaseUserCredential.user.toJSON().uid));
 
-    const ref = database().ref('/users/').child(uid);
-    const snapshot = await ref.once('value')
+    // const ref = database().ref('/users/').child(uid);
+    // const snapshot = await ref.once('value')
 
-    if (snapshot.val() !== null) {
-      navigate('App')
-    } else {
-      await ref.set({
-        name: name,
-        email: email,
-        photo: photo
-      });
+    // if (snapshot.val() !== null) {
+    //   navigate('App')
+    // } else {
+    //   await ref.set({
+    //     name: name,
+    //     email: email,
+    //     photo: photo
+    //   });
 
-      navigate('App')
-    }
+    //   navigate('App')
+    // }
 
 
   } catch (error) {

@@ -5,20 +5,15 @@ import LoginPage from "./containers/login/LoginPage";
 import Home from "./containers/home/Home";
 import "./index.css";
 
-export default function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <LoginPage />
-        </Route>
-        <Route path="/home">
-          <Home />
-        </Route>
-        <Route path="*">
-          <NotFoundPage />
-        </Route>
-      </Switch>
-    </Router>
-  );
+export default class App extends React.Component {
+  render() {
+    console.log(this.props);
+    return (
+      <BrowserRouter>
+        <Route exact path="/" component={LoginPage} />
+        <Route path="/home" component={Home} />
+        <Route path="*" component={NotFoundPage} />
+      </BrowserRouter>
+    );
+  }
 }

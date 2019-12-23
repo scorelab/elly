@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { View, StyleSheet, Image, ScrollView, TouchableOpacity, ImageBackground } from 'react-native'
-import CameraRoll from "@react-native-community/cameraroll";
 import { RadioButtonGroupVertical, RadioButtonGroupHorizontal, TextInputGroupHorizontal, UneditableComponent } from '../../components/FormComponents/FormComponents'
 import Geolocation from '@react-native-community/geolocation';
 import auth from '@react-native-firebase/auth';
@@ -19,22 +18,22 @@ class FormScreen extends React.Component {
         return {
             headerTitle: 'Observation',
             headerStyle: {
-                backgroundColor: '#4b8b3b',
+                backgroundColor: '#0b6623',
             },
             headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-            headerRight: () => <Button style={{ margin: 5 }} mode="contained" onPress={() => params.handlePress()}>Share</Button>
+            headerRight: () => <Button style={{ margin: 5}} mode="contained" onPress={() => params.handlePress()}>Share</Button>
         }
     }
 
     constructor(props) {
         super(props);
-        let date = new Date().toString().split(" ")
+        
+        let date = new Date()
+        let time = date.getTime()
+        date = date.toString().split(" ")
         date = date.splice(0, date.length - 2)
         this.state = {
-            photos: [{ "node": { "group_name": "Pictures", "image": [], "timestamp": 1574182457, "type": "image/jpeg" } }],
+            photos: this.props.navigation.getParam('dataUri'),
             isAlive: 1,
             isSingle: 0,
             cause: 0,
@@ -53,15 +52,15 @@ class FormScreen extends React.Component {
             date: date,
             accidentOther: '',
             intentionalOther: '',
-            verified: false,
-            notes: ''
+            verified: 'pending',
+            notes: '',
+            time: time
         };
 
     }
 
     componentDidMount() {
         this.findCoordinates()
-        this.loadImageCaptured()
         this.props.navigation.setParams({
             handlePress: () => this.uploadData(),
         });
@@ -74,18 +73,21 @@ class FormScreen extends React.Component {
             activityIndicator: true
         })
         const uid = auth().currentUser.uid;
+        const uname = auth().currentUser.displayName
+        const uimg = auth().currentUser.photoURL
+
         console.log(uid)
         // Create a reference
-        const ref = database().ref(`/users/${uid}`).child('observations');
+        const ref = database().ref(`/usersObservations`);
         const randomID = generateUUID()
         console.log(randomID)
         const storageRef = storage().ref('/observations/' + randomID + '.jpeg')
 
-        await storageRef.putFile(this.state.photos[0].node.image.uri)
+        await storageRef.putFile(this.state.photos)
 
         const url = await storageRef.getDownloadURL()
         console.log(url)
-        let time = new Date().getTime();
+        //let time = new Date().getTime();
         await ref.push({
             photoURL: url,
             isAlive: this.state.isAlive,
@@ -101,12 +103,15 @@ class FormScreen extends React.Component {
             haveTusks: this.state.haveTusks,
             howManyTuskers: this.state.howManyTuskers,
             location: this.state.location,
-            time: time,
+            time: this.state.time,
             accidentOther: this.state.accidentOther,
             intentionalOther: this.state.intentionalOther,
             verified: this.state.verified,
-            notes: this.state.notes
-
+            notes: this.state.notes,
+            uid: uid,
+            uname: uname,
+            uimg: uimg,
+            address: this.state.address.toString()
         });
 
         await this.setState({
@@ -168,27 +173,14 @@ class FormScreen extends React.Component {
         console.log(childData[1] + ": " + childData[0])
     }
 
-    loadImageCaptured() {
-        CameraRoll.getPhotos({
-            first: 1,
-            assetType: 'Photos',
-        })
-            .then(r => {
-                this.setState({ photos: r.edges });
-            })
-            .catch((err) => {
-                //Error Loading Images
-            });
-    }
-
     render() {
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <ImageBackground blurRadius={2} style={{ width: "100%" }} source={{ uri: this.state.photos[0].node.image.uri }}>
+                <ImageBackground blurRadius={2} style={{ width: "100%" }} source={{ uri: this.state.photos}}>
                     <TouchableOpacity
                         style={styles.imgHolder}
-                        onPress={() => navigate('showPhoto', { img: this.state.photos[0].node.image.uri })}
+                        onPress={() => navigate('showPhoto', { img: this.state.photos.toString()})}
                     >
                         <Image
                             style={{
@@ -196,7 +188,7 @@ class FormScreen extends React.Component {
                                 height: 80,
                                 borderRadius: 20,
                             }}
-                            source={{ uri: this.state.photos[0].node.image.uri }}
+                            source={{ uri: this.state.photos.toString() }}
                         />
                     </TouchableOpacity>
                 </ImageBackground>

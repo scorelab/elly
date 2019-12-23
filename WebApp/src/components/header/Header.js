@@ -4,7 +4,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar'
 import { auth } from "../../firebase";
 
 const useStyles = makeStyles(theme => ({
@@ -20,7 +19,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'green'
   },
   avatar: {
-    resizeMode: 'stretch'
+    resizeMode: 'stretch',
+    width: 50,
+    height: 50,
   }
 }));
 
@@ -42,11 +43,11 @@ export const Header =()=>{
   };
   return  <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
-                <Avatar className={classes.avatar} src={require("../../images/logo.png")}/>
+                <img alt='logo' className={classes.avatar} src={require("../../images/logo.png")}/>
                 <Typography className={classes.title} variant="button" display="block" gutterBottom>
-                Elly-Admin
+                Elly - Admin
                 </Typography>
-                <Button color="inherit" onClick={signOut}>Log out</Button>
+                <Button style={{backgroundColor: 'white'}} mode='outlined' onClick={signOut}>Log out</Button>
             </Toolbar>
           </AppBar>
 }

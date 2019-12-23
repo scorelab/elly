@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {auth} from '../../firebase'
-import {Redirect} from 'react-router-dom';
+
 var firebase = require("firebase");
 var sectionStyle = {
     width: "100%",
@@ -24,7 +24,6 @@ class Login extends React.Component{
         email:'',
         password:'',
         err: '',
-        userFound: false
       }
   }
     
@@ -58,7 +57,7 @@ class Login extends React.Component{
           if(result!=='admin'){
             this.setState({err: "This account does not have admin priviledges"})
           }else{
-            this.setState({userFound: true})
+            this.props.history.push('/home/approved')
           }
         })
       })
@@ -75,7 +74,7 @@ class Login extends React.Component{
       return(
           
           <div style={sectionStyle}>
-            {this.state.userFound?<Redirect  to="/home/approved" />:null}
+            
             <Container style={{padding: 10,}} component="main" maxWidth="xs">
             <CssBaseline />
             <div style={{display: 'flex', alignItems:'center', height: '100vh'}}>
