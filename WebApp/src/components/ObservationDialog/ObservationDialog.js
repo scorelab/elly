@@ -15,14 +15,12 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import {
   Grid,
-  Typography,
   Card,
   CardHeader,
   IconButton,
   CardMedia,
   CardContent,
   CardActions,
-  ListItemAvatar,
   Paper
 } from "@material-ui/core";
 
