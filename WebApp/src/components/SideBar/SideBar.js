@@ -4,7 +4,8 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {
@@ -18,8 +19,6 @@ import Pending from "../../containers/pending/Pending";
 import Approved from "../../containers/Approved/Approved";
 import Rejected from "../../containers/Rejected/Rejected";
 
-import { Divider } from "@material-ui/core";
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -30,9 +29,9 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    marginTop: -8
+    marginTop: -6
   },
-  toolbar: theme.mixins.toolbar,
+
   root: {
     display: "flex"
   },
@@ -42,11 +41,7 @@ const useStyles = makeStyles(theme => ({
   hide: {
     display: "none"
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: "nowrap"
-  },
+
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
@@ -118,7 +113,7 @@ export const SideBar = () => {
                 selected={false}
               >
                 <ListItemIcon>
-                  <DoneAllIcon />
+                  <ThumbUpIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Approved"} />
               </ListItem>
@@ -130,7 +125,7 @@ export const SideBar = () => {
               </ListItem>
               <ListItem button component={NavLink} to={"/home/rejected"}>
                 <ListItemIcon>
-                  <HourglassEmptyIcon />
+                  <ThumbDownIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Rejected"} />
               </ListItem>
