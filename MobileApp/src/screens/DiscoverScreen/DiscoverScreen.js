@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, PermissionsAndroid, } from 'react-native'
+import { View, StyleSheet, PermissionsAndroid, Image} from 'react-native'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
@@ -7,7 +7,7 @@ import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndica
 import { NavigationEvents } from 'react-navigation'
 import database from '@react-native-firebase/database';
 import { generateResult } from '../../components/UserDataHandling/UserDataHandling';
-
+import {MAPMARKER} from '../../images/index'
 var MapStyle = require('../../config/map.json')
 
 class DiscoverScreen extends React.Component {
@@ -28,30 +28,23 @@ class DiscoverScreen extends React.Component {
         this.state = {
             observations: [],
             location: [82.0, 6.8],
-            activityIndicator: true,
-            locationPermission: false
+            activityIndicator: true
         }
     }
 
     componentDidMount() {
         this.findCoordinates()
-        // database().ref('/users/').on("value", snapshot=>{
-        //     this.getObservations()
-        // })
         this.getObservations()
-
     }
 
     getObservations = async function () {
         // Fetch the data snapshot
         const data = await database().ref(`/usersObservations/`).once('value')
-        console.log(data)
+        // console.log(data)
         const val = data.val()
 
         let observations = []
-        console.log(val[0])
         for (let i in val) {
-            console.log(val[i].address)
             let name = val[i].uname
             let photo = val[i].uimg
             let userNick = name.toLowerCase().replace(/ /g, '')
@@ -67,49 +60,40 @@ class DiscoverScreen extends React.Component {
             let result = generateResult(val[i])
             let address = val[i].address
             let marker =
+            {
+                title: time,
+                cordinates:
                 {
-                    title: time,
-                    cordinates:
-                    {
-                        latitude: location[1],
-                        longitude: location[0]
-                    },
-                    description: address.toString()
+                    latitude: location[1],
+                    longitude: location[0]
+                },
+                description: address.toString()
 
-                }
-            console.log(observations)
+            }
             observations.push([name, photo, photUrl, location, time, userNick, result, marker, address])
             await this.setState({
                 observations: observations,
-                activityIndicator: false
             })
         }
     }
 
     findCoordinates = async () => {
         try {
-            await this.setState({
-                activityIndicator: true
-            })
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("Location")
                 await Geolocation.getCurrentPosition(
-                    position => {
+                    async position => {
                         const initialPosition = position;
                         const lon = initialPosition['coords']['longitude']
                         const lat = initialPosition['coords']['latitude']
-                        console.log(lon, lat)
-                        this.setState({ location: [lon, lat] });
+                        await this.setState({ location: [lon, lat], activityIndicator: false });
                     },
                     error => console.log('Error', JSON.stringify(error)),
                     { enableHighAccuracy: false },
                 );
-                await this.setState({
-                    activityIndicator: false,
-                    locationPermission: true
-                })
             } else {
                 await this.setState({
                     activityIndicator: false
@@ -117,17 +101,18 @@ class DiscoverScreen extends React.Component {
 
             }
         } catch (err) {
-
+            console.log(err.message)
         }
     };
 
     render() {
         return (
             <View style={styles.MainContainer}>
-                <NavigationEvents onDidFocus={!this.state.locationPermission ? this.findCoordinates : null} />
+                <NavigationEvents onDidFocus={this.findCoordinates} />
                 {this.state.activityIndicator ?
                     <View style={styles.indicator}>
                         <ActivityIndicator title={"Loading"} showIndicator={this.state.activityIndicator} />
+                        <Image style={{opacity: 0}} source={MAPMARKER}/>
                     </View>
                     :
                     <MapView
@@ -158,7 +143,7 @@ class DiscoverScreen extends React.Component {
                                         showPhoto: this.props.navigation
                                     }
                                 )}
-                            // image={require('../../Assets/landing2WS.png')}
+                            image={'map'}
                             />
                         ))}
                     </MapView>

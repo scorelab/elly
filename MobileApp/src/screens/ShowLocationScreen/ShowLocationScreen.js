@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, StyleSheet } from 'react-native'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
+import {MAPMARKER} from '../../images/index'
 
 var MapStyle = require('../../config/map.json')
 
@@ -19,7 +20,6 @@ class ShowLocationScreen extends React.Component {
             headerTintColor: '#fff',
         }
     }
-
 
     render() {
         return (
@@ -42,8 +42,7 @@ class ShowLocationScreen extends React.Component {
                             latitude: parseFloat(this.props.navigation.getParam('location').split(",")[1]),
                             longitude: parseFloat(this.props.navigation.getParam('location').split(",")[0])
                         }}
-                        title={this.props.navigation.getParam('location').split(",")[1] + ", " + this.props.navigation.getParam('location').split(",")[0]}
-                    // description={"Hello"}
+                        image={MAPMARKER}
                     />
                 </MapView>
 

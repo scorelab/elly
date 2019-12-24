@@ -31,12 +31,10 @@ class CameraViewScreen extends React.Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <View style={styles.cameraView}>
                     <Camera parentCallback={this.CameracallbackFunction} takePicture={this.state.takePicture} />
-
                 </View>
             </View>
 

@@ -7,17 +7,6 @@ import App from './App';
 import {configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import {name as appName} from './app.json';
 
-const theme = {
-    ...DefaultTheme,
-    roundness: 10,
-    colors: {
-      ...DefaultTheme.colors,
-      primary: '#0b6623',
-      accent: '#f1c40f',
-    },
-    fonts: configureFonts(fontConfig),
-};
-
 const fontConfig = {
   default: {
     regular: {
@@ -39,10 +28,21 @@ const fontConfig = {
   },
 };
 
+const theme = {
+  ...DefaultTheme,
+  roundness: 15,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#0b6623',
+    accent: '#f1c40f',
+  },
+  fonts: configureFonts(fontConfig),
+};
+
 export default function Main() {
     return (
       <PaperProvider theme={theme}>
-        <StatusBar backgroundColor="#006400" barStyle="light-content" />
+        {/* <StatusBar backgroundColor="#228B22" barStyle="light-content" /> */}
         <App />
       </PaperProvider>
     );

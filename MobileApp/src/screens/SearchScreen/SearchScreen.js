@@ -4,8 +4,8 @@ import { Searchbar, Chip } from 'react-native-paper';
 import { generateResult } from '../../components/UserDataHandling/UserDataHandling'
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator'
 import database from '@react-native-firebase/database';
-class SearchScreen extends React.Component {
 
+class SearchScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -29,7 +29,6 @@ class SearchScreen extends React.Component {
                 onChangeText={(query) => params.handleText(query)}
                 value={params.query}
             />,
-
         }
     }
 
@@ -38,9 +37,6 @@ class SearchScreen extends React.Component {
             handleText: (text) => this.onTextChangeHandler(text),
             query: this.state.firstQuery
         });
-        // database().ref('/users/').on("value", snapshot=>{
-        //     this.getObservations('all')
-        // })
         this.getObservations(this.state.type)
     }
 
@@ -57,7 +53,6 @@ class SearchScreen extends React.Component {
     getObservations = async(type) =>{
         // Fetch the data snapshot
         const data = await database().ref(`/usersObservations/`).orderByValue(type).limitToLast(10).once('value')
-        
         const val = data.val()
 
         let userObservations = []
@@ -106,11 +101,9 @@ class SearchScreen extends React.Component {
             lastVisible: lastVisible,
             noObs: userObservations.length
         })
-        console.log("Get "+lastVisible)
     }
 
     getMoreObservations= async (type) => {
-        console.log("hello")
         let lastVisible = this.state.lastVisible
         
         const data = await database().ref(`/usersObservations/`).orderByValue(type).endAt(lastVisible).limitToLast(10).once('value')
@@ -119,7 +112,6 @@ class SearchScreen extends React.Component {
         // console.log(val)
         let userObservations = []
         for (let i in val) {
-            console.log(i)
             let name = val[i].uname
             let photo = val[i].uimg
             let userNick = name.toLowerCase().replace(/ /g, '')
@@ -159,7 +151,6 @@ class SearchScreen extends React.Component {
             lastVisible: lastVisible,
             noObs: this.state.userObservations.length
         })
-        console.log("Get more"+lastVisible)
     }
 
     _onRefresh() {
@@ -179,11 +170,10 @@ class SearchScreen extends React.Component {
                     :
                     <View>
                         <View style={styles.chipContainer}>
-                            <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('all')}>All</Chip>
-                            <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('male')}>Male</Chip>
-                            <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('female')}>Female</Chip>
-                            <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('die')}>Dead</Chip>
-                            <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('group')}>Groups</Chip>
+                            <Chip style={styles.chip} icon="gender-male" onPress={() => this.getObservations('male')}>Male</Chip>
+                            <Chip style={styles.chip} icon="gender-female" onPress={() => this.getObservations('female')}>Female</Chip>
+                            <Chip style={styles.chip} icon="emoticon-dead" onPress={() => this.getObservations('die')}>Dead</Chip>
+                            <Chip style={styles.chip} icon="account-group" onPress={() => this.getObservations('group')}>Groups</Chip>
                             <Chip style={styles.chip} icon="information" onPress={() => this.getObservations('single')}>Single</Chip>
 
                         </View>

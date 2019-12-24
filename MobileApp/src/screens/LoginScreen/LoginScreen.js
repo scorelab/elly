@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet,ScrollView, Image, Dimensions, ImageBackground } from 'react-native'
 import { facebookLogin } from '../../components/FaceBookLogin/FaceBookLogin'
 import { googleLogin } from '../../components/GoogleLogin/GoogleLogin'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COVER, LOGO} from '../../images/index'
-import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
-import { generateUUID } from '../../components/UserDataHandling/UserDataHandling';
+
 class LoginScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -21,53 +19,18 @@ class LoginScreen extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state={
-            signFb: false,
-            signGoogle: false,
-            signPhone: false,
-        }
-    }
-
-    componentDidMount(){
-        if(!this.state.signPhone){
-            auth().onAuthStateChanged(async user => {
-                if (user) {
-                    const uid = user.uid;
-                    const ref = database().ref('/users/').child(uid);
-                    
-                    const name = user.displayName!==null?user.displayName:''
-                    const email = user.email!==null?user.email:''
-                    const photo = user.photoURL!==null?user.photoURL:''
-                    const phone = user.phoneNumber!==null?user.phoneNumber:''
-    
-                    await ref.set({
-                        name: name,
-                        email: email,
-                        photo: photo,
-                        phone: phone,
-                        profile: 'user'
-                    });
-    
-                    this.props.navigation.navigate('App')
-                }
-            });
-        }
-        
     }
 
     facebookLoginBtnHandler = (navigate) => {
-        this.setState({signFb: true})
         facebookLogin(navigate)
     }
 
     GoogleLoginBtnHandler = (navigate) => {
-        this.setState({signGoogle: true})
         googleLogin(navigate)
     }
 
-    phoneLoginBtnHandler = ()=>{
-        this.setState({signPhone: true})
-        this.props.navigation.navigate('Phone')
+    emailLoginBtnHandler = ()=>{
+        this.props.navigation.navigate('Email')
     }
 
     render() {
@@ -78,44 +41,50 @@ class LoginScreen extends React.Component {
                     source={COVER}
                     style={styles.imgConatiner}
                 >
-                    <View style={styles.logoBtnCntner}>
-                        <View style={styles.logoIconContainer}>
-                            <Image source={LOGO} style={styles.logo} />
-                            <Text style={styles.logoText}>Elly</Text>
+                    <ScrollView contentContainerStyle={{flexGrow: 1}} style={styles.scrollView}>
+                        <View style={styles.logoBtnCntner}>
+                            <View style={styles.logoIconContainer}>
+                                <View style={styles.logoImgContainer}>
+                                    <Image source={LOGO} style={styles.logo} />
+                                </View>
+                                <Text style={styles.logoText}>Elly</Text>
+                            </View>
+                            <View style={styles.btnContainer}>
+                                <Icon.Button
+                                    style={styles.btn}
+                                    name="facebook-box"
+                                    backgroundColor="#3b5998"
+                                    onPress={() => this.facebookLoginBtnHandler(navigate)}
+                                    loading={true}
+                                    size={45}
+                                >
+                                    SignIn with Facebook
+                                </Icon.Button>
+                            </View>
+                            <View style={styles.btnContainer}>
+                                <Icon.Button
+                                    style={styles.btn}
+                                    name="google-plus-box"
+                                    backgroundColor="#DD4B39"
+                                    onPress={() => this.GoogleLoginBtnHandler(navigate)}
+                                    size={45}
+                                >
+                                    SignIn with Google
+                                </Icon.Button>
+                            </View>
+                            <View style={styles.btnContainer}>
+                                <Icon.Button
+                                    style={styles.btn}
+                                    name="email-box"
+                                    backgroundColor="grey"
+                                    onPress={() => this.emailLoginBtnHandler()}
+                                    size={45}
+                                >
+                                    SignIn with Email
+                                </Icon.Button>
+                            </View>
                         </View>
-                        <View style={styles.btnContainer}>
-                            <Icon.Button
-                                style={styles.btn}
-                                name="facebook"
-                                backgroundColor="#3b5998"
-                                onPress={() => this.facebookLoginBtnHandler(navigate)}
-                            >
-                                Login with Facebook
-                            </Icon.Button>
-                        </View>
-                        <View style={styles.btnContainer}>
-                            <Icon.Button
-                                style={styles.btn}
-                                name="google"
-                                backgroundColor="#DD4B39"
-                                onPress={() => this.GoogleLoginBtnHandler(navigate)}
-                            >
-                                Login with Google
-                            </Icon.Button>
-                        </View>
-                        <View style={styles.btnContainer}>
-                            <Icon.Button
-                                style={styles.btn}
-                                name="phone"
-                                backgroundColor="grey"
-                                onPress={() => this.phoneLoginBtnHandler()}
-                            >
-                                Login with Phone Number
-                            </Icon.Button>
-                        </View>
-
-                    </View>
-
+                    </ScrollView>
                 </ImageBackground>
 
             </View>
@@ -130,17 +99,18 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         alignSelf: 'stretch',
-        width: Dimensions.get('window').width
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
     },
     btnContainer: {
-        padding: 3,
-        marginBottom: 3,
-        backgroundColor: 'white',
-        borderRadius: 10
+        padding: 0,
+        marginBottom: 4,
+        borderRadius: 10,
     },
     btn: {
         width: Dimensions.get('window').width - 80,
         height: 60,
+        
     },
     logoIconContainer: {
         justifyContent: 'center',
@@ -148,21 +118,16 @@ const styles = StyleSheet.create({
         marginBottom: 25
     },
     logo: {
-        width: 70,
-        height: 50
+        width: 60,
+        height: 60,
+        resizeMode: 'stretch'
     },
     logoText: {
         color: 'white',
-        fontSize: 50,
+        fontSize: 40,
         fontWeight: 'bold',
-        marginBottom: 20
-    },
-    bottom: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        marginBottom: 20
+        marginBottom: 25,
+        textAlign: 'center',
     },
     imgConatiner: {
         width: Dimensions.get('window').width,
@@ -171,12 +136,24 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height,
     },
     logoBtnCntner: {
-        height: 400,
+        flex: 1,
         borderRadius: 50,
-        // backgroundColor: 'rgba(0, 0, 0, 0.2)',
-        padding: 20,
-        width: Dimensions.get('window').width - 40
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        width: Dimensions.get('window').width - 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 20
+    },
+    scrollView: {
+        marginTop: 60,
+        marginBottom: 60,
+        flex:1,
+        height: Dimensions.get('window').height
+    },
+    logoImgContainer: {
+        padding: 20, 
+        backgroundColor: 'black', 
+        borderRadius: 100
     }
 })
 export default LoginScreen;
-
