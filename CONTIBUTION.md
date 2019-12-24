@@ -11,7 +11,7 @@
 
 4. Generate the key fingerprints using `keytool -list -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android`.
 
-5. Create a firebase project, add an android app to project settings, add sha1 to the project, download the google-services.json file and place in the MobileApp/android/app/. (read guide: [https://invertase.io/oss/react-native-firebase/quick-start/create-firebase-project]).
+5. Create a firebase project, add an android app to project settings, add sha1 to the project, download the google-services.json file and place in the MobileApp/android/app/. (read guide: [https://invertase.io/oss/react-native-firebase/quick-start/android-firebase-credentials]).
 
 6. Create a gradle.properties file in **MobileApp/android/** and paste the content in the MobileApp/android/app/samplegradle.properties.
 
