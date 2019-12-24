@@ -1,26 +1,23 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-
-import Icon from '@material-ui/core/Icon';
-
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  NavLink
 } from "react-router-dom";
 
-
-import Pending from '../../containers/pending/Pending';
-import Approved from '../../containers/Approved/Approved';
-import Rejected from '../../containers/Rejected/Rejected'
-
-import { Divider } from '@material-ui/core';
+import Pending from "../../containers/pending/Pending";
+import Approved from "../../containers/Approved/Approved";
+import Rejected from "../../containers/Rejected/Rejected";
 
 const drawerWidth = 240;
 
@@ -28,13 +25,52 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    whiteSpace: "nowrap"
   },
   drawerPaper: {
     width: drawerWidth,
-
-    marginTop: 57
+    marginTop: -6
   },
-  toolbar: theme.mixins.toolbar,
+
+  root: {
+    display: "flex"
+  },
+  menuButton: {
+    marginRight: 36
+  },
+  hide: {
+    display: "none"
+  },
+
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  drawerClose: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1
+    }
+  },
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  }
 }));
 
 const routes = [
@@ -57,67 +93,70 @@ const routes = [
 
 export const SideBar = () => {
   const classes = useStyles();
-  return <Router>
-    <div style={{ display: "flex" }}>
-      <div>
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <List component={'nav'} aria-label="main mailbox folders">
-            <ListItem style={{backgroundColor: 'green', color:'white'}} component={Link}  to={"/home/approved"} key={'approved'}>
-              <ListItemAvatar>
-                <Icon style={{ fontSize: 50, color: 'white' }} >thumb_up</Icon>
-              </ListItemAvatar>
-              <ListItemText primary={'APPROVED'} />
-            </ListItem>
-            <Divider/>
-            <ListItem style={{backgroundColor: 'green', color:'white'}} component={Link} to={"/home/pending"} key={'pending'}>
-              <ListItemAvatar>
-                <Icon style={{ fontSize: 50, color: 'white' }}>hourglass_empty</Icon>
-              </ListItemAvatar>
-              <ListItemText primary={'PENDING'} />
-            </ListItem>
-            <Divider/>
-            <ListItem style={{backgroundColor: 'green', color:'white'}} component={Link} to={"/home/rejected"} key={'rejected'}>
-              <ListItemAvatar>
-                <Icon style={{ fontSize: 50, color: 'white' }}>thumb_down</Icon>
-              </ListItemAvatar>
-              <ListItemText primary={'REJECTED'} />
-            </ListItem>
-          </List>
-        </Drawer>
+  return (
+    <Router>
+      <div style={{ display: "flex" }}>
+        <div>
+          <Drawer
+            className={classes.drawer}
+            variant="permanent"
+            classes={{
+              paper: classes.drawerPaper
+            }}
+          >
+            <div className={classes.toolbar} />
+            <List>
+              <ListItem
+                button
+                component={NavLink}
+                to={"/home/approved"}
+                selected={false}
+              >
+                <ListItemIcon>
+                  <ThumbUpIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Approved"} />
+              </ListItem>
+              <ListItem button component={NavLink} to={"/home/pending"}>
+                <ListItemIcon>
+                  <HourglassEmptyIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Pending"} />
+              </ListItem>
+              <ListItem button component={NavLink} to={"/home/rejected"}>
+                <ListItemIcon>
+                  <ThumbDownIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Rejected"} />
+              </ListItem>
+            </List>
+          </Drawer>
 
-        <Switch>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              children={<route.sidebar />}
-            />
-          ))}
-        </Switch>
+          <Switch>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.sidebar />}
+              />
+            ))}
+          </Switch>
+        </div>
+
+        <div style={{ flex: 1, padding: "10px" }}>
+          <Switch>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.main />}
+              />
+            ))}
+          </Switch>
+        </div>
       </div>
-
-      <div style={{ flex: 1, padding: "10px" }}>
-        <Switch>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              children={<route.main />}
-            />
-          ))}
-        </Switch>
-
-      </div>
-    </div>
-  </Router>
-
-
-}
+    </Router>
+  );
+};
