@@ -111,19 +111,20 @@ export const SideBar = () => {
                 component={NavLink}
                 to={"/home/approved"}
                 selected={false}
+                key={1}
               >
                 <ListItemIcon>
                   <ThumbUpIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Approved"} />
               </ListItem>
-              <ListItem button component={NavLink} to={"/home/pending"}>
+              <ListItem button component={NavLink} to={"/home/pending"} key={2}>
                 <ListItemIcon>
                   <HourglassEmptyIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Pending"} />
               </ListItem>
-              <ListItem button component={NavLink} to={"/home/rejected"}>
+              <ListItem button component={NavLink} to={"/home/rejected"} key={3}>
                 <ListItemIcon>
                   <ThumbDownIcon />
                 </ListItemIcon>
