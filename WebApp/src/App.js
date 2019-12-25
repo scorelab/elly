@@ -13,7 +13,7 @@ export default class App extends React.Component {
         <Switch>
           <Route exact path="/" component={LoginPage} />
           <Route path="/home" component={Home} />
-          <Route path="*" component={NotFoundPage} />
+          <Route exact path="*" component={NotFoundPage} />
         </Switch>
       </BrowserRouter>
     );
