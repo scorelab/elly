@@ -6,7 +6,7 @@ import {LOGO} from '../../images/index';
 class LandingScreen extends React.Component {
   componentDidMount() {
     auth().onAuthStateChanged(user => {
-      if (user !== null) {
+      if (user) {
         this.props.navigation.navigate('App');
       } else {
         this.props.navigation.navigate('SignIn');

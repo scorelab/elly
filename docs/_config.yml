@@ -10,7 +10,7 @@
 app:
   name: Elly App # REQUIRED - Enter your app name
   #ios_id: # REQUIRED - 10 Digit Numeric App ID (lookup in iTunes Connect)
-  android_id: 912209541 # Optional - Enter Android app id like: com.example.app
+  android_id: com.elly # Optional - Enter Android app id like: com.example.app
 
   icon: images/app-icon-512.png # Leave blank to auto-magically populate
   # To update use path relative to project root with no leading slash:
