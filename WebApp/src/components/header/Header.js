@@ -3,8 +3,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import TextField from '@material-ui/core/TextField';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import { auth } from "../../firebase";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles(theme => ({
  menuButton: {
@@ -27,6 +35,98 @@ const useStyles = makeStyles(theme => ({
 
 export const Header =()=>{
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [oldPwdErr, setOldPwdErr] = React.useState(false)
+  const [newPwdErr, setNewPwdErr] = React.useState(false)
+  const [confirmPwdErr, setConfirmPwdErr] = React.useState(false)
+  const [oldPwd, setOldPwd] = React.useState('');
+  const [newPwd, setNewPwd] = React.useState('');
+  const [confirmPwd, setConfirmPwd] = React.useState('');
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#$%^&*])(?=.{8,})/
+
+  const checkOldPassword = async () => {
+    // console.log(auth.currentUser().email)
+    try{
+      let response = await auth.doSignInWithEmailAndPassword(auth.currentUser().email, oldPwd)
+      let user = JSON.parse(JSON.stringify(response)).user
+    // console.log(JSON.parse(JSON.stringify(response)).user)
+      if(user!==null){
+        // console.log("Valid")
+        setOldPwdErr(false)
+        return true
+      }
+      // console.log(user)
+    }catch(err){
+      console.log(err)
+      setOldPwdErr(true)
+      return false
+    }
+    
+  }
+
+  const validPassword = ()=> {
+    if(newPwd.match(passwordPattern)){
+      setNewPwdErr(false)
+      return true
+    }
+    setNewPwdErr(true)
+    return false
+  }
+
+  const passwordsMatch = () => {
+    if(confirmPwd.match(newPwd)){
+      setConfirmPwdErr(false)
+      return true
+    }
+    setConfirmPwdErr(true)
+    return false
+  }
+
+  const handleOldPwd = (text) => {
+    // console.log(text.target.value)
+    setOldPwd(text.target.value)
+  }
+
+  const handleNewPwd = (text) => {
+    // console.log(text.target.value)
+    setNewPwd(text.target.value)
+  }
+
+  const handleConfirmPwd = (text) => {
+    // console.log(text.target.value)
+    setConfirmPwd(text.target.value)
+  }
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
+  const handleClickOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const changePassword = async () => {
+    if(checkOldPassword()&&validPassword()&&passwordsMatch()){
+      try{
+        await auth.updatePassword(newPwd)
+        handleCloseDialog()
+        Swal.fire("Suucessfull!", "Your password has been updated.", "success");
+        // console.log(JSON.stringify(response))
+      }catch(err){
+        console.log(err)
+      }
+    }
+  }
+ 
   const signOut = e => {
     if (e && e.preventDefault) {
       e.preventDefault();
@@ -47,7 +147,26 @@ export const Header =()=>{
                 <Typography className={classes.title} variant="button" display="block" gutterBottom>
                 Elly - Admin
                 </Typography>
-                <Button style={{backgroundColor: 'white'}} mode='outlined' onClick={signOut}>Log out</Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClickOpenDialog}>Password Reset</MenuItem>
+                  <MenuItem onClick={signOut}>Logout</MenuItem>
+                </Menu>
+                <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{backgroundColor: 'white'}}>
+                  <AccountCircleIcon />
+                </IconButton>
+                <Dialog onClose={handleCloseDialog} aria-labelledby="simple-dialog-title" open={open}>
+                  <DialogTitle id="simple-dialog-title">Reset Password</DialogTitle>
+                  <TextField type='password' helperText={oldPwdErr?'Old password is wrong':''} error={oldPwdErr} onChange={(text)=>handleOldPwd(text)} value={oldPwd} style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="Old Password" />
+                  <TextField type='password' helperText={newPwdErr?'Password should contain minimum 8 characters with at least one uppercase, one lowercase and one special charcter(!@_#$%^&*).':''} error={newPwdErr} onChange={(text)=>handleNewPwd(text)} value={newPwd} style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="New Password" />
+                  <TextField type='password' helperText={confirmPwdErr?'Passwords does not match':''} error={confirmPwdErr} onChange={(text)=>handleConfirmPwd(text)} value={confirmPwd} style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="Confirm Password" />
+                  <Button style={{margin: 10, width: 500}} onClick={changePassword} variant="contained" color="primary">RESET</Button>
+                </Dialog>
             </Toolbar>
           </AppBar>
 }
