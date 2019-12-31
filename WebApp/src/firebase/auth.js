@@ -10,3 +10,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 
 // Sign out
 export const doSignOut = () => auth.signOut();
+
+export const currentUser = () => auth.currentUser
+
+export const updatePassword = (newPwd) => auth.currentUser.updatePassword(newPwd)

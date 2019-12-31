@@ -12,6 +12,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import { auth } from "../../firebase";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles(theme => ({
  menuButton: {
@@ -36,6 +37,66 @@ export const Header =()=>{
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const [oldPwdErr, setOldPwdErr] = React.useState(false)
+  const [newPwdErr, setNewPwdErr] = React.useState(false)
+  const [confirmPwdErr, setConfirmPwdErr] = React.useState(false)
+  const [oldPwd, setOldPwd] = React.useState('');
+  const [newPwd, setNewPwd] = React.useState('');
+  const [confirmPwd, setConfirmPwd] = React.useState('');
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#$%^&*])(?=.{8,})/
+
+  const checkOldPassword = async () => {
+    // console.log(auth.currentUser().email)
+    try{
+      let response = await auth.doSignInWithEmailAndPassword(auth.currentUser().email, oldPwd)
+      let user = JSON.parse(JSON.stringify(response)).user
+    // console.log(JSON.parse(JSON.stringify(response)).user)
+      if(user!==null){
+        // console.log("Valid")
+        setOldPwdErr(false)
+        return true
+      }
+      // console.log(user)
+    }catch(err){
+      console.log(err)
+      setOldPwdErr(true)
+      return false
+    }
+    
+  }
+
+  const validPassword = ()=> {
+    if(newPwd.match(passwordPattern)){
+      setNewPwdErr(false)
+      return true
+    }
+    setNewPwdErr(true)
+    return false
+  }
+
+  const passwordsMatch = () => {
+    if(confirmPwd.match(newPwd)){
+      setConfirmPwdErr(false)
+      return true
+    }
+    setConfirmPwdErr(true)
+    return false
+  }
+
+  const handleOldPwd = (text) => {
+    // console.log(text.target.value)
+    setOldPwd(text.target.value)
+  }
+
+  const handleNewPwd = (text) => {
+    // console.log(text.target.value)
+    setNewPwd(text.target.value)
+  }
+
+  const handleConfirmPwd = (text) => {
+    // console.log(text.target.value)
+    setConfirmPwd(text.target.value)
+  }
 
   const handleCloseDialog = () => {
     setOpen(false);
@@ -53,8 +114,17 @@ export const Header =()=>{
     setAnchorEl(null);
   };
 
-  const changePassword = () => {
-
+  const changePassword = async () => {
+    if(checkOldPassword()&&validPassword()&&passwordsMatch()){
+      try{
+        await auth.updatePassword(newPwd)
+        handleCloseDialog()
+        Swal.fire("Suucessfull!", "Your password has been updated.", "success");
+        // console.log(JSON.stringify(response))
+      }catch(err){
+        console.log(err)
+      }
+    }
   }
  
   const signOut = e => {
@@ -92,9 +162,9 @@ export const Header =()=>{
                 </IconButton>
                 <Dialog onClose={handleCloseDialog} aria-labelledby="simple-dialog-title" open={open}>
                   <DialogTitle id="simple-dialog-title">Reset Password</DialogTitle>
-                  <TextField style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="Old Password" />
-                  <TextField style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="New Password" />
-                  <TextField style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="Confirm Password" />
+                  <TextField type='password' helperText={oldPwdErr?'Old password is wrong':''} error={oldPwdErr} onChange={(text)=>handleOldPwd(text)} value={oldPwd} style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="Old Password" />
+                  <TextField type='password' helperText={newPwdErr?'Password should contain minimum 8 characters with at least one uppercase, one lowercase and one special charcter(!@_#$%^&*).':''} error={newPwdErr} onChange={(text)=>handleNewPwd(text)} value={newPwd} style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="New Password" />
+                  <TextField type='password' helperText={confirmPwdErr?'Passwords does not match':''} error={confirmPwdErr} onChange={(text)=>handleConfirmPwd(text)} value={confirmPwd} style={{margin: 10, width: 500}} id="outlined-basic" variant="outlined" label="Confirm Password" />
                   <Button style={{margin: 10, width: 500}} onClick={changePassword} variant="contained" color="primary">RESET</Button>
                 </Dialog>
             </Toolbar>
