@@ -45,6 +45,45 @@
             </a>
             {% endif %}
           </div>
+          {% if site.about_header %}
+          <h2 class="marketing-header">{{ site.about_header }}</h2>
+          {% endif %}
+            
+          </br>
+          Elly is developed by,
+          </br>
+          </br>
+          <img
+            class="app-icon"
+            style="min-width: 92px; margin: 5;"
+            width="150"
+            height="80"
+            {%
+            if
+            site.app.company1
+            %}
+            src="{{ site.app.company1 }}"
+            {%
+            endif
+            %}
+          />
+          &
+          <img
+            class="app-icon"
+            style="min-width: 92px; margin: 5"
+            width="80"
+            height="80"
+            {%
+            if
+            site.app.company2
+            %}
+            src="{{ site.app.company2 }}"
+            {%
+            endif
+            %}
+          />
+          
+          <p class="marketing-desc">{{ site.about_desc }}</p>
         </div>
       </div>
 

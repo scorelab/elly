@@ -132,7 +132,7 @@ android {
         applicationId "com.elly"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
+        versionCode 5
         multiDexEnabled true
         versionName "1.0"
         missingDimensionStrategy 'react-native-camera', 'general'
