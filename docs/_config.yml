@@ -8,7 +8,7 @@
 # General App Info
 #
 app:
-  name: Elly App # REQUIRED - Enter your app name
+  name: Elly # REQUIRED - Enter your app name
   #ios_id: # REQUIRED - 10 Digit Numeric App ID (lookup in iTunes Connect)
   android_id: com.elly # Optional - Enter Android app id like: com.example.app
 
@@ -16,7 +16,8 @@ app:
   # To update use path relative to project root with no leading slash:
   # e.g. images/app-icon-512.png
   # 512px or greater, square
-
+  company1: images/score.jpg
+  company2: images/trunks2.png
   favicon: images/app-favicon.png # uncomment if uploading own favicon
   # To update use path relative to project root with no leading slash:
   # e.g. images/app-favicon.png - can be .ico or .png
@@ -39,9 +40,10 @@ app:
 #
 # Marketing
 #
-marketing_header: Awesome App For Elephant Lovers # Optional
+marketing_header: For Elephant Lovers # Optional
 marketing_desc: Elly app is designed to track and locate elephants captured by the users roaming around Sri Lankan famous national park Udawalawa. User will also be able to upload their own observations about elephants.
-
+about_header:
+about_desc: "ScoreLab origanization with the collaboration of Trunks & Leaves organization for elephant conservation purposes."
 #
 # Social Links
 #

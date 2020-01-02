@@ -127,7 +127,6 @@ class DiscoverScreen extends React.Component {
               title={'Loading'}
               showIndicator={this.state.activityIndicator}
             />
-            <Image style={{opacity: 0}} source={MAPMARKER} />
           </View>
         ) : (
           <MapView
