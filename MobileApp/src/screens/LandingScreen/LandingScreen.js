@@ -4,13 +4,17 @@ import auth from '@react-native-firebase/auth';
 import {LOGO} from '../../images/index';
 
 class LandingScreen extends React.Component {
-  componentDidMount() {
-    auth().onAuthStateChanged(user => {
+  async componentWillMount() {
+    
+    await auth().onAuthStateChanged(user => {
       if (user) {
         this.props.navigation.navigate('App');
       } else {
         this.props.navigation.navigate('SignIn');
       }
+    }).catch(() => {
+      this.setState({ error: 'Authentication Failed.' });
+      this.props.navigation.navigate('SignIn');
     });
   }
 
