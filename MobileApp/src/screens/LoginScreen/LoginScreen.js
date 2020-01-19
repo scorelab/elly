@@ -11,7 +11,7 @@ import {
 import {facebookLogin} from '../../components/FaceBookLogin/FaceBookLogin';
 import {googleLogin} from '../../components/GoogleLogin/GoogleLogin';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {COVER, LOGO} from '../../images/index';
+import {COVER, TREES, LOGO} from '../../images/index';
 
 class LoginScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -44,7 +44,7 @@ class LoginScreen extends React.Component {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-        <ImageBackground source={COVER} style={styles.imgConatiner}>
+        <ImageBackground source={COVER} style={styles.backgroundImage}>
           <ScrollView
             contentContainerStyle={{flexGrow: 1}}
             style={styles.scrollView}>
@@ -55,15 +55,18 @@ class LoginScreen extends React.Component {
                 </View>
                 <Text style={styles.logoText}>Elly</Text>
               </View>
+              
+              
               <View style={styles.btnContainer}>
+              <Text style={styles.introText}>Hello there! Please sign in.</Text>
                 <Icon.Button
                   style={styles.btn}
                   name="facebook-box"
                   backgroundColor="#3b5998"
                   onPress={() => this.facebookLoginBtnHandler(navigate)}
                   loading={true}
-                  size={45}>
-                  SignIn with Facebook
+                  size={30}>
+                  Sign In with Facebook
                 </Icon.Button>
               </View>
               <View style={styles.btnContainer}>
@@ -72,18 +75,18 @@ class LoginScreen extends React.Component {
                   name="google-plus-box"
                   backgroundColor="#DD4B39"
                   onPress={() => this.GoogleLoginBtnHandler(navigate)}
-                  size={45}>
-                  SignIn with Google
+                  size={30}>
+                  Sign In with Google
                 </Icon.Button>
               </View>
               <View style={styles.btnContainer}>
                 <Icon.Button
                   style={styles.btn}
                   name="email-box"
-                  backgroundColor="grey"
+                  backgroundColor="#2ecc71"
                   onPress={() => this.emailLoginBtnHandler()}
-                  size={45}>
-                  SignIn with Email
+                  size={30}>
+                  Sign Up Using Email
                 </Icon.Button>
               </View>
             </View>
@@ -104,30 +107,35 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
   btnContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     padding: 0,
     marginBottom: 4,
-    borderRadius: 10,
+    borderRadius: 4,
   },
   btn: {
-    width: Dimensions.get('window').width - 80,
-    height: 60,
+    width: Dimensions.get('window').width - 150,
+    height: 45,
+    justifyContent: 'flex-start',
+    fontWeight: 'bold',
   },
   logoIconContainer: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 25,
   },
   logo: {
-    width: 60,
-    height: 60,
+    width: 25,
+    height: 25,
     resizeMode: 'stretch',
   },
   logoText: {
-    color: 'white',
+    color: 'black',
     fontSize: 40,
     fontWeight: 'bold',
-    marginBottom: 25,
-    textAlign: 'center',
+    textAlign: 'left',
+    marginLeft: 10,
   },
   imgConatiner: {
     width: Dimensions.get('window').width,
@@ -135,13 +143,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: Dimensions.get('window').height,
   },
+  backgroundImage: {
+  },
+  introText: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: '700',
+    textAlign: 'left',
+  },
   logoBtnCntner: {
     flex: 1,
-    borderRadius: 50,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: Dimensions.get('window').width - 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     margin: 20,
   },
   scrollView: {
@@ -151,7 +165,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
   logoImgContainer: {
-    padding: 20,
+    padding: 10,
     backgroundColor: 'black',
     borderRadius: 100,
   },

@@ -102,16 +102,19 @@ export default class EmailAuthScreen extends React.Component {
               <View style={styles.logoIconContainer}>
                 <View
                   style={{
-                    padding: 20,
+                    padding: 10,
                     backgroundColor: 'black',
                     borderRadius: 100,
                   }}>
                   <Image source={LOGO} style={styles.logo} />
                 </View>
-                <Text style={styles.logoText}>SIGN IN</Text>
+                <Text style={styles.logoText}>Sign In</Text>
               </View>
 
               <View style={styles.btnContainer}>
+                <Text style={{...styles.fieldText, marginTop: 50}}>
+                  Email
+                </Text>
                 <TextInput
                   value={this.state.email}
                   onChangeText={text => this.setState({email: text})}
@@ -138,6 +141,9 @@ export default class EmailAuthScreen extends React.Component {
               </View>
 
               <View style={styles.btnContainer}>
+                <Text style={{...styles.fieldText, marginTop: 20}}>
+                  Password
+                </Text>
                 <TextInput
                   value={this.state.password}
                   onChangeText={text => this.setState({password: text})}
@@ -167,13 +173,13 @@ export default class EmailAuthScreen extends React.Component {
               <View
                 style={[
                   styles.btnContainer,
-                  {backgroundColor: 'none', marginTop: 20, marginBottom: 4},
+                  {backgroundColor: 'none', marginTop: 'auto', marginBottom: 4},
                 ]}>
                 <Button
                   style={styles.btn}
                   onPress={() => this.signInBtnHandler()}
                   mode="contained">
-                  SignIn
+                  Sign In
                 </Button>
               </View>
               <View style={[styles.btnContainer, {backgroundColor: 'none'}]}>
@@ -184,7 +190,7 @@ export default class EmailAuthScreen extends React.Component {
                   ]}
                   onPress={() => this.props.navigation.navigate('EmailSignUp')}
                   mode="outlined">
-                  SignUp
+                  Sign Up
                 </Button>
               </View>
             </View>
@@ -196,52 +202,53 @@ export default class EmailAuthScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  fieldText: {
+    fontFamily: 'ProximaNova-Regular',
+    fontWeight: '600'
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     alignSelf: 'stretch',
     width: Dimensions.get('window').width,
   },
   btnContainer: {
     borderRadius: 10,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   btn: {
     width: '100%',
     height: 60,
     justifyContent: 'center',
-    borderRadius: 50,
+    borderRadius: 10,
   },
   logoIconContainer: {
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 25,
   },
   logo: {
-    width: 60,
-    height: 60,
+    width: 30,
+    height: 30,
     resizeMode: 'stretch',
   },
   logoText: {
-    color: 'white',
+    color: 'black',
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginLeft: 10,
     fontFamily: 'ProximaNova-Regular',
   },
   imgConatiner: {
     width: Dimensions.get('window').width,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
+    height: Dimensions.get('window').height
   },
   logoBtnCntner: {
     flex: 1,
     height: '100%',
-    borderRadius: 50,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 20,
     width: Dimensions.get('window').width - 40,
   },
   snackbar: {
