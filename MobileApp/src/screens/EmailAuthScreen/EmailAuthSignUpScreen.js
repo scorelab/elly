@@ -135,16 +135,19 @@ export default class EmailAuthScreen extends React.Component {
               <View style={styles.logoIconContainer}>
                 <View
                   style={{
-                    padding: 20,
+                    padding: 10,
                     backgroundColor: 'black',
                     borderRadius: 100,
                   }}>
                   <Image source={LOGO} style={styles.logo} />
                 </View>
-                <Text style={styles.logoText}>SIGN UP</Text>
+                <Text style={styles.logoText}>Sign Up</Text>
               </View>
 
               <View style={styles.btnContainer}>
+                <Text style={{...styles.fieldText, marginTop: 40}}>
+                  Username
+                </Text>
                 <TextInput
                   value={this.state.username}
                   onChangeText={text => this.setState({username: text})}
@@ -171,6 +174,9 @@ export default class EmailAuthScreen extends React.Component {
               </View>
 
               <View style={styles.btnContainer}>
+                <Text style={{...styles.fieldText, marginTop: 10}}>
+                  Email
+                </Text>
                 <TextInput
                   value={this.state.email}
                   onChangeText={text => this.setState({email: text})}
@@ -197,6 +203,9 @@ export default class EmailAuthScreen extends React.Component {
               </View>
 
               <View style={styles.btnContainer}>
+                <Text style={{...styles.fieldText, marginTop: 10}}>
+                  Password
+                </Text>
                 <TextInput
                   value={this.state.password}
                   onChangeText={text => this.setState({password: text})}
@@ -224,6 +233,9 @@ export default class EmailAuthScreen extends React.Component {
               </View>
 
               <View style={styles.btnContainer}>
+                <Text style={{...styles.fieldText, marginTop: 10}}>
+                  Confirm Password
+                </Text>
                 <TextInput
                   value={this.state.confirmPassword}
                   onChangeText={text => this.setState({confirmPassword: text})}
@@ -249,15 +261,12 @@ export default class EmailAuthScreen extends React.Component {
                   {this.state.confirmErrMessage}
                 </Snackbar>
               </View>
-
-              <View style={styles.btnContainer}>
-                <Button
-                  style={[styles.btn, {marginTop: 20}]}
+              <Button
+                  style={[styles.btn, {marginTop: 'auto'}]}
                   onPress={() => this.signUpBtnHandler()}
                   mode="contained">
-                  SignUp
-                </Button>
-              </View>
+                  Sign Up
+              </Button>
             </View>
           </ScrollView>
         </ImageBackground>
@@ -267,52 +276,53 @@ export default class EmailAuthScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  fieldText: {
+    fontFamily: 'ProximaNova-Regular',
+    fontWeight: '600'
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     alignSelf: 'stretch',
     width: Dimensions.get('window').width,
   },
   btnContainer: {
     borderRadius: 10,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   btn: {
     width: '100%',
     height: 60,
     justifyContent: 'center',
-    borderRadius: 50,
+    borderRadius: 10,
   },
   logoIconContainer: {
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 25,
   },
   logo: {
-    width: 60,
-    height: 60,
+    width: 30,
+    height: 30,
     resizeMode: 'stretch',
   },
   logoText: {
-    color: 'white',
+    color: 'black',
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginLeft: 10,
     fontFamily: 'ProximaNova-Regular',
   },
   imgConatiner: {
     width: Dimensions.get('window').width,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
+    height: Dimensions.get('window').height
   },
   logoBtnCntner: {
     flex: 1,
     height: '100%',
-    borderRadius: 50,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 20,
     width: Dimensions.get('window').width - 40,
   },
   snackbar: {
