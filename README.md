@@ -27,4 +27,21 @@ Elly App is a new mobile app which is capable of spotting elephants for elephant
 1. Ensure any install or build dependencies are removed.
 2. Submit changes as a pull request.
 
+### Environment Info
+#### System:
+    OS: Linux 5.0 Ubuntu 19.04 (Disco Dingo)
+    CPU: (4) x64 Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
+    Memory: 309.14 MB / 7.55 GB
+    Shell: 5.0.3 - /bin/bash
+#### Binaries:
+    Node: 10.15.2 - /usr/bin/node
+    npm: 6.12.0 - /usr/local/bin/npm
+#### npmPackages:
+    react: 16.9.0 => 16.9.0 
+    react-native: 0.61.2 => 0.61.2 
+#### npmGlobalPackages:
+    create-react-native-app: 2.0.2
+    react-native-cli: 2.0.1
+
+
 #### NOTE: Do not change the .gitignore file.
