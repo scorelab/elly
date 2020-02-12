@@ -51,6 +51,7 @@ class FormScreen extends React.Component {
     date = date.splice(0, date.length - 2);
     this.state = {
       photos: this.props.navigation.getParam('dataUri'),
+      rphotos: this.props.navigation.getParam('ruri'),
       isAlive: 1,
       isSingle: 0,
       cause: 0,
@@ -105,10 +106,19 @@ class FormScreen extends React.Component {
     await storageRef.putFile(this.state.photos);
 
     const url = await storageRef.getDownloadURL();
-    // console.log(url)
+
+    const storageRef2 = storage().ref(
+      '/observations/lowQal/' + randomID + 'L.jpeg',
+    );
+
+    await storageRef2.putFile(this.state.rphotos);
+
+    const url2 = await storageRef2.getDownloadURL();
+    console.log(url2);
     //let time = new Date().getTime();
     await ref.push({
       photoURL: url,
+      rphotos: url2,
       isAlive: this.state.isAlive,
       isSingle: this.state.isSingle,
       cause: this.state.cause,

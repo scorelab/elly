@@ -19,14 +19,20 @@ class CameraViewScreen extends React.Component {
   };
 
   CameracallbackFunction = childData => {
-    this.setState({snaped: childData[0], dataUri: childData[1]});
+    this.setState({
+      snaped: childData[0],
+      dataUri: childData[1],
+      ruri: childData[2],
+    });
     if (this.state.snaped) {
       this.setState({
         snaped: false,
       });
-      console.log(this.state.dataUri);
+      console.log('duri:' + this.state.dataUri);
+      console.log('Ruri: ' + this.state.ruri);
       this.props.navigation.navigate('FormScreenStack', {
         dataUri: this.state.dataUri,
+        ruri: this.state.ruri,
       });
     }
   };

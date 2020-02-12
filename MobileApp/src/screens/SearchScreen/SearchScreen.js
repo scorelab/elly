@@ -63,7 +63,7 @@ class SearchScreen extends React.Component {
     const data = await database()
       .ref(`/usersObservations/`)
       .orderByValue(type)
-      .limitToLast(10)
+      .limitToLast(5)
       .once('value');
     const val = data.val();
 
@@ -75,12 +75,14 @@ class SearchScreen extends React.Component {
       let dif = crntTime - time;
       if (dif <= 604800000) {
         continue;
+      } else if (val[i].verified !== 'verified') {
+        continue;
       }
       let name = val[i].uname;
       let photo = val[i].uimg;
       let userNick = name.toLowerCase().replace(/ /g, '');
 
-      let photUrl = val[i].photoURL;
+      let photUrl = val[i].rphotos;
       let location = val[i].location;
       time = time.toString().split(' ');
       time = time.splice(0, time.length - 1);
@@ -140,7 +142,7 @@ class SearchScreen extends React.Component {
       .ref(`/usersObservations/`)
       .orderByValue(type)
       .endAt(lastVisible)
-      .limitToLast(10)
+      .limitToLast(5)
       .once('value');
 
     const val = data.val();
@@ -155,8 +157,10 @@ class SearchScreen extends React.Component {
       let dif = crntTime - time;
       if (dif <= 604800000) {
         continue;
+      } else if (val[i].verified !== 'verified') {
+        continue;
       }
-      let photUrl = val[i].photoURL;
+      let photUrl = val[i].rphotos;
       let location = val[i].location;
       time = time.toString().split(' ');
       time = time.splice(0, time.length - 1);

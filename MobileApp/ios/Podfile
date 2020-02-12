@@ -70,6 +70,8 @@ target 'Elly' do
 
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
+  pod 'react-native-image-resizer', :path => '../node_modules/react-native-image-resizer'
+
   target 'EllyTests' do
     inherit! :search_paths
     # Pods for testing

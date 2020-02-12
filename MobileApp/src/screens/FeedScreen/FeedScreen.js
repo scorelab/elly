@@ -13,6 +13,7 @@ import {CardComponent} from '../../components/CardComponent/CardComponent';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling';
+import {NavigationEvents} from 'react-navigation';
 
 class FeedScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -78,7 +79,7 @@ class FeedScreen extends React.Component {
     const data = await database()
       .ref(`/usersObservations/`)
       .orderByKey()
-      .limitToLast(10)
+      .limitToLast(5)
       .once('value');
 
     const val = data.val();
@@ -94,8 +95,11 @@ class FeedScreen extends React.Component {
       let dif = crntTime - time;
       if (dif <= 604800000) {
         continue;
+      } else if (val[i].verified !== 'verified') {
+        continue;
       }
-      let photUrl = val[i].photoURL;
+
+      let photUrl = val[i].rphotos;
       let location = val[i].location;
       time = time.toString().split(' ');
       time = time.splice(0, time.length - 1);
@@ -139,7 +143,7 @@ class FeedScreen extends React.Component {
       .ref(`/usersObservations/`)
       .orderByKey()
       .endAt(lastVisible)
-      .limitToLast(10)
+      .limitToLast(5)
       .once('value');
 
     const val = data.val();
@@ -155,8 +159,10 @@ class FeedScreen extends React.Component {
       let dif = crntTime - time;
       if (dif <= 604800000) {
         continue;
+      } else if (val[i].verified !== 'verified') {
+        continue;
       }
-      let photUrl = val[i].photoURL;
+      let photUrl = val[i].rphotos;
       let location = val[i].location;
       time = time.toString().split(' ');
       time = time.splice(0, time.length - 1);
@@ -212,6 +218,7 @@ class FeedScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <NavigationEvents onDidFocus={this.getObservations} />
         {this.state.activityIndicator ? (
           <View style={{width: '100%', backgroundColor: 'grey'}}>
             <ActivityIndicator
