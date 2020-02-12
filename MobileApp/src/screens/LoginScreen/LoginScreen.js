@@ -55,10 +55,11 @@ class LoginScreen extends React.Component {
                 </View>
                 <Text style={styles.logoText}>Elly</Text>
               </View>
-              
-              
+
               <View style={styles.btnContainer}>
-              <Text style={styles.introText}>Hello there! Please sign in.</Text>
+                <Text style={styles.introText}>
+                  Hello there! Please sign in.
+                </Text>
                 <Icon.Button
                   style={styles.btn}
                   name="facebook-box"
@@ -143,8 +144,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: Dimensions.get('window').height,
   },
-  backgroundImage: {
-  },
+  backgroundImage: {},
   introText: {
     color: 'black',
     fontSize: 18,

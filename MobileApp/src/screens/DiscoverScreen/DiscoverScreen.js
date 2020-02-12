@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, StyleSheet, PermissionsAndroid, Image} from 'react-native';
+import {View, StyleSheet, PermissionsAndroid} from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
@@ -7,7 +7,7 @@ import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndica
 import {NavigationEvents} from 'react-navigation';
 import database from '@react-native-firebase/database';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling';
-import {MAPMARKER} from '../../images/index';
+// import {MAPMARKER} from '../../images/index';
 var MapStyle = require('../../config/map.json');
 
 class DiscoverScreen extends React.Component {
@@ -53,6 +53,8 @@ class DiscoverScreen extends React.Component {
       let crntTime = new Date().getTime();
       let dif = crntTime - time;
       if (dif <= 604800000) {
+        continue;
+      } else if (val[i].verified !== 'verified') {
         continue;
       }
       let photUrl = val[i].photoURL;

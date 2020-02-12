@@ -74,7 +74,12 @@ class ProfileScreen extends React.Component {
       openMenu: () => this.openMenu(),
       closeMenu: () => this.closeMenu(),
     });
-    this.getUserData();
+    database()
+      .ref('/usersObservations/')
+      .child(this.state.uid)
+      .on('child_added', () => {
+        this.getUserData();
+      });
   }
 
   logutHandler = async () => {
@@ -127,7 +132,7 @@ class ProfileScreen extends React.Component {
     const data = await database()
       .ref(`/usersObservations/`)
       .orderByValue('uid')
-      .limitToLast(10)
+      .limitToLast(5)
       .once('value');
 
     const val = data.val();
@@ -140,15 +145,19 @@ class ProfileScreen extends React.Component {
       let dif = crntTime - time;
       if (val[i].uid !== this.state.uid) {
         continue;
+      } else {
+        console.log('Not mine');
       }
-      if (dif <= 604800000) {
-        continue;
-      }
+      // if (dif <= 604800000) {
+      //   continue;
+      // } else {
+      //   console.log('Time');
+      // }
       let name = val[i].uname;
       let photo = val[i].uimg;
       let userNick = name.toLowerCase().replace(/ /g, '');
 
-      let photUrl = val[i].photoURL;
+      let photUrl = val[i].rphotos;
       let location = val[i].location;
       time = time.toString().split(' ');
       time = time.splice(0, time.length - 1);
@@ -191,7 +200,7 @@ class ProfileScreen extends React.Component {
       .ref(`/usersObservations/`)
       .orderByValue('uid')
       .endAt(lastVisible)
-      .limitToLast(10)
+      .limitToLast(5)
       .once('value');
 
     const val = data.val();
@@ -206,11 +215,15 @@ class ProfileScreen extends React.Component {
       let dif = crntTime - time;
       if (val[i].uid !== this.state.uid) {
         continue;
+      } else {
+        console.log('Not mine');
       }
-      if (dif <= 604800000) {
-        continue;
-      }
-      let photUrl = val[i].photoURL;
+      // if (dif <= 604800000) {
+      //   continue;
+      // } else {
+      //   console.log('Time');
+      // }
+      let photUrl = val[i].rphotos;
       let location = val[i].location;
       time = time.toString().split(' ');
       time = time.splice(0, time.length - 1);

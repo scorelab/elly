@@ -1,11 +1,14 @@
 # elly
+
+Elly App is a new mobile app which is capable of spotting elephants for elephant conservation purposes.
+
 ### Contributing to Elly-Mobile APP
 
 :+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
 
 1. Fork the [https://github.com/scorelab/elly.git].
 
-2. Generate a debug.keystore using `keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000`. (Keystore name: “debug.keystore”, Keystore password: “android”,     Key alias: “androiddebugkey”, Key password: “android”, CN: “CN=Android Debug,O=Android,C=US”). (read guide: [https://rnavagamuwa.com/programming/android-programming/android-generate-release-debug-keystores/])
+2. Generate a debug.keystore using `keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000`. (Keystore name: “debug.keystore”, Keystore password: “android”, Key alias: “androiddebugkey”, Key password: “android”, CN: “CN=Android Debug,O=Android,C=US”). (read guide: [https://rnavagamuwa.com/programming/android-programming/android-generate-release-debug-keystores/])
 
 3. Place the copy of debug.keystore in MobileApp/android/app/.
 
@@ -20,6 +23,7 @@
 8. Run `npx install`, `react-native run-android`, `react-native start`
 
 ### Pull Request Process
+
 1. Ensure any install or build dependencies are removed.
 2. Submit changes as a pull request.
 

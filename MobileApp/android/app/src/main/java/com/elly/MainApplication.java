@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
           
           // Packages that cannot be autolinked yet can be added manually here, for example:
           //packages.add(new MainReactPackage(),
+            // new ImageResizerPackage(),
           //  new FBSDKPackage(),
            // new FBSDKPackage(),
           //  new MapsPackage(),
