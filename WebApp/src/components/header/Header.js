@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import IconButton from "@material-ui/core/IconButton";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import AccountCircleIcon from "@material-ui/icons/AccountCircleOutlined";
 import TextField from "@material-ui/core/TextField";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "green"
+    backgroundColor: "black"
   },
   avatar: {
     resizeMode: "stretch",
@@ -159,7 +159,7 @@ export const Header = () => {
         <img
           alt="logo"
           className={classes.avatar}
-          src={require("../../images/logo.png")}
+          src={require("../../images/logo/logo.png")}
         />
         <Typography
           className={classes.title}
@@ -167,7 +167,7 @@ export const Header = () => {
           display="block"
           gutterBottom
         >
-          Elly - Admin
+          EleWatch Administrator
         </Typography>
         <Menu
           id="simple-menu"
@@ -184,9 +184,8 @@ export const Header = () => {
           aria-controls="simple-menu"
           aria-haspopup="true"
           onClick={handleClick}
-          style={{ backgroundColor: "white" }}
         >
-          <AccountCircleIcon />
+          <AccountCircleIcon color="white" />
         </IconButton>
         <Dialog
           onClose={handleCloseDialog}

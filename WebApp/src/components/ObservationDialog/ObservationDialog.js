@@ -102,7 +102,7 @@ export default function TransitionsModal(props) {
           .child("usersObservations")
           .child(id)
           .child("verified")
-          .set("approved");
+          .set("verified");
         props.parentCallback(0);
         Swal.fire("Verified!", "Your file has been verified.", "success");
       }
@@ -219,28 +219,9 @@ export default function TransitionsModal(props) {
                         ))}
                       </List>
                     </CardContent>
-                    <CardActions style={{ textAlign: "right" }}>
-                      {props.verified === "approved" ? (
-                        <Button
-                          style={{ margin: 2 }}
-                          variant="outlined"
-                          onClick={() => deleteHandler(props.id, props.userId)}
-                          color="secondary"
-                        >
-                          Reject
-                        </Button>
-                      ) : (
-                        <div>
-                          <Button
-                            style={{ margin: 2 }}
-                            variant="outlined"
-                            onClick={() =>
-                              verifyHandler(props.id, props.userId)
-                            }
-                            color="primary"
-                          >
-                            Verify
-                          </Button>
+                    {props.showBtns ? (
+                      <CardActions style={{ textAlign: "right" }}>
+                        {props.verified === "approved" ? (
                           <Button
                             style={{ margin: 2 }}
                             variant="outlined"
@@ -251,9 +232,32 @@ export default function TransitionsModal(props) {
                           >
                             Reject
                           </Button>
-                        </div>
-                      )}
-                    </CardActions>
+                        ) : (
+                          <div>
+                            <Button
+                              style={{ margin: 2 }}
+                              variant="outlined"
+                              onClick={() =>
+                                verifyHandler(props.id, props.userId)
+                              }
+                              color="primary"
+                            >
+                              Verify
+                            </Button>
+                            <Button
+                              style={{ margin: 2 }}
+                              variant="outlined"
+                              onClick={() =>
+                                deleteHandler(props.id, props.userId)
+                              }
+                              color="secondary"
+                            >
+                              Reject
+                            </Button>
+                          </div>
+                        )}
+                      </CardActions>
+                    ) : null}
                   </div>
                 </Card>
               </Grid>

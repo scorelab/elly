@@ -34,7 +34,7 @@ class Approved extends React.Component {
         for (let i in result) {
           console.log(i);
           total = total + 1;
-          if (result[i].verified === "approved") {
+          if (result[i].verified === "verified") {
             approved = approved + 1;
           } else if (result[i].verified === "pending") {
             pending = pending + 1;
@@ -204,6 +204,7 @@ class Approved extends React.Component {
                 index={this.state.item}
                 parentCallback={this.observationDialog}
                 max={this.state.observations.length}
+                showBtns={true}
               />
             ) : null}
           </div>
