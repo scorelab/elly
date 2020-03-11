@@ -7,11 +7,14 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import HomeHeader from "../../components/HomeHeader/HomeHeader";
 import HomeBanner from "../../components/HomeBanner/HomeBanner";
+import HomeMap from "../../components/HomeMap/HomeMap";
 import { generateResult } from "../../firebase/dataHandling";
 import TileImage from "../../components/TileImage/TileImage";
 import firebase from "firebase/app";
 import ObservationDialog from "../../components/ObservationDialog/ObservationDialog";
 import ReactLoading from "react-loading";
+import HomeSocial from "../../components/HomeSocial/HomeSocial";
+import HomeObservationTitle from "../../components/HomeObservationTitle/HomeObservationTitle";
 
 const Copyright = () => {
   return (
@@ -38,27 +41,13 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4)
   },
   cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
-  },
-  card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column"
-  },
-  cardMedia: {
-    paddingTop: "56.25%" // 16:9
-  },
-  cardContent: {
-    flexGrow: 1
+    width: "100%"
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6)
   }
 }));
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default class Home extends Component {
   constructor(props) {
@@ -78,6 +67,7 @@ export default class Home extends Component {
     firebase
       .database()
       .ref("usersObservations")
+      .limitToFirst(10)
       .on("value", snapshot => {
         const result = snapshot.val();
         let observations = [];
@@ -150,13 +140,18 @@ export default class Home extends Component {
   };
   render() {
     const classes = useStyles;
+    // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     return (
       <React.Fragment>
         <CssBaseline />
         <HomeHeader />
-        <main>
+
+        <main style={{ width: "100%" }}>
           <HomeBanner />
-          <Container className={classes.cardGrid} maxWidth="md">
+          <HomeSocial />
+          <HomeMap data={this.state.observations} />
+          <HomeObservationTitle />
+          <Container className={classes.cardGrid} maxWidth="100%">
             {!this.state.done ? (
               <div
                 style={{
@@ -168,11 +163,19 @@ export default class Home extends Component {
                 <ReactLoading type={"bars"} color={"black"} />
               </div>
             ) : (
-              <Grid container spacing={4}>
+              <Grid
+                container
+                style={{
+                  width: "100%",
+                  padding: 50,
+                  backgroundColor: "#9b7653",
+                  borderRadius: 10
+                }}
+              >
                 {this.state.observations.map((ob, i) => {
                   let component = [];
                   component.push(
-                    <Grid item xs={4}>
+                    <Grid item key={i} xs={12} sm={6} md={4}>
                       <TileImage
                         verified={false}
                         userId={ob[6]}
@@ -190,82 +193,7 @@ export default class Home extends Component {
                       />
                     </Grid>
                   );
-                  component.push(
-                    <Grid item xs={4}>
-                      <TileImage
-                        verified={false}
-                        userId={ob[6]}
-                        id={ob[5]}
-                        user={ob[0]}
-                        userPhoto={ob[1]}
-                        obPhoto={ob[2]}
-                        time={ob[3]}
-                        result={ob[4]}
-                        key={i}
-                        index={i}
-                        wp={300}
-                        hp={300}
-                        parentCallback={this.reviewCard}
-                      />
-                    </Grid>
-                  );
-                  component.push(
-                    <Grid item xs={4}>
-                      <TileImage
-                        verified={false}
-                        userId={ob[6]}
-                        id={ob[5]}
-                        user={ob[0]}
-                        userPhoto={ob[1]}
-                        obPhoto={ob[2]}
-                        time={ob[3]}
-                        result={ob[4]}
-                        key={i}
-                        index={i}
-                        wp={300}
-                        hp={300}
-                        parentCallback={this.reviewCard}
-                      />
-                    </Grid>
-                  );
-                  component.push(
-                    <Grid item xs={4}>
-                      <TileImage
-                        verified={false}
-                        userId={ob[6]}
-                        id={ob[5]}
-                        user={ob[0]}
-                        userPhoto={ob[1]}
-                        obPhoto={ob[2]}
-                        time={ob[3]}
-                        result={ob[4]}
-                        key={i}
-                        index={i}
-                        wp={610}
-                        hp={400}
-                        parentCallback={this.reviewCard}
-                      />
-                    </Grid>
-                  );
-                  component.push(
-                    <Grid item xs={4}>
-                      <TileImage
-                        verified={false}
-                        userId={ob[6]}
-                        id={ob[5]}
-                        user={ob[0]}
-                        userPhoto={ob[1]}
-                        obPhoto={ob[2]}
-                        time={ob[3]}
-                        result={ob[4]}
-                        key={i}
-                        index={i}
-                        wp={300}
-                        hp={300}
-                        parentCallback={this.reviewCard}
-                      />
-                    </Grid>
-                  );
+
                   return component;
                 })}
                 {this.state.observations.length > 0 ? (

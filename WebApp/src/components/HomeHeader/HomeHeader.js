@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -7,40 +6,43 @@ import Typography from "@material-ui/core/Typography";
 import { NavLink } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
-  icon: {
-    width: 35,
-    height: 35
-  }
-}));
-
 export default function HomeHeader(props) {
-  const classes = useStyles();
-
   return (
-    <AppBar style={{ backgroundColor: "black" }} position="relative">
+    <AppBar style={{ backgroundColor: "white" }} position="relative">
       <Toolbar>
-        <div style={{ borderRadius: 2, marginRight: 5 }}>
-          <img
-            alt="logo"
-            className={classes.icon}
-            src={require("../../images/logo/logo.png")}
-          />
-        </div>
-
-        <Typography style={{ flex: 1 }} variant="button" color="inherit" noWrap>
-          EleWatch
-        </Typography>
-        {/* <SignInIcon /> */}
-        <Button
-          style={{ fontFamily: "roboto" }}
-          variant="button"
-          color="inherit"
-          noWrap
-          style={{ backgroundColor: "green" }}
-          component={NavLink}
-          to={"/login"}
+        <div
+          style={{
+            flex: 1,
+            color: "black",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row"
+          }}
         >
+          {/* <div
+            style={{
+              borderRadius: 2,
+              marginRight: 5
+            }}
+          >
+            <img
+              alt="logo"
+              className={classes.icon}
+              src={require("../../images/logo/logo.png")}
+            />
+          </div> */}
+
+          <Typography
+            variant="button"
+            color="inherit"
+            href={"/"}
+            style={{ fontSize: 24 }}
+          >
+            EleWatch
+          </Typography>
+        </div>
+        {/* <SignInIcon /> */}
+        <Button color="primary" component={NavLink} to={"/login"}>
           Sign In
         </Button>
       </Toolbar>

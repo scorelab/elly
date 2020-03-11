@@ -124,7 +124,12 @@ export const SideBar = () => {
                 </ListItemIcon>
                 <ListItemText primary={"Pending"} />
               </ListItem>
-              <ListItem button component={NavLink} to={"/home/rejected"} key={3}>
+              <ListItem
+                button
+                component={NavLink}
+                to={"/home/rejected"}
+                key={3}
+              >
                 <ListItemIcon>
                   <ThumbDownIcon />
                 </ListItemIcon>

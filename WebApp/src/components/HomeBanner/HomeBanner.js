@@ -1,10 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-// import Grid from "@material-ui/core/Grid";
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import Cover from "../../images/cover/cover.jpg";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -48,47 +46,93 @@ export default function HomeBanner(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.heroContent}>
-      <Container maxWidth="sm">
-        <div className={classes.cover}>
-          <Typography
-            component="h6"
-            variant="h4"
-            align="center"
-            color="textPrimary"
-            gutterBottom
-            //   style={{ fontFamily: "Alegreya" }}
-          >
-            ELEWATCH
-          </Typography>
-          <Typography
-            variant="body1"
-            align="center"
-            color="textSecondary"
-            paragraph
-          >
-            Welcome to the EleWatch platform. We are collecting a lot of
-            elephants images captured from all over the world. You can
-            contribute to us by using the mobile app{" "}
-            <a href="https://www.scorelab.org/elly/">here.</a>
-          </Typography>
-        </div>
-
-        {/* <div className={classes.heroButtons}>
-          <Grid container spacing={2} justify="center">
-            <Grid item>
-              <Button variant="contained" color="primary">
-                Main call to action
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="outlined" color="primary">
-                Secondary action
-              </Button>
-            </Grid>
+    <Grid
+      container
+      style={{
+        width: "100%",
+        height: 700,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundImage:
+          "url('https://pbs.twimg.com/media/ESm_qhjUwAAubGh?format=jpg&name=medium')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}
+    >
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={6}
+        style={{
+          padding: 100,
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%"
+        }}
+      >
+        <Typography
+          component="h2"
+          variant="h2"
+          align="left"
+          color="textPrimary"
+          style={{ color: "white" }}
+        >
+          What is Ele Watch?
+        </Typography>
+        <Typography
+          variant="body1"
+          align="left"
+          color="textSecondary"
+          paragraph
+          style={{ fontSize: 22, color: "white" }}
+        >
+          Welcome to the EleWatch platform. We are collecting a lot of elephants
+          images captured from all over the world. You can contribute to us by
+          using the mobile app. These data will be used for elephant
+          conservation purposes.
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item>
+            <Button
+              href={"https://www.scorelab.org/elly/"}
+              variant="contained"
+              color="primary"
+            >
+              Download app
+            </Button>
           </Grid>
-        </div> */}
-      </Container>
-    </div>
+          <Grid item>
+            <Button
+              href={
+                "https://www.trunksnleaves.org/support-our-work-266094.html"
+              }
+              variant="contained"
+            >
+              Contact us
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={6}
+        style={{
+          padding: 100,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <img
+          alt="logo"
+          className={classes.icon}
+          src={require("../../images/logo/logo.png")}
+        />
+      </Grid>
+    </Grid>
   );
 }

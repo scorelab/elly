@@ -21,11 +21,12 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
-    marginLeft: 5
+    marginLeft: 5,
+    color: "black"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "black"
+    backgroundColor: "white"
   },
   avatar: {
     resizeMode: "stretch",
@@ -156,11 +157,6 @@ export const Header = () => {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        <img
-          alt="logo"
-          className={classes.avatar}
-          src={require("../../images/logo/logo.png")}
-        />
         <Typography
           className={classes.title}
           variant="button"

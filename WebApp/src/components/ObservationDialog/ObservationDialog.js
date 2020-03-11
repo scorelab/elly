@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import ArrowBackIos from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -67,7 +68,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column"
   },
   content: {
-    flex: "1 0 auto"
+    flex: "1 0 auto",
+    backgroundColor: "#9b7653"
   },
   cover: {
     width: 700,
@@ -163,7 +165,7 @@ export default function TransitionsModal(props) {
         }}
       >
         <Fade in={props.open}>
-          <Paper>
+          <Paper style={{ backgroundColor: "#70543e" }}>
             <Grid
               container
               alignItems="center"
@@ -174,6 +176,7 @@ export default function TransitionsModal(props) {
                 <IconButton
                   aria-label="close"
                   color="secondary"
+                  style={{ backgroundColor: "white", margin: 10 }}
                   onClick={props.onClose}
                 >
                   <CloseIcon />
@@ -185,6 +188,7 @@ export default function TransitionsModal(props) {
                     margin: 10,
                     width: 50,
                     height: 50,
+                    color: "white",
                     cursor: "pointer"
                   }}
                   onClick={showPrev}
@@ -203,18 +207,25 @@ export default function TransitionsModal(props) {
                       avatar={
                         <Avatar aria-label="recipe" src={props.userPhoto} />
                       }
-                      title={props.user}
-                      subheader={props.time}
+                      title={"Captured by " + props.user}
+                      subheader={"On " + props.time}
                     />
                     <CardContent className={classes.content}>
                       <List style={{ display: "inline-block", margin: 10 }}>
-                        {props.result.map(item => (
+                        {props.result.map((item, i) => (
                           <ListItem
+                            icon={"camera"}
                             button
                             key={item[1]}
                             className={classes.listItem}
                           >
-                            <ListItemText primary={item[1]} />
+                            <ListItemAvatar>
+                              <Avatar color={"primary"}>{i + 1}</Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                              style={{ color: "white" }}
+                              primary={item[1]}
+                            />
                           </ListItem>
                         ))}
                       </List>
@@ -267,7 +278,8 @@ export default function TransitionsModal(props) {
                     margin: 10,
                     width: 50,
                     height: 50,
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    color: "white"
                   }}
                   onClick={showNext}
                 />

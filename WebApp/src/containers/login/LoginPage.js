@@ -7,6 +7,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { auth } from "../../firebase";
+import HomeHeader from "../../components/HomeHeader/HomeHeader";
 
 var firebase = require("firebase");
 var sectionStyle = {
@@ -82,6 +83,7 @@ class Login extends React.Component {
   render() {
     return (
       <div style={sectionStyle}>
+        <HomeHeader />
         <Container style={{ padding: 10 }} component="main" maxWidth="xs">
           <CssBaseline />
           <div
