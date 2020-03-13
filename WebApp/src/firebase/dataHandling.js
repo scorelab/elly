@@ -1,6 +1,6 @@
 export function generateResult(data) {
   let result = [];
-  result.push(["map-marker", "Located at " + data.address.toString()]);
+  result.push(["map-marker", "Found near " + data.address.toString()]);
   result.push(["map-marker", data.location.toString()]);
 
   let time = new Date(data.time);

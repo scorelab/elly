@@ -68,8 +68,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column"
   },
   content: {
-    flex: "1 0 auto",
-    backgroundColor: "#9b7653"
+    flex: "1 0 auto"
+    // backgroundColor: "#9b7653"
   },
   cover: {
     width: 700,
@@ -223,7 +223,7 @@ export default function TransitionsModal(props) {
                               <Avatar color={"primary"}>{i + 1}</Avatar>
                             </ListItemAvatar>
                             <ListItemText
-                              style={{ color: "white" }}
+                              // style={{ color: "white" }}
                               primary={item[1]}
                             />
                           </ListItem>

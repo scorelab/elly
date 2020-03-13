@@ -15,6 +15,7 @@ import ObservationDialog from "../../components/ObservationDialog/ObservationDia
 import ReactLoading from "react-loading";
 import HomeSocial from "../../components/HomeSocial/HomeSocial";
 import HomeObservationTitle from "../../components/HomeObservationTitle/HomeObservationTitle";
+// import { Button } from "@material-ui/core";
 
 const Copyright = () => {
   return (
@@ -167,8 +168,7 @@ export default class Home extends Component {
                 container
                 style={{
                   width: "100%",
-                  padding: 50,
-                  backgroundColor: "#9b7653",
+                  // backgroundColor: "#9b7653",
                   borderRadius: 10
                 }}
               >
