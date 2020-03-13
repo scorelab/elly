@@ -132,9 +132,9 @@ export const Header = () => {
     }
   };
 
-  const handleClickOpenAboutDialog = () => {
-    setOpenAbout(true);
-  };
+  // const handleClickOpenAboutDialog = () => {
+  //   setOpenAbout(true);
+  // };
 
   const handleCloseAboutDialog = () => {
     setOpenAbout(false);
@@ -174,7 +174,7 @@ export const Header = () => {
         >
           <MenuItem onClick={handleClickOpenDialog}>Password Reset</MenuItem>
           <MenuItem onClick={signOut}>Logout</MenuItem>
-          <MenuItem onClick={handleClickOpenAboutDialog}>About</MenuItem>
+          {/* <MenuItem onClick={handleClickOpenAboutDialog}>About</MenuItem> */}
         </Menu>
         <IconButton
           aria-controls="simple-menu"

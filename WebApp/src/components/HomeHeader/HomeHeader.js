@@ -8,12 +8,12 @@ import { Button } from "@material-ui/core";
 
 export default function HomeHeader(props) {
   return (
-    <AppBar style={{ backgroundColor: "white" }} position="relative">
+    <AppBar style={{ backgroundColor: "#014421" }} position="relative">
       <Toolbar>
         <div
           style={{
             flex: 1,
-            color: "black",
+            color: "white",
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "row"
@@ -36,13 +36,18 @@ export default function HomeHeader(props) {
             variant="button"
             color="inherit"
             href={"/"}
-            style={{ fontSize: 24 }}
+            style={{ fontSize: 24, fontFamily: "Montserrat-Regular" }}
           >
             EleWatch
           </Typography>
         </div>
         {/* <SignInIcon /> */}
-        <Button color="primary" component={NavLink} to={"/login"}>
+        <Button
+          variant="outlined"
+          color="inherit"
+          component={NavLink}
+          to={"/login"}
+        >
           Sign In
         </Button>
       </Toolbar>

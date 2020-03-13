@@ -50,11 +50,10 @@ export default function HomeBanner(props) {
       container
       style={{
         width: "100%",
-        height: 700,
+        height: 600,
         justifyContent: "center",
         alignItems: "center",
-        backgroundImage:
-          "url('https://pbs.twimg.com/media/ESm_qhjUwAAubGh?format=jpg&name=medium')",
+        backgroundImage: `url(${require("../../images/banner.jpeg")})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat"
@@ -78,7 +77,7 @@ export default function HomeBanner(props) {
           variant="h2"
           align="left"
           color="textPrimary"
-          style={{ color: "white" }}
+          style={{ color: "white", fontFamily: "Montserrat-Regular" }}
         >
           What is Ele Watch?
         </Typography>
@@ -87,7 +86,11 @@ export default function HomeBanner(props) {
           align="left"
           color="textSecondary"
           paragraph
-          style={{ fontSize: 22, color: "white" }}
+          style={{
+            fontSize: 22,
+            color: "white",
+            fontFamily: "Montserrat-Regular"
+          }}
         >
           Welcome to the EleWatch platform. We are collecting a lot of elephants
           images captured from all over the world. You can contribute to us by

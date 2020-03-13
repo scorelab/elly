@@ -1,51 +1,80 @@
-import React from "react";
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
 import { auth } from "../../firebase";
-import HomeHeader from "../../components/HomeHeader/HomeHeader";
-
+import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Copyright from "../../components/Copyright/Copyright";
 var firebase = require("firebase");
-var sectionStyle = {
-  width: "100%",
-  backgroundPosition: "center",
-  backgroundRepeat: "no-repeat"
-};
 
-class Login extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      email: "",
-      password: "",
-      err: "",
-      loading: false
-    };
+const useStyles = makeStyles(theme => ({
+  root: {
+    height: "100vh"
+  },
+  image: {
+    backgroundImage: `url(${require("../../images/banner.jpeg")})`,
+    backgroundRepeat: "no-repeat",
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? theme.palette.grey[900]
+        : theme.palette.grey[50],
+    backgroundSize: "cover",
+    backgroundPosition: "center"
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: "100%" // Fix IE 11 issue.
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
   }
+}));
 
-  onEmailChange = e => {
-    this.setState({ email: e.target.value });
+export default function LoginPage(props) {
+  const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [pass, setPassword] = useState("");
+  const [err, setErr] = useState("");
+
+  const onEmailChange = e => {
+    setEmail(e.target.value);
   };
 
-  onPasswordChange = e => {
-    this.setState({ password: e.target.value });
+  const onPasswordChange = e => {
+    setPassword(e.target.value);
   };
 
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    this.handleSubmit({
-      email: this.state.email,
-      password: this.state.password
+    handleSubmit({
+      email: email,
+      password: pass
     }).catch(err => {
-      this.setState({ err: err.message });
+      setErr(err);
     });
   };
-  handleSubmit = ({ email, password }) => {
-    this.setState({ loading: true });
+
+  const onErr = err => {
+    setErr(err);
+  };
+  const handleSubmit = ({ email, password }) => {
     return auth
       .doSignInWithEmailAndPassword(email, password)
       .then(response => {
@@ -69,92 +98,93 @@ class Login extends React.Component {
                 loading: false
               });
             } else {
-              this.props.history.push("/home/approved");
+              props.history.push("/home/approved");
             }
           });
       })
       .catch(err => {
         console.log("Failed Sign In", err);
-        this.setState({ err: err.message, loading: false });
+        onErr(err.message);
         throw err;
       });
   };
-
-  render() {
-    return (
-      <div style={sectionStyle}>
-        <HomeHeader />
-        <Container style={{ padding: 10 }} component="main" maxWidth="xs">
-          <CssBaseline />
-          <div
-            style={{ display: "flex", alignItems: "center", height: "100vh" }}
-          >
-            <form
-              noValidate
-              onSubmit={this.onSubmit}
-              style={{
-                backgroundColor: "rgba(247, 247, 247, 0.8)",
-                borderRadius: "25px",
-                padding: "20px"
-              }}
+  return (
+    <Grid container component="main" className={classes.root}>
+      <CssBaseline />
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Administrator Sign in
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={onSubmit}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={onEmailChange}
+            />
+            <Typography
+              color="error"
+              variant="caption"
+              display="block"
+              gutterBottom
             >
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <Typography component="h1" variant="h4">
-                  Sign in
-                </Typography>
-              </div>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={this.state.email}
-                onChange={this.onEmailChange}
-              />
-              <Typography
-                color="error"
-                variant="caption"
-                display="block"
-                gutterBottom
-              >
-                {this.state.err}
-              </Typography>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={this.state.password}
-                onChange={this.onPasswordChange}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                disabled={this.state.loading}
-              >
-                Sign In
-              </Button>
-            </form>
-          </div>
-        </Container>
-      </div>
-    );
-  }
+              {err}
+            </Typography>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={pass}
+              onChange={onPasswordChange}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            {/* <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid> */}
+            <Box mt={5}></Box>
+          </form>
+        </div>
+      </Grid>
+      <Copyright />
+    </Grid>
+  );
 }
-export default Login;
