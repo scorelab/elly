@@ -21,15 +21,16 @@ export default function SmallCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card}>
+    <Card style={{ backgroundColor: props.color }} className={classes.card}>
       <CardHeader
         avatar={
-          <Icon style={{ fontSize: 40 }} color="action">
+          <Icon style={{ fontSize: 120, color: "white" }} color="action">
             {props.icon}
           </Icon>
         }
         title={props.type}
         subheader={props.count}
+        style={{ fontSize: 10 }}
       />
     </Card>
   );

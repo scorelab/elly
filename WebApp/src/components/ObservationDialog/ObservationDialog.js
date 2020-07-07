@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import ArrowBackIos from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -68,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: "1 0 auto",
+    // backgroundColor: "#9b7653"
   },
   cover: {
     width: 700,
@@ -102,7 +104,7 @@ export default function TransitionsModal(props) {
           .child("usersObservations")
           .child(id)
           .child("verified")
-          .set("approved");
+          .set("verified");
         props.parentCallback(0);
         Swal.fire("Verified!", "Your file has been verified.", "success");
       }
@@ -163,7 +165,7 @@ export default function TransitionsModal(props) {
         }}
       >
         <Fade in={props.open}>
-          <Paper>
+          <Paper style={{ backgroundColor: "#70543e" }}>
             <Grid
               container
               alignItems="center"
@@ -174,6 +176,7 @@ export default function TransitionsModal(props) {
                 <IconButton
                   aria-label="close"
                   color="secondary"
+                  style={{ backgroundColor: "white", margin: 10 }}
                   onClick={props.onClose}
                 >
                   <CloseIcon />

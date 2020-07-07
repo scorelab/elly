@@ -129,6 +129,7 @@ class Pending extends React.Component {
             index={this.state.item}
             parentCallback={this.observationDialog}
             max={this.state.observations.length}
+            showBtns={true}
           />
         ) : null}
       </Container>
