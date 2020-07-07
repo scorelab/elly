@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import IconButton from "@material-ui/core/IconButton";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import AccountCircleIcon from "@material-ui/icons/AccountCircleOutlined";
 import TextField from "@material-ui/core/TextField";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -21,11 +21,12 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
-    marginLeft: 5
+    marginLeft: 5,
+    color: "black"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "green"
+    backgroundColor: "white"
   },
   avatar: {
     resizeMode: "stretch",
@@ -131,9 +132,9 @@ export const Header = () => {
     }
   };
 
-  const handleClickOpenAboutDialog = () => {
-    setOpenAbout(true);
-  };
+  // const handleClickOpenAboutDialog = () => {
+  //   setOpenAbout(true);
+  // };
 
   const handleCloseAboutDialog = () => {
     setOpenAbout(false);
@@ -156,18 +157,13 @@ export const Header = () => {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        <img
-          alt="logo"
-          className={classes.avatar}
-          src={require("../../images/logo.png")}
-        />
         <Typography
           className={classes.title}
           variant="button"
           display="block"
           gutterBottom
         >
-          Elly - Admin
+          EleWatch Administrator
         </Typography>
         <Menu
           id="simple-menu"
@@ -178,15 +174,14 @@ export const Header = () => {
         >
           <MenuItem onClick={handleClickOpenDialog}>Password Reset</MenuItem>
           <MenuItem onClick={signOut}>Logout</MenuItem>
-          <MenuItem onClick={handleClickOpenAboutDialog}>About</MenuItem>
+          {/* <MenuItem onClick={handleClickOpenAboutDialog}>About</MenuItem> */}
         </Menu>
         <IconButton
           aria-controls="simple-menu"
           aria-haspopup="true"
           onClick={handleClick}
-          style={{ backgroundColor: "white" }}
         >
-          <AccountCircleIcon />
+          <AccountCircleIcon color="white" />
         </IconButton>
         <Dialog
           onClose={handleCloseDialog}

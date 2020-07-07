@@ -6,3 +6,7 @@ a.active {
 a.active > div > svg {
   color: white;
 }
+@font-face {
+  font-family: "Montserrat-Regular";
+  src: local("FiraSans"), url(./fonts/Montserrat-Regular.ttf) format("truetype");
+}

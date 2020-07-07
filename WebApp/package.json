@@ -7,8 +7,13 @@
     "@material-ui/icons": "^4.5.1",
     "clsx": "^1.0.4",
     "firebase": "^7.5.0",
+    "google-maps-react": "^2.0.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-fade-in": "^0.1.8",
+    "react-loading": "^2.0.3",
+    "react-lottie": "^1.2.3",
+    "react-photo-gallery": "^8.0.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
     "sweetalert2": "^9.4.3"
