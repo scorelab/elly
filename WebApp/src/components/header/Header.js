@@ -15,23 +15,22 @@ import { auth } from "../../firebase";
 import Swal from "sweetalert2";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
-    marginLeft: 5
+    marginLeft: 5,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "green"
   },
   avatar: {
     resizeMode: "stretch",
     width: 50,
-    height: 50
-  }
+    height: 50,
+  },
 }));
 
 export const Header = () => {
@@ -87,17 +86,17 @@ export const Header = () => {
     return false;
   };
 
-  const handleOldPwd = text => {
+  const handleOldPwd = (text) => {
     // console.log(text.target.value)
     setOldPwd(text.target.value);
   };
 
-  const handleNewPwd = text => {
+  const handleNewPwd = (text) => {
     // console.log(text.target.value)
     setNewPwd(text.target.value);
   };
 
-  const handleConfirmPwd = text => {
+  const handleConfirmPwd = (text) => {
     // console.log(text.target.value)
     setConfirmPwd(text.target.value);
   };
@@ -110,7 +109,7 @@ export const Header = () => {
     setOpen(true);
   };
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -139,35 +138,35 @@ export const Header = () => {
     setOpenAbout(false);
   };
 
-  const signOut = e => {
+  const signOut = (e) => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
 
     return auth
       .doSignOut()
-      .then(response => {
+      .then((response) => {
         console.log("successfully signed out", response);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("failed to sign out", err);
       });
   };
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        <img
+        {/* <img
           alt="logo"
           className={classes.avatar}
           src={require("../../images/logo.png")}
-        />
+        /> */}
         <Typography
           className={classes.title}
           variant="button"
           display="block"
           gutterBottom
         >
-          Elly - Admin
+          Administrator
         </Typography>
         <Menu
           id="simple-menu"
@@ -175,19 +174,14 @@ export const Header = () => {
           keepMounted
           open={Boolean(anchorEl)}
           onClose={handleClose}
+          style={{ marginTop: 30 }}
         >
           <MenuItem onClick={handleClickOpenDialog}>Password Reset</MenuItem>
           <MenuItem onClick={signOut}>Logout</MenuItem>
           <MenuItem onClick={handleClickOpenAboutDialog}>About</MenuItem>
         </Menu>
-        <IconButton
-          aria-controls="simple-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-          style={{ backgroundColor: "white" }}
-        >
-          <AccountCircleIcon />
-        </IconButton>
+
+        <AccountCircleIcon onClick={handleClick} />
         <Dialog
           onClose={handleCloseDialog}
           aria-labelledby="simple-dialog-title"
@@ -198,7 +192,7 @@ export const Header = () => {
             type="password"
             helperText={oldPwdErr ? "Old password is wrong" : ""}
             error={oldPwdErr}
-            onChange={text => handleOldPwd(text)}
+            onChange={(text) => handleOldPwd(text)}
             value={oldPwd}
             style={{ margin: 10, width: 500 }}
             id="outlined-basic"
@@ -213,7 +207,7 @@ export const Header = () => {
                 : ""
             }
             error={newPwdErr}
-            onChange={text => handleNewPwd(text)}
+            onChange={(text) => handleNewPwd(text)}
             value={newPwd}
             style={{ margin: 10, width: 500 }}
             id="outlined-basic"
@@ -224,7 +218,7 @@ export const Header = () => {
             type="password"
             helperText={confirmPwdErr ? "Passwords does not match" : ""}
             error={confirmPwdErr}
-            onChange={text => handleConfirmPwd(text)}
+            onChange={(text) => handleConfirmPwd(text)}
             value={confirmPwd}
             style={{ margin: 10, width: 500 }}
             id="outlined-basic"

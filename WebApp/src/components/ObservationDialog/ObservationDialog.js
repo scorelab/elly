@@ -21,15 +21,15 @@ import {
   CardMedia,
   CardContent,
   CardActions,
-  Paper
+  Paper,
 } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    flex: 1
+    flex: 1,
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -37,47 +37,47 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   media: {
     height: 0,
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   expand: {
     transform: "rotate(0deg)",
     marginLeft: "auto",
     transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest
-    })
+      duration: theme.transitions.duration.shortest,
+    }),
   },
   expandOpen: {
-    transform: "rotate(180deg)"
+    transform: "rotate(180deg)",
   },
   avatar: {
-    backgroundColor: "red"
+    backgroundColor: "red",
   },
   card: {
     display: "flex",
     border: 0,
     borderRadius: 0,
-    boxShadow: "none"
+    boxShadow: "none",
   },
   details: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   content: {
-    flex: "1 0 auto"
+    flex: "1 0 auto",
   },
   cover: {
     width: 700,
-    minHeight: 300
+    minHeight: 300,
   },
   listItem: {
     paddingTop: 4,
     paddingBottom: 4,
-    paddingLeft: 0
-  }
+    paddingLeft: 0,
+  },
 }));
 
 export default function TransitionsModal(props) {
@@ -93,8 +93,8 @@ export default function TransitionsModal(props) {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, verify it!"
-    }).then(result => {
+      confirmButtonText: "Yes, verify it!",
+    }).then((result) => {
       if (result.value) {
         firebase
           .database()
@@ -119,8 +119,8 @@ export default function TransitionsModal(props) {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, reject it!"
-    }).then(result => {
+      confirmButtonText: "Yes, reject it!",
+    }).then((result) => {
       if (result.value) {
         firebase
           .database()
@@ -159,7 +159,7 @@ export default function TransitionsModal(props) {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 200
+          timeout: 200,
         }}
       >
         <Fade in={props.open}>
@@ -185,7 +185,7 @@ export default function TransitionsModal(props) {
                     margin: 10,
                     width: 50,
                     height: 50,
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={showPrev}
                 />
@@ -195,32 +195,30 @@ export default function TransitionsModal(props) {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cover}
-                    image={props.img}
+                    image={props.data.photoURL}
                     title="scorelab.org"
                   />
                   <div className={classes.details}>
                     <CardHeader
                       avatar={
-                        <Avatar aria-label="recipe" src={props.userPhoto} />
+                        <Avatar aria-label="recipe" src={props.data.uimg} />
                       }
-                      title={props.user}
-                      subheader={props.time}
+                      title={props.data.uname}
+                      subheader={props.data.time}
                     />
                     <CardContent className={classes.content}>
                       <List style={{ display: "inline-block", margin: 10 }}>
-                        {props.result.map(item => (
-                          <ListItem
-                            button
-                            key={item[1]}
-                            className={classes.listItem}
-                          >
-                            <ListItemText primary={item[1]} />
+                        {Object.keys(props.data).map((item, i) => (
+                          <ListItem button key={i} className={classes.listItem}>
+                            <ListItemText
+                              primary={props.data[item].toString()}
+                            />
                           </ListItem>
                         ))}
                       </List>
                     </CardContent>
                     <CardActions style={{ textAlign: "right" }}>
-                      {props.verified === "approved" ? (
+                      {props.data.verified === "verified" ? (
                         <Button
                           style={{ margin: 2 }}
                           variant="outlined"
@@ -263,7 +261,7 @@ export default function TransitionsModal(props) {
                     margin: 10,
                     width: 50,
                     height: 50,
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={showNext}
                 />

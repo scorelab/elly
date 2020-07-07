@@ -6,7 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import ObservationDialog from "../../components/ObservationDialog/ObservationDialog";
 import SmallCard from "../../components/SmallCard/SmallCard";
 import { Typography, Container } from "@material-ui/core";
-
+import DataTable from "../../components/DataTable/DataTable";
+import DashboardCount from "../../components/DashbordCount/DashboardCount";
 class Approved extends React.Component {
   constructor(props) {
     super(props);
@@ -17,24 +18,26 @@ class Approved extends React.Component {
       total: 0,
       rejected: 0,
       pending: 0,
-      approved: 0
+      approved: 0,
     };
   }
   componentDidMount() {
     firebase
       .database()
       .ref("usersObservations")
-      .on("value", snapshot => {
+      .orderByChild("time")
+      .on("value", (snapshot) => {
         const result = snapshot.val();
         let observations = [];
         let total = 0;
         let rejected = 0;
         let pending = 0;
         let approved = 0;
+        let count = 0;
         for (let i in result) {
           console.log(i);
           total = total + 1;
-          if (result[i].verified === "approved") {
+          if (result[i].verified === "verified") {
             approved = approved + 1;
           } else if (result[i].verified === "pending") {
             pending = pending + 1;
@@ -45,91 +48,60 @@ class Approved extends React.Component {
           } else {
             continue;
           }
-          let user = result[i].uname;
-          let uid = result[i].uid;
-          let userPhoto = result[i].uimg;
-          let obPhoto = result[i].photoURL;
-          let time = new Date(result[i].time);
-          time = time.toString().split(" ");
-          time = time.splice(0, time.length - 4);
-          time = time.toString().replace(/,/g, " ");
+
           let results = generateResult(result[i]);
-          observations.unshift([
-            user,
-            userPhoto,
-            obPhoto,
-            time,
-            results,
-            i,
-            uid
-          ]);
-          this.setState({ observations: observations });
+
+          let objj = {};
+          for (let testObj in results) {
+            objj[testObj] = results[testObj].value;
+          }
+          objj["item_id"] = i;
+          objj["id"] = count;
+          observations.unshift(objj);
+          count = count + 1;
         }
+        console.log(observations);
         this.setState({
           total: total,
           rejected: rejected,
           pending: pending,
-          approved: approved
+          approved: approved,
+          observations: observations,
         });
       });
   }
 
-  reviewCard = child => {
+  reviewCard = (child) => {
     this.setState({
       showModal: child[0],
-      item: child[1]
+      item: child[1],
     });
   };
 
-  observationDialog = child => {
+  observationDialog = (child) => {
     console.log(child);
     this.setState({
-      item: child
+      item: child,
     });
   };
 
   handleClose = () => {
     this.setState({
-      showModal: false
+      showModal: false,
     });
   };
 
   render() {
     return (
       <Container style={{ marginTop: 60 }}>
-        <Typography variant="h5" component="h5">
-          Dashboard
-        </Typography>
+        <Typography variant="h5" component="h5"></Typography>
         <Grid container spacing={1} style={{ marginTop: 10 }}>
-          <Grid item xs={3}>
-            <SmallCard
-              style={{ width: "100%" }}
-              type={"Total"}
-              count={this.state.total}
-              icon={"perm_media"}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <SmallCard
-              type={"Approved"}
-              count={this.state.approved}
-              icon={"thumb_up"}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <SmallCard
-              type={"Pending"}
-              count={this.state.pending}
-              icon={"hourglass_empty"}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <SmallCard
-              type={"Rejected"}
-              count={this.state.rejected}
-              icon={"thumb_down"}
-            />
-          </Grid>
+          <DashboardCount
+            total={this.state.total}
+            approved={this.state.approved}
+            pending={this.state.pending}
+            rejected={this.state.rejected}
+          />
         </Grid>
 
         <div>
@@ -137,16 +109,52 @@ class Approved extends React.Component {
             style={{
               display: "inline-flex",
               flexWrap: "wrap",
-              marginTop: 50
+              marginTop: 50,
             }}
           >
-            <Grid container spacing={1}>
+            <Grid item container spacing={1}>
               <Grid item xs={12}>
                 <Typography variant="h5" component="h5">
-                  Approved Observations
+                  Observations
                 </Typography>
               </Grid>
-              {this.state.observations.map((ob, i) => {
+              <Grid item xs={12}>
+                <DataTable
+                  title=""
+                  columns={[
+                    { title: "Date", field: "time" },
+                    { title: "Address", field: "address" },
+                    { title: "Alive or Dead", field: "isAlive" },
+                    { title: "Living status", field: "isSingle" },
+                    { title: "Tusk status", field: "tusksStatus" },
+                    { title: "Gender", field: "sex" },
+                    { title: "Verified", field: "verified" },
+                  ]}
+                  data={this.state.observations}
+                  // onRowAdd={(item) => firestore.collection("available_items").add(item)}
+                  // onRowUpdate={(newData, oldData) =>
+                  //   firestore.collection("available_items").doc(oldData.id).update(newData)
+                  // }
+                  // onRowDelete={(oldDate) =>
+                  //   firestore.collection("available_items").doc(oldDate.id).delete()
+                  // }
+                  actions={[
+                    {
+                      icon: "visibility",
+                      tooltip: "Confirm pickup",
+                      onClick: (event, rowData) => {
+                        console.log(rowData);
+                        this.setState({
+                          showModal: true,
+                          item: rowData.tableData.id,
+                        });
+                      },
+                    },
+                  ]}
+                />
+              </Grid>
+
+              {/* {this.state.observations.map((ob, i) => {
                 let component = [];
                 if (
                   i === 0 ||
@@ -161,7 +169,7 @@ class Approved extends React.Component {
                         style={{
                           display: "block",
                           width: "100%",
-                          marginTop: "20px"
+                          marginTop: "20px",
                         }}
                       >
                         {ob[3].split(" ")[3] + " " + ob[3].split(" ")[1]}
@@ -188,24 +196,18 @@ class Approved extends React.Component {
                 );
                 return component;
               })}
+            </Grid> */}
+              {this.state.observations.length > 0 ? (
+                <ObservationDialog
+                  data={this.state.observations[this.state.item]}
+                  open={this.state.showModal}
+                  onClose={this.handleClose}
+                  index={this.state.item}
+                  parentCallback={this.observationDialog}
+                  max={this.state.observations.length}
+                />
+              ) : null}
             </Grid>
-            {this.state.observations.length > 0 ? (
-              <ObservationDialog
-                userPhoto={this.state.observations[this.state.item][1]}
-                user={this.state.observations[this.state.item][0]}
-                time={this.state.observations[this.state.item][3]}
-                verified={false}
-                userId={this.state.observations[this.state.item][6]}
-                id={this.state.observations[this.state.item][5]}
-                img={this.state.observations[this.state.item][2]}
-                result={this.state.observations[this.state.item][4]}
-                open={this.state.showModal}
-                onClose={this.handleClose}
-                index={this.state.item}
-                parentCallback={this.observationDialog}
-                max={this.state.observations.length}
-              />
-            ) : null}
           </div>
         </div>
       </Container>
