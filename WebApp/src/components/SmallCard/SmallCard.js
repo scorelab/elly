@@ -2,8 +2,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import { red } from "@material-ui/core/colors";
-import Icon from "@material-ui/core/Icon";
+import { blue } from "@material-ui/core/colors";
+// import Icon from "@material-ui/core/Icon";
+import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   card: {
     margin: 0,
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: blue[500],
   },
 }));
 
@@ -21,16 +22,32 @@ export default function SmallCard(props) {
   const classes = useStyles();
 
   return (
-    <Card style={{ backgroundColor: props.color }} className={classes.card}>
+    <Card className={classes.card}>
       <CardHeader
-        avatar={
-          <Icon style={{ fontSize: 120, color: "white" }} color="action">
-            {props.icon}
-          </Icon>
+        // avatar={() => (
+        //   <Icon style={{ fontSize: 120, color: "white" }} color="action">
+        //     {props.icon}
+        //   </Icon>
+        // )}
+        title={
+          <Typography
+            style={{ fontFamily: "Montserrat-Regular" }}
+            component="h2"
+            variant="h5"
+          >
+            {props.type}
+          </Typography>
         }
-        title={props.type}
-        subheader={props.count}
-        style={{ fontSize: 10 }}
+        subheader={
+          <Typography
+            style={{ fontFamily: "Montserrat-Regular" }}
+            component="h2"
+            variant="h3"
+          >
+            {props.count}
+          </Typography>
+        }
+        style={{ fontSize: 50 }}
       />
     </Card>
   );

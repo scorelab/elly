@@ -8,6 +8,9 @@ import SmallCard from "../../components/SmallCard/SmallCard";
 import { Typography, Container } from "@material-ui/core";
 import DataTable from "../../components/DataTable/DataTable";
 import DashboardCount from "../../components/DashbordCount/DashboardCount";
+
+import Downloader from "js-file-downloader";
+
 class Approved extends React.Component {
   constructor(props) {
     super(props);
@@ -90,7 +93,14 @@ class Approved extends React.Component {
       showModal: false,
     });
   };
-
+  bulkDownload = (data) => {
+    var a = document.createElement("a");
+    a.href = data[0].photoURL;
+    a.download = "output.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
   render() {
     return (
       <Container style={{ marginTop: 60 }}>
@@ -120,6 +130,8 @@ class Approved extends React.Component {
               </Grid>
               <Grid item xs={12}>
                 <DataTable
+                  grouping={true}
+                  selection={true}
                   title=""
                   columns={[
                     { title: "Date", field: "time" },
@@ -140,14 +152,23 @@ class Approved extends React.Component {
                   // }
                   actions={[
                     {
+                      isFreeAction: false,
                       icon: "visibility",
-                      tooltip: "Confirm pickup",
+                      tooltip: "View",
                       onClick: (event, rowData) => {
                         console.log(rowData);
                         this.setState({
                           showModal: true,
-                          item: rowData.tableData.id,
+                          item: rowData[0].tableData.id,
                         });
+                      },
+                    },
+                    {
+                      icon: "cloud-download",
+                      tooltip: "download",
+                      onClick: (event, rowData) => {
+                        console.log(rowData);
+                        this.bulkDownload(rowData);
                       },
                     },
                   ]}

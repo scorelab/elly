@@ -4,91 +4,97 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+// import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+// import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+// import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
+// import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink
+  NavLink,
 } from "react-router-dom";
 
 import Pending from "../../containers/pending/Pending";
 import Approved from "../../containers/Approved/Approved";
 import Rejected from "../../containers/Rejected/Rejected";
+// import AdminDiscover from "../../containers/AdminMap/AdminMap";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   drawerPaper: {
     width: drawerWidth,
-    marginTop: -6
+    marginTop: -6,
   },
 
   root: {
-    display: "flex"
+    display: "flex",
   },
   menuButton: {
-    marginRight: 36
+    marginRight: 36,
   },
   hide: {
-    display: "none"
+    display: "none",
   },
 
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerClose: {
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1
-    }
+      width: theme.spacing(9) + 1,
+    },
   },
   toolbar: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
-  }
+    padding: theme.spacing(3),
+  },
 }));
 
 const routes = [
   {
     path: "/home/approved",
     sidebar: () => <div></div>,
-    main: () => <Approved />
+    main: () => <Approved />,
   },
   {
     path: "/home/pending",
     sidebar: () => <div></div>,
-    main: () => <Pending />
+    main: () => <Pending />,
   },
   {
     path: "/home/rejected",
     sidebar: () => <div></div>,
-    main: () => <Rejected />
-  }
+    main: () => <Rejected />,
+  },
+  // {
+  //   path: "/home/map",
+  //   sidebar: () => <div></div>,
+  //   main: () => <AdminDiscover />,
+  // },
 ];
 
 export const SideBar = () => {
@@ -101,7 +107,7 @@ export const SideBar = () => {
             className={classes.drawer}
             variant="permanent"
             classes={{
-              paper: classes.drawerPaper
+              paper: classes.drawerPaper,
             }}
           >
             <div className={classes.toolbar} />
@@ -113,15 +119,15 @@ export const SideBar = () => {
                 selected={false}
                 key={1}
               >
-                <ListItemIcon>
+                {/* <ListItemIcon>
                   <ThumbUpIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Approved"} />
+                </ListItemIcon> */}
+                <ListItemText primary={"Dashboard"} />
               </ListItem>
               <ListItem button component={NavLink} to={"/home/pending"} key={2}>
-                <ListItemIcon>
+                {/* <ListItemIcon>
                   <HourglassEmptyIcon />
-                </ListItemIcon>
+                </ListItemIcon> */}
                 <ListItemText primary={"Pending"} />
               </ListItem>
               <ListItem
@@ -130,11 +136,17 @@ export const SideBar = () => {
                 to={"/home/rejected"}
                 key={3}
               >
+                {/* <ListItemIcon>
+                  <ThumbDownIcon />
+                </ListItemIcon> */}
+                <ListItemText primary={"Rejected"} />
+              </ListItem>
+              {/* <ListItem button component={NavLink} to={"/home/map"} key={4}>
                 <ListItemIcon>
                   <ThumbDownIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Rejected"} />
-              </ListItem>
+                <ListItemText primary={"Map"} />
+              </ListItem> */}
             </List>
           </Drawer>
 

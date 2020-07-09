@@ -12,21 +12,13 @@ export default function HomeObservationTitle(props) {
         width: "100%",
         height: 400,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
-      <Grid
-        item
-        y
-        xs={12}
-        sm={6}
-        md={5}
-        style={{ padding: 20, borderRadius: 10 }}
-      >
-        {" "}
+      <Grid item xs={12} sm={6} md={5}>
         <img
           alt="logo"
-          style={{ width: 500, height: 300, borderRadius: 10 }}
+          style={{ width: 500, height: 300 }}
           src={require("../../images/obs.jpg")}
         />
       </Grid>
@@ -48,7 +40,7 @@ export default function HomeObservationTitle(props) {
           style={{
             fontSize: 22,
             textAlign: "left",
-            fontFamily: "Montserrat-Regular"
+            fontFamily: "Montserrat-Regular",
           }}
         >
           Any user around the world is capable of uploading elephant images to

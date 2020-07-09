@@ -16,7 +16,7 @@ export default function HomeHeader(props) {
             color: "white",
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: "row"
+            flexDirection: "row",
           }}
         >
           {/* <div
@@ -33,12 +33,23 @@ export default function HomeHeader(props) {
           </div> */}
 
           <Typography
-            variant="button"
+            variant="h5"
             color="inherit"
             href={"/"}
-            style={{ fontSize: 24, fontFamily: "Montserrat-Regular" }}
+            style={{
+              flexDirection: "row",
+              fontSize: 24,
+              fontFamily: "Montserrat-Regular",
+            }}
           >
             EleWatch
+            <Typography
+              variant="body1"
+              color="inherit"
+              style={{ fontSize: 10, fontFamily: "Montserrat-Regular" }}
+            >
+              Beta
+            </Typography>
           </Typography>
         </div>
         {/* <SignInIcon /> */}

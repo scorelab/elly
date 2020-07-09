@@ -15,9 +15,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Copyright from "../../components/Copyright/Copyright";
 var firebase = require("firebase");
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh"
+    height: "100vh",
   },
   image: {
     backgroundImage: `url(${require("../../images/banner.jpeg")})`,
@@ -27,24 +27,24 @@ const useStyles = makeStyles(theme => ({
         ? theme.palette.grey[900]
         : theme.palette.grey[50],
     backgroundSize: "cover",
-    backgroundPosition: "center"
+    backgroundPosition: "center",
   },
   paper: {
     margin: theme.spacing(8, 4),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%" // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
 export default function LoginPage(props) {
@@ -53,31 +53,31 @@ export default function LoginPage(props) {
   const [pass, setPassword] = useState("");
   const [err, setErr] = useState("");
 
-  const onEmailChange = e => {
+  const onEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     handleSubmit({
       email: email,
-      password: pass
-    }).catch(err => {
+      password: pass,
+    }).catch((err) => {
       setErr(err);
     });
   };
 
-  const onErr = err => {
+  const onErr = (err) => {
     setErr(err);
   };
   const handleSubmit = ({ email, password }) => {
     return auth
       .doSignInWithEmailAndPassword(email, password)
-      .then(response => {
+      .then((response) => {
         console.log("Successful Sign In");
         const uid = JSON.parse(JSON.stringify(response)).user.uid;
 
@@ -89,20 +89,20 @@ export default function LoginPage(props) {
           .child(uid)
           .child("profile")
           .once("value")
-          .then(snapshot => {
+          .then((snapshot) => {
             const result = snapshot.val();
             console.log(result);
             if (result !== "admin") {
               this.setState({
                 err: "This account does not have admin priviledges",
-                loading: false
+                loading: false,
               });
             } else {
               props.history.push("/home/approved");
             }
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Failed Sign In", err);
         onErr(err.message);
         throw err;
@@ -155,10 +155,10 @@ export default function LoginPage(props) {
               value={pass}
               onChange={onPasswordChange}
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -180,11 +180,9 @@ export default function LoginPage(props) {
                 </Link>
               </Grid>
             </Grid> */}
-            <Box mt={5}></Box>
           </form>
         </div>
       </Grid>
-      <Copyright />
     </Grid>
   );
 }

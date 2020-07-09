@@ -11,7 +11,7 @@ export default function HomeSocial(props) {
         width: "100%",
         height: 400,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
         // backgroundColor: "#228B22"
       }}
     >
@@ -32,40 +32,17 @@ export default function HomeSocial(props) {
           style={{ width: "100%" }}
         >
           {" "}
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={5}
-            style={{
-              backgroundColor: "white",
-              padding: 20,
-              borderRadius: 20,
-              marginRight: 10,
-              justifyContent: "center"
-            }}
-          >
+          <Grid item xs={12} sm={6} md={5}>
             <img
               alt="logo"
               style={{
                 width: 150,
-                height: 150
+                height: 150,
               }}
               src={require("../../images/trunks2.png")}
             />
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={5}
-            style={{
-              backgroundColor: "white",
-              padding: 20,
-              borderRadius: 20,
-              justifyContent: "center"
-            }}
-          >
+          <Grid item xs={12} sm={6} md={5}>
             <img
               href="https://www.scorelab.org"
               alt="SCoRe Lab"
@@ -83,7 +60,7 @@ export default function HomeSocial(props) {
         style={{
           padding: 20,
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Typography
@@ -103,7 +80,7 @@ export default function HomeSocial(props) {
           style={{
             fontSize: 22,
             textAlign: "left",
-            fontFamily: "Montserrat-Regular"
+            fontFamily: "Montserrat-Regular",
           }}
         >
           This platform is developing by the SCoRe Lab organization with the

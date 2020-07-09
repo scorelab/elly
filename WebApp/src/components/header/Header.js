@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import IconButton from "@material-ui/core/IconButton";
+// import IconButton from "@material-ui/core/IconButton";
 import AccountCircleIcon from "@material-ui/icons/AccountCircleOutlined";
 import TextField from "@material-ui/core/TextField";
 import Menu from "@material-ui/core/Menu";
@@ -241,7 +241,6 @@ export const Header = () => {
         >
           <DialogTitle id="simple-dialog-title">About Elly</DialogTitle>
           <Grid
-            direction="column"
             alignItems="center"
             justify="center"
             container
