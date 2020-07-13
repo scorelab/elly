@@ -62,21 +62,10 @@ export default function LoginPage(props) {
   };
 
   const onSubmit = (e) => {
+    setErr("");
     e.preventDefault();
-    handleSubmit({
-      email: email,
-      password: pass,
-    }).catch((err) => {
-      setErr(err);
-    });
-  };
-
-  const onErr = (err) => {
-    setErr(err);
-  };
-  const handleSubmit = ({ email, password }) => {
-    return auth
-      .doSignInWithEmailAndPassword(email, password)
+    auth
+      .doSignInWithEmailAndPassword(email, pass)
       .then((response) => {
         console.log("Successful Sign In");
         const uid = JSON.parse(JSON.stringify(response)).user.uid;
@@ -102,12 +91,12 @@ export default function LoginPage(props) {
             }
           });
       })
-      .catch((err) => {
-        console.log("Failed Sign In", err);
-        onErr(err.message);
-        throw err;
+      .catch((errr) => {
+        console.log("Failed Sign In", errr);
+        setErr(errr.message);
       });
   };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

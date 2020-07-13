@@ -18,8 +18,8 @@ export default function HomeObservationTitle(props) {
       <Grid item xs={12} sm={6} md={5}>
         <img
           alt="logo"
-          style={{ width: 500, height: 300 }}
-          src={require("../../images/obs.jpg")}
+          style={{ width: 500, height: 300, borderBottomLeftRadius: 100 }}
+          src={require("../../images/banner.jpeg")}
         />
       </Grid>
       <Grid item xs={12} sm={6} md={6} justify="center">

@@ -166,7 +166,7 @@ export const Header = () => {
           display="block"
           gutterBottom
         >
-          Administrator
+          EleWatch Administrator
         </Typography>
         <Menu
           id="simple-menu"

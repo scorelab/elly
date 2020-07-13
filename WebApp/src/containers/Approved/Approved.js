@@ -1,15 +1,12 @@
 import React from "react";
 import { generateResult } from "../../firebase/dataHandling";
-import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import firebase from "firebase/app";
 import Grid from "@material-ui/core/Grid";
 import ObservationDialog from "../../components/ObservationDialog/ObservationDialog";
-import SmallCard from "../../components/SmallCard/SmallCard";
 import { Typography, Container } from "@material-ui/core";
 import DataTable from "../../components/DataTable/DataTable";
 import DashboardCount from "../../components/DashbordCount/DashboardCount";
-
-import Downloader from "js-file-downloader";
+import Swal from "sweetalert2";
 
 class Approved extends React.Component {
   constructor(props) {
@@ -93,14 +90,132 @@ class Approved extends React.Component {
       showModal: false,
     });
   };
+
   bulkDownload = (data) => {
-    var a = document.createElement("a");
-    a.href = data[0].photoURL;
-    a.download = "output.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    data.map((item, i) => {
+      var httpsReference = firebase.storage().refFromURL(item.photoURL);
+      httpsReference
+        .getDownloadURL()
+        .then(function (url) {
+          // console.log(url);
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = "blob";
+          xhr.onload = function (event) {
+            var blob = xhr.response;
+            console.log(blob);
+            var a = document.createElement("a");
+            a.href = window.URL.createObjectURL(blob);
+            a.download = `${i}.jpeg`;
+            a.dispatchEvent(new MouseEvent("click"));
+          };
+          xhr.open("GET", url);
+          xhr.send();
+          console.log(xhr);
+        })
+        .catch(function (error) {
+          // Handle any errors
+          alert(error.message);
+          console.log(error);
+        });
+    });
   };
+
+  rejectHandler = (data) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.value) {
+        let tempObj = {};
+        data.map((item, i) => {
+          tempObj[`usersObservations/${item.item_id}/verified`] = "rejected";
+        });
+        console.log(tempObj);
+        firebase
+          .database()
+          .ref()
+          .update(tempObj)
+          .then(() => {
+            Swal.fire("Rejected!", "", "success");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+  };
+
+  verifyHandler = (data) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.value) {
+        let tempObj = {};
+        data.map((item, i) => {
+          tempObj[`usersObservations/${item.item_id}/verified`] = "verified";
+        });
+        console.log(tempObj);
+        firebase
+          .database()
+          .ref()
+          .update(tempObj)
+          .then(() => {
+            Swal.fire("Verified!", "", "success");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+  };
+
+  showMapHandler = (data) => {
+    let tempObj = {};
+    data.map((item, i) => {
+      tempObj[`usersObservations/${item.item_id}/showMap`] = true;
+    });
+    console.log(tempObj);
+    firebase
+      .database()
+      .ref()
+      .update(tempObj)
+      .then(() => {
+        Swal.fire("Location visibility on!", "", "success");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  hideMapHandler = (data) => {
+    let tempObj = {};
+    data.map((item, i) => {
+      tempObj[`usersObservations/${item.item_id}/showMap`] = false;
+    });
+    console.log(tempObj);
+    firebase
+      .database()
+      .ref()
+      .update(tempObj)
+      .then(() => {
+        Swal.fire("Location visibility off!", "", "success");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   render() {
     return (
       <Container style={{ marginTop: 60 }}>
@@ -143,20 +258,13 @@ class Approved extends React.Component {
                     { title: "Verified", field: "verified" },
                   ]}
                   data={this.state.observations}
-                  // onRowAdd={(item) => firestore.collection("available_items").add(item)}
-                  // onRowUpdate={(newData, oldData) =>
-                  //   firestore.collection("available_items").doc(oldData.id).update(newData)
-                  // }
-                  // onRowDelete={(oldDate) =>
-                  //   firestore.collection("available_items").doc(oldDate.id).delete()
-                  // }
                   actions={[
                     {
                       isFreeAction: false,
                       icon: "visibility",
                       tooltip: "View",
                       onClick: (event, rowData) => {
-                        console.log(rowData);
+                        // console.log(rowData);
                         this.setState({
                           showModal: true,
                           item: rowData[0].tableData.id,
@@ -164,60 +272,49 @@ class Approved extends React.Component {
                       },
                     },
                     {
-                      icon: "cloud-download",
+                      icon: "cloud_download",
                       tooltip: "download",
                       onClick: (event, rowData) => {
-                        console.log(rowData);
+                        // console.log(rowData);
                         this.bulkDownload(rowData);
+                      },
+                    },
+                    {
+                      icon: "close",
+                      tooltip: "reject",
+                      onClick: (event, rowData) => {
+                        // console.log(rowData);
+                        this.rejectHandler(rowData);
+                      },
+                    },
+                    {
+                      icon: "check",
+                      tooltip: "verify",
+                      onClick: (event, rowData) => {
+                        // console.log(rowData);
+                        this.verifyHandler(rowData);
+                      },
+                    },
+                    {
+                      icon: "location_on",
+                      tooltip: "show on map",
+                      onClick: (event, rowData) => {
+                        // console.log(rowData);
+                        this.showMapHandler(rowData);
+                      },
+                    },
+                    {
+                      icon: "location_off",
+                      tooltip: "hide on map",
+                      onClick: (event, rowData) => {
+                        // console.log(rowData);
+                        this.hideMapHandler(rowData);
                       },
                     },
                   ]}
                 />
               </Grid>
 
-              {/* {this.state.observations.map((ob, i) => {
-                let component = [];
-                if (
-                  i === 0 ||
-                  this.state.observations[i - 1][3].split(" ")[1] !==
-                    ob[3].split(" ")[1]
-                ) {
-                  component.push(
-                    <Grid item xs={12} key={i}>
-                      <Typography
-                        variant="h6"
-                        component="h6"
-                        style={{
-                          display: "block",
-                          width: "100%",
-                          marginTop: "20px",
-                        }}
-                      >
-                        {ob[3].split(" ")[3] + " " + ob[3].split(" ")[1]}
-                      </Typography>
-                    </Grid>
-                  );
-                }
-                component.push(
-                  <Grid item xs={4}>
-                    <ReviewCard
-                      verified={false}
-                      userId={ob[6]}
-                      id={ob[5]}
-                      user={ob[0]}
-                      userPhoto={ob[1]}
-                      obPhoto={ob[2]}
-                      time={ob[3]}
-                      result={ob[4]}
-                      key={i}
-                      index={i}
-                      parentCallback={this.reviewCard}
-                    />
-                  </Grid>
-                );
-                return component;
-              })}
-            </Grid> */}
               {this.state.observations.length > 0 ? (
                 <ObservationDialog
                   data={this.state.observations[this.state.item]}

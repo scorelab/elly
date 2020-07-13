@@ -12,7 +12,7 @@ export default function HomeSocial(props) {
         height: 400,
         justifyContent: "center",
         alignItems: "center",
-        // backgroundColor: "#228B22"
+        backgroundColor: "white",
       }}
     >
       {" "}

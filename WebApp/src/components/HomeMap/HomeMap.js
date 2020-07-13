@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
+import { Map, GoogleApiWrapper, InfoWindow, Marker } from "google-maps-react";
 import Grid from "@material-ui/core/Grid";
+import firebase from "firebase/app";
+import ReactLoading from "react-loading";
+import Swal from "sweetalert2";
+
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = { ownPosition: "", initCord: { lat: 0, lang: 0 } };
   }
 
   displayMarkers = () => {
@@ -20,21 +23,27 @@ export class MapContainer extends Component {
             lng: parseFloat(cord[0]),
             lat: parseFloat(cord[1]),
           }}
-          onClick={() => console.log("You clicked me!")}
-        />
+          onClick={() =>
+            Swal.fire(
+              "",
+              `Captured by ${store.uname} at ${store.address} on ${store.time}`,
+              "info"
+            )
+          }
+        >
+          <InfoWindow visible={true}>
+            <div>
+              <p>
+                Click on the map or drag the marker to select location where the
+                incident occurred
+              </p>
+            </div>
+          </InfoWindow>
+        </Marker>
       );
     });
   };
-  componentDidMount() {
-    const initCord = {};
-    for (let i in this.props.data) {
-      if (this.props.data[i].location[0] !== "") {
-        initCord["lat"] = this.props.data[i].location[0];
-        initCord["lang"] = this.props.data[i].location[1];
-        this.setState({ initCord: initCord });
-      }
-    }
-  }
+
   render() {
     return (
       <Grid
@@ -44,17 +53,36 @@ export class MapContainer extends Component {
         style={{
           justifyContent: "center",
           alignItems: "center",
+          height: "100%",
         }}
       >
-        <Map
-          google={this.props.google}
-          zoom={8}
-          defaultZoom={this.props.zoom}
-          yesIWantToUseGoogleMapApiInternals
-          style={{ overflow: "y" }}
-        >
-          {this.displayMarkers()}
-        </Map>
+        {this.props.data ? (
+          <Map
+            google={this.props.google}
+            zoom={4}
+            yesIWantToUseGoogleMapApiInternals
+            initialCenter={{
+              lat: 21.0,
+              lng: 78.0,
+            }}
+            gestureHandling="cooperative"
+            // center={this.initCord}
+            style={{ overflow: "y" }}
+          >
+            {this.displayMarkers()}
+          </Map>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <ReactLoading type={"bars"} color={"black"} />
+          </div>
+        )}
       </Grid>
     );
   }

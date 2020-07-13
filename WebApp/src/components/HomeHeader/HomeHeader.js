@@ -31,26 +31,35 @@ export default function HomeHeader(props) {
               src={require("../../images/logo/logo.png")}
             />
           </div> */}
-
-          <Typography
-            variant="h5"
-            color="inherit"
-            href={"/"}
+          <Button
+            variant="outlined"
             style={{
-              flexDirection: "row",
-              fontSize: 24,
-              fontFamily: "Montserrat-Regular",
+              backgroundColor: "transparent",
+              color: "white",
+              borderWidth: 0,
             }}
+            component={NavLink}
+            to={"/"}
           >
-            EleWatch
             <Typography
-              variant="body1"
+              variant="h5"
               color="inherit"
-              style={{ fontSize: 10, fontFamily: "Montserrat-Regular" }}
+              style={{
+                flexDirection: "row",
+                fontSize: 24,
+                fontFamily: "Montserrat-Regular",
+              }}
             >
-              Beta
+              EleWatch
+              <Typography
+                variant="body1"
+                color="inherit"
+                style={{ fontSize: 10, fontFamily: "Montserrat-Regular" }}
+              >
+                Beta
+              </Typography>
             </Typography>
-          </Typography>
+          </Button>
         </div>
         {/* <SignInIcon /> */}
         <Button

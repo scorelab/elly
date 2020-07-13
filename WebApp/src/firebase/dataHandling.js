@@ -8,7 +8,7 @@ export function generateResult(data) {
   result["uid"] = { icon: "comment-question", value: data.uid };
   result["photoURL"] = { icon: "comment-question", value: data.photoURL };
   result["address"] = { icon: "map-marker", value: data.address.toString() };
-  result["location"] = { icon: "map-marker", value: data.location.toString() };
+  result["location"] = { icon: "map-marker", value: data.location };
 
   let time = moment(data.time).format("MMMM Do YYYY, h:mm:ss a");
   result["time"] = { icon: "clock", value: time };

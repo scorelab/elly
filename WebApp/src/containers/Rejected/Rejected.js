@@ -1,15 +1,12 @@
 import React from "react";
 import { generateResult } from "../../firebase/dataHandling";
-import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import firebase from "firebase/app";
 import Grid from "@material-ui/core/Grid";
 import ObservationDialog from "../../components/ObservationDialog/ObservationDialog";
-import SmallCard from "../../components/SmallCard/SmallCard";
 import { Typography, Container } from "@material-ui/core";
 import DataTable from "../../components/DataTable/DataTable";
 import DashboardCount from "../../components/DashbordCount/DashboardCount";
-
-import Downloader from "js-file-downloader";
+import Swal from "sweetalert2";
 
 class Rejected extends React.Component {
   constructor(props) {
@@ -76,27 +73,147 @@ class Rejected extends React.Component {
     });
   };
   bulkDownload = (data) => {
-    var a = document.createElement("a");
-    a.href = data[0].photoURL;
-    a.download = "output.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    data.map((item, i) => {
+      var httpsReference = firebase.storage().refFromURL(item.photoURL);
+      httpsReference
+        .getDownloadURL()
+        .then(function (url) {
+          // console.log(url);
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = "blob";
+          xhr.onload = function (event) {
+            var blob = xhr.response;
+            console.log(blob);
+            var a = document.createElement("a");
+            a.href = window.URL.createObjectURL(blob);
+            a.download = `${i}.jpeg`;
+            a.dispatchEvent(new MouseEvent("click"));
+          };
+          xhr.open("GET", url);
+          xhr.send();
+          console.log(xhr);
+        })
+        .catch(function (error) {
+          // Handle any errors
+          alert(error.message);
+          console.log(error);
+        });
+    });
   };
+
+  rejectHandler = (data) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.value) {
+        let tempObj = {};
+        data.map((item, i) => {
+          tempObj[`usersObservations/${item.item_id}/verified`] = "rejected";
+        });
+        console.log(tempObj);
+        firebase
+          .database()
+          .ref()
+          .update(tempObj)
+          .then(() => {
+            Swal.fire("Rejected!", "", "success");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+  };
+
+  verifyHandler = (data) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.value) {
+        let tempObj = {};
+        data.map((item, i) => {
+          tempObj[`usersObservations/${item.item_id}/verified`] = "verified";
+        });
+        console.log(tempObj);
+        firebase
+          .database()
+          .ref()
+          .update(tempObj)
+          .then(() => {
+            Swal.fire("Verified!", "", "success");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+  };
+
+  showMapHandler = (data) => {
+    let tempObj = {};
+    data.map((item, i) => {
+      tempObj[`usersObservations/${item.item_id}/showMap`] = true;
+    });
+    console.log(tempObj);
+    firebase
+      .database()
+      .ref()
+      .update(tempObj)
+      .then(() => {
+        Swal.fire("Location visibility on!", "", "success");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  hideMapHandler = (data) => {
+    let tempObj = {};
+    data.map((item, i) => {
+      tempObj[`usersObservations/${item.item_id}/showMap`] = false;
+    });
+    console.log(tempObj);
+    firebase
+      .database()
+      .ref()
+      .update(tempObj)
+      .then(() => {
+        Swal.fire("Location visibility off!", "", "success");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   render() {
     return (
       <Container style={{ marginTop: 60 }}>
+        <Typography variant="h5" component="h5"></Typography>
+
         <div>
           <div
             style={{
               display: "inline-flex",
               flexWrap: "wrap",
+              marginTop: 50,
             }}
           >
             <Grid item container spacing={1}>
               <Grid item xs={12}>
                 <Typography variant="h5" component="h5">
-                  Rejected Observations
+                  Observations
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -114,20 +231,13 @@ class Rejected extends React.Component {
                     { title: "Verified", field: "verified" },
                   ]}
                   data={this.state.observations}
-                  // onRowAdd={(item) => firestore.collection("available_items").add(item)}
-                  // onRowUpdate={(newData, oldData) =>
-                  //   firestore.collection("available_items").doc(oldData.id).update(newData)
-                  // }
-                  // onRowDelete={(oldDate) =>
-                  //   firestore.collection("available_items").doc(oldDate.id).delete()
-                  // }
                   actions={[
                     {
                       isFreeAction: false,
                       icon: "visibility",
                       tooltip: "View",
                       onClick: (event, rowData) => {
-                        console.log(rowData);
+                        // console.log(rowData);
                         this.setState({
                           showModal: true,
                           item: rowData[0].tableData.id,
@@ -135,23 +245,55 @@ class Rejected extends React.Component {
                       },
                     },
                     {
-                      icon: "cloud-download",
+                      icon: "cloud_download",
                       tooltip: "download",
                       onClick: (event, rowData) => {
-                        console.log(rowData);
+                        // console.log(rowData);
                         this.bulkDownload(rowData);
+                      },
+                    },
+                    {
+                      icon: "close",
+                      tooltip: "reject",
+                      onClick: (event, rowData) => {
+                        // console.log(rowData);
+                        this.rejectHandler(rowData);
+                      },
+                    },
+                    {
+                      icon: "check",
+                      tooltip: "verify",
+                      onClick: (event, rowData) => {
+                        // console.log(rowData);
+                        this.verifyHandler(rowData);
+                      },
+                    },
+                    {
+                      icon: "location_on",
+                      tooltip: "show on map",
+                      onClick: (event, rowData) => {
+                        // console.log(rowData);
+                        this.showMapHandler(rowData);
+                      },
+                    },
+                    {
+                      icon: "location_off",
+                      tooltip: "hide on map",
+                      onClick: (event, rowData) => {
+                        // console.log(rowData);
+                        this.hideMapHandler(rowData);
                       },
                     },
                   ]}
                 />
               </Grid>
+
               {this.state.observations.length > 0 ? (
                 <ObservationDialog
                   data={this.state.observations[this.state.item]}
                   open={this.state.showModal}
                   onClose={this.handleClose}
                   index={this.state.item}
-                  verified={false}
                   parentCallback={this.observationDialog}
                   max={this.state.observations.length}
                 />

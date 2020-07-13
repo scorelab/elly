@@ -19,7 +19,7 @@ import Pending from "../../containers/pending/Pending";
 import Approved from "../../containers/Approved/Approved";
 import Rejected from "../../containers/Rejected/Rejected";
 // import AdminDiscover from "../../containers/AdminMap/AdminMap";
-
+import "./SideBar.css";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    marginTop: -6,
+    marginTop: -8,
   },
 
   root: {
@@ -113,6 +113,7 @@ export const SideBar = () => {
             <div className={classes.toolbar} />
             <List>
               <ListItem
+                className="sidebar"
                 button
                 component={NavLink}
                 to={"/home/approved"}
@@ -124,13 +125,20 @@ export const SideBar = () => {
                 </ListItemIcon> */}
                 <ListItemText primary={"Dashboard"} />
               </ListItem>
-              <ListItem button component={NavLink} to={"/home/pending"} key={2}>
+              <ListItem
+                className="sidebar"
+                button
+                component={NavLink}
+                to={"/home/pending"}
+                key={2}
+              >
                 {/* <ListItemIcon>
                   <HourglassEmptyIcon />
                 </ListItemIcon> */}
                 <ListItemText primary={"Pending"} />
               </ListItem>
               <ListItem
+                className="sidebar"
                 button
                 component={NavLink}
                 to={"/home/rejected"}
