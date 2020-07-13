@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import ObservationDialog from "../../components/ObservationDialog/ObservationDialog";
 import { Typography, Container } from "@material-ui/core";
 import DataTable from "../../components/DataTable/DataTable";
-import DashboardCount from "../../components/DashbordCount/DashboardCount";
 import Swal from "sweetalert2";
 
 class Rejected extends React.Component {
@@ -99,6 +98,7 @@ class Rejected extends React.Component {
           console.log(error);
         });
     });
+    return;
   };
 
   rejectHandler = (data) => {
@@ -129,6 +129,7 @@ class Rejected extends React.Component {
           });
       }
     });
+    return;
   };
 
   verifyHandler = (data) => {
@@ -159,6 +160,7 @@ class Rejected extends React.Component {
           });
       }
     });
+    return;
   };
 
   showMapHandler = (data) => {
@@ -177,6 +179,7 @@ class Rejected extends React.Component {
       .catch((e) => {
         console.log(e);
       });
+    return;
   };
 
   hideMapHandler = (data) => {
@@ -195,6 +198,7 @@ class Rejected extends React.Component {
       .catch((e) => {
         console.log(e);
       });
+    return;
   };
 
   render() {

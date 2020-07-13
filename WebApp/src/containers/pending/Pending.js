@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import ObservationDialog from "../../components/ObservationDialog/ObservationDialog";
 import { Typography, Container } from "@material-ui/core";
 import DataTable from "../../components/DataTable/DataTable";
-import DashboardCount from "../../components/DashbordCount/DashboardCount";
 import Swal from "sweetalert2";
 
 class Pending extends React.Component {
@@ -99,6 +98,7 @@ class Pending extends React.Component {
           console.log(error);
         });
     });
+    return;
   };
 
   rejectHandler = (data) => {
@@ -128,6 +128,7 @@ class Pending extends React.Component {
             console.log(e);
           });
       }
+      return;
     });
   };
 
@@ -158,6 +159,7 @@ class Pending extends React.Component {
             console.log(e);
           });
       }
+      return;
     });
   };
   showMapHandler = (data) => {
@@ -176,6 +178,8 @@ class Pending extends React.Component {
       .catch((e) => {
         console.log(e);
       });
+
+    return;
   };
 
   hideMapHandler = (data) => {
@@ -194,6 +198,7 @@ class Pending extends React.Component {
       .catch((e) => {
         console.log(e);
       });
+    return;
   };
 
   render() {

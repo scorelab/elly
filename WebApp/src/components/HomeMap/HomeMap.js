@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from "google-maps-react";
 import Grid from "@material-ui/core/Grid";
-import firebase from "firebase/app";
 import ReactLoading from "react-loading";
 import Swal from "sweetalert2";
 
 export class MapContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   displayMarkers = () => {
     return this.props.data.map((store, index) => {

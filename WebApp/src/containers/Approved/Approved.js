@@ -118,6 +118,7 @@ class Approved extends React.Component {
           console.log(error);
         });
     });
+    return;
   };
 
   rejectHandler = (data) => {
@@ -148,6 +149,7 @@ class Approved extends React.Component {
           });
       }
     });
+    return;
   };
 
   verifyHandler = (data) => {
@@ -178,6 +180,7 @@ class Approved extends React.Component {
           });
       }
     });
+    return;
   };
 
   showMapHandler = (data) => {
@@ -196,6 +199,7 @@ class Approved extends React.Component {
       .catch((e) => {
         console.log(e);
       });
+    return;
   };
 
   hideMapHandler = (data) => {
@@ -214,6 +218,7 @@ class Approved extends React.Component {
       .catch((e) => {
         console.log(e);
       });
+    return;
   };
 
   render() {

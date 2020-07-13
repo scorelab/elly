@@ -2,7 +2,7 @@ import React from "react";
 import { generateResult } from "../../firebase/dataHandling";
 import firebase from "firebase/app";
 import HomeMap from "../../components/HomeMap/HomeMap";
-import Copyright from "../../components/Copyright/Copyright";
+// import Copyright from "../../components/Copyright/Copyright";
 import HomeHeader from "../../components/HomeHeader/HomeHeader";
 import { CssBaseline } from "@material-ui/core";
 

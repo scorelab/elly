@@ -1,5 +1,4 @@
 import React from "react";
-import firebase from "firebase/app";
 import Grid from "@material-ui/core/Grid";
 import SmallCard from "../../components/SmallCard/SmallCard";
 
