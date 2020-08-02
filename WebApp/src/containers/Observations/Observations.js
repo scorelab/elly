@@ -3,7 +3,6 @@ import { generateResult } from "../../firebase/dataHandling";
 import firebase from "firebase/app";
 import Grid from "@material-ui/core/Grid";
 import { Container } from "@material-ui/core";
-
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import HomeHeader from "../../components/HomeHeader/HomeHeader";
@@ -105,8 +104,12 @@ class Approved extends React.Component {
         <CssBaseline />
         <HomeHeader />
 
-        <main style={{ width: "100%", marginTop: 10 }}>
-          <Container className={classes.cardGrid} maxWidth="100%">
+        <main style={{ width: "100%", marginTop: 0 }}>
+          <Container
+            style={{ margin: 0, padding: 0 }}
+            className={classes.cardGrid}
+            maxWidth="100%"
+          >
             {!this.state.done ? (
               <div
                 style={{
@@ -124,6 +127,7 @@ class Approved extends React.Component {
                 style={{
                   width: "100%",
                   padding: 0,
+                  margin: 0,
                   // backgroundColor: "#9b7653",
                   borderRadius: 10,
                 }}
@@ -152,24 +156,6 @@ class Approved extends React.Component {
 
                   return component;
                 })}
-                {/* {this.state.observations.length > 0 ? (
-                  <ObservationDialog
-                    userPhoto={this.state.observations[this.state.item][1]}
-                    user={this.state.observations[this.state.item][0]}
-                    time={this.state.observations[this.state.item][3]}
-                    verified={false}
-                    userId={this.state.observations[this.state.item][6]}
-                    id={this.state.observations[this.state.item][5]}
-                    img={this.state.observations[this.state.item][2]}
-                    result={this.state.observations[this.state.item][4]}
-                    open={this.state.showModal}
-                    onClose={this.handleClose}
-                    index={this.state.item}
-                    parentCallback={this.observationDialog}
-                    max={this.state.observations.length}
-                    showBtns={false}
-                  />
-                ) : null} */}
               </Grid>
             )}
           </Container>

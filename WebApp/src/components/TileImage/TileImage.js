@@ -6,32 +6,32 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 // import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   icon: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   heroButtons: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
+    paddingBottom: theme.spacing(8),
   },
   card: {
     height: 400,
     display: "flex",
     flexDirection: "column",
     marginBottom: 10,
-    marginRight: 10,
-    borderRadius: 0
+    marginRight: 2,
+    borderRadius: 0,
   },
   cardMedia: {
     paddingTop: "56.25%", // 16:9,
-    height: 400
+    height: 400,
   },
   cardContent: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 export default function TileImage(props) {
