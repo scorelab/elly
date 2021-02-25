@@ -53,7 +53,7 @@ class LoginScreen extends React.Component {
                 <View style={styles.logoImgContainer}>
                   <Image source={LOGO} style={styles.logo} />
                 </View>
-                <Text style={styles.logoText}>Elly</Text>
+                <Text style={styles.logoText}>Ele Watch</Text>
               </View>
 
               <View style={styles.btnContainer}>
@@ -127,8 +127,8 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   logo: {
-    width: 25,
-    height: 25,
+    width: 60,
+    height: 60,
     resizeMode: 'stretch',
   },
   logoText: {
@@ -165,9 +165,8 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
   logoImgContainer: {
-    padding: 10,
-    backgroundColor: 'black',
     borderRadius: 100,
+    // backgroundColor: 'white'
   },
 });
 export default LoginScreen;

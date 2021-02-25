@@ -107,7 +107,7 @@ export default function LoginPage(props) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Administrator Sign in
+            Members Sign In
           </Typography>
           <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField

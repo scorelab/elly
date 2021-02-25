@@ -1,6 +1,5 @@
 {
   "name": "elly-admin",
-  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.7.1",
@@ -19,6 +18,7 @@
     "react-loading": "^2.0.3",
     "react-lottie": "^1.2.3",
     "react-photo-gallery": "^8.0.0",
+    "react-responsive-carousel": "^3.2.12",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
     "sweetalert2": "^9.4.3"

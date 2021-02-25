@@ -131,19 +131,20 @@ class ProfileScreen extends React.Component {
     // Fetch the data snapshot
     const data = await database()
       .ref(`/usersObservations/`)
-      .orderByValue('uid')
+      .orderByKey()
       .limitToLast(5)
       .once('value');
 
     const val = data.val();
-
+    console.log(val.length);
     let userObservations = [];
     let lastVisible = '';
     for (let i in val) {
       let time = new Date(val[i].time);
       let crntTime = new Date().getTime();
       let dif = crntTime - time;
-      if (val[i].uid !== this.state.uid) {
+
+      if (val[i].uid !== auth().currentUser.uid) {
         continue;
       } else {
         console.log('Not mine');
@@ -164,7 +165,7 @@ class ProfileScreen extends React.Component {
       time = time.toString().replace(/,/g, ' ');
       let result = generateResult(val[i]);
       let address = val[i].address;
-
+      let verifiedd = val[i].verified;
       userObservations.push([
         name,
         photo,
@@ -174,6 +175,7 @@ class ProfileScreen extends React.Component {
         userNick,
         result,
         address,
+        verifiedd,
       ]);
       this.setState({
         userObservations: userObservations,
@@ -198,7 +200,7 @@ class ProfileScreen extends React.Component {
 
     const data = await database()
       .ref(`/usersObservations/`)
-      .orderByValue('uid')
+      .orderByKey()
       .endAt(lastVisible)
       .limitToLast(5)
       .once('value');
@@ -213,7 +215,7 @@ class ProfileScreen extends React.Component {
       let time = new Date(val[i].time);
       let crntTime = new Date().getTime();
       let dif = crntTime - time;
-      if (val[i].uid !== this.state.uid) {
+      if (val[i].uid !== auth().currentUser.uid) {
         continue;
       } else {
         console.log('Not mine');
@@ -230,6 +232,8 @@ class ProfileScreen extends React.Component {
       time = time.toString().replace(/,/g, ' ');
       let result = generateResult(val[i]);
       let address = val[i].address;
+      console.log(val[i].verified);
+      let verifiedd = val[i].verified;
       userObservations.push([
         name,
         photo,
@@ -239,11 +243,14 @@ class ProfileScreen extends React.Component {
         userNick,
         result,
         address,
+        verifiedd,
       ]);
       lastVisible = i;
     }
-    if (userObservations.length > 2) {
-      userObservations.pop();
+    if (Object.keys(val).length <= 4) {
+      lastVisible = '1';
+    } else {
+      observations.pop();
     }
     await this.setState({
       userObservations: [...this.state.userObservations, ...userObservations],
@@ -270,14 +277,16 @@ class ProfileScreen extends React.Component {
                 blurRadius={1}
                 style={styles.profileConatiner}
                 source={{uri: this.state.userPhoto}}>
-                <Text style={styles.userNick}>{this.state.userNick}</Text>
+                {/* <Text style={styles.userNick}>{this.state.userNick}</Text> */}
 
                 <Avatar.Image
                   style={{marginLeft: 5, marginRight: 0, padding: 0}}
                   size={100}
                   source={{uri: this.state.userPhoto}}
                 />
-                <Text style={styles.userName}>{this.state.userName}</Text>
+                <Text style={styles.userName}>
+                  {this.state.userName.toUpperCase()}
+                </Text>
                 <Button mode="contained" style={styles.observationTxt}>
                   Observations
                 </Button>
@@ -320,7 +329,20 @@ class ProfileScreen extends React.Component {
                       })
                     }
                     style={{justifyContent: 'center'}}>
-                    <Image style={styles.img} source={{uri: item[2]}} />
+                    <ImageBackground style={styles.img} source={{uri: item[2]}}>
+                      <View
+                        style={{
+                          backgroundColor: '#004c21',
+                          width: Dimensions.get('window').width / 3,
+                          height: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{color: 'white'}}>
+                          {item[8].toUpperCase()}
+                        </Text>
+                      </View>
+                    </ImageBackground>
                   </TouchableOpacity>
                 )}
                 // Item Key
@@ -407,10 +429,9 @@ const styles = StyleSheet.create({
     borderColor: 'white',
   },
   img: {
-    width: Dimensions.get('window').width / 3.085,
-    height: Dimensions.get('window').width / 3.5,
+    width: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 3,
     margin: 2,
-    justifyContent: 'center',
     borderRadius: 5,
   },
   imgConatiner: {

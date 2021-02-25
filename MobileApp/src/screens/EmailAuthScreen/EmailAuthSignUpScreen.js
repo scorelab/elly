@@ -135,8 +135,8 @@ export default class EmailAuthScreen extends React.Component {
               <View style={styles.logoIconContainer}>
                 <View
                   style={{
-                    padding: 10,
-                    backgroundColor: 'black',
+                    // padding: 10,
+                    // backgroundColor: 'black',
                     borderRadius: 100,
                   }}>
                   <Image source={LOGO} style={styles.logo} />
@@ -303,8 +303,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 30,
-    height: 30,
+    width: 60,
+    height: 60,
     resizeMode: 'stretch',
   },
   logoText: {

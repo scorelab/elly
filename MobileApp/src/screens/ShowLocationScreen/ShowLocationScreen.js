@@ -25,7 +25,7 @@ class ShowLocationScreen extends React.Component {
     return (
       <View style={styles.MainContainer}>
         <MapView
-          customMapStyle={MapStyle}
+          // customMapStyle={MapStyle}
           style={styles.mapStyle}
           showsUserLocation={true}
           zoomEnabled={true}

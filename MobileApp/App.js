@@ -84,7 +84,7 @@ const MainTabs = createMaterialBottomTabNavigator({
       tabBarLabel: [],
       tabBarIcon: ({tintColor}) => (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Avatar.Icon size={50} color="white" icon="home-variant" />
+          <Avatar.Icon size={50} icon="home-variant" />
         </View>
       ),
     },
@@ -95,7 +95,7 @@ const MainTabs = createMaterialBottomTabNavigator({
       tabBarLabel: [],
       tabBarIcon: ({tintColor}) => (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Avatar.Icon size={50} color="white" icon="image-search" />
+          <Avatar.Icon size={50} icon="image-search" />
         </View>
       ),
     },
@@ -106,7 +106,7 @@ const MainTabs = createMaterialBottomTabNavigator({
       tabBarLabel: [],
       tabBarIcon: ({tintColor}) => (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Avatar.Icon size={50} color="white" icon="camera-iris" />
+          <Avatar.Icon size={50} icon="camera-iris" />
         </View>
       ),
     },
@@ -117,7 +117,7 @@ const MainTabs = createMaterialBottomTabNavigator({
       tabBarLabel: [],
       tabBarIcon: ({tintColor}) => (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Avatar.Icon size={50} color="white" icon="google-maps" />
+          <Avatar.Icon size={50} icon="google-maps" />
         </View>
       ),
     },
@@ -128,7 +128,7 @@ const MainTabs = createMaterialBottomTabNavigator({
       tabBarLabel: [],
       tabBarIcon: ({tintColor}) => (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Avatar.Icon size={50} color="white" icon="account-box" />
+          <Avatar.Icon size={50} icon="account-box" />
         </View>
       ),
     },

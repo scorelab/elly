@@ -132,7 +132,7 @@ class DiscoverScreen extends React.Component {
           </View>
         ) : (
           <MapView
-            customMapStyle={MapStyle}
+            // customMapStyle={MapStyle}
             style={styles.mapStyle}
             showsUserLocation={true}
             zoomEnabled={true}

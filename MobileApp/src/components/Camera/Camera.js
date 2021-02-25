@@ -80,7 +80,6 @@ class Camera extends PureComponent {
               onPress={() => this.setState({flashOn: !this.state.flashOn})}>
               <Avatar.Icon
                 size={60}
-                color="white"
                 icon={this.state.flashOn ? 'flash' : 'flash-off'}
               />
             </TouchableOpacity>

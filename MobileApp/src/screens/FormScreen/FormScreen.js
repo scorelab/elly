@@ -165,6 +165,7 @@ class FormScreen extends React.Component {
   };
 
   findCoordinates = () => {
+    console.log(this.requestLocationPermission);
     if (this.requestLocationPermission) {
       Geolocation.getCurrentPosition(
         position => {
@@ -172,7 +173,7 @@ class FormScreen extends React.Component {
           // console.log(initialPosition)
           const lon = initialPosition['coords']['longitude'];
           const lat = initialPosition['coords']['latitude'];
-          // console.log(lon, lat, googleMapAPIKey)
+
           fetch(
             'https://maps.googleapis.com/maps/api/geocode/json?address=' +
               lat +
@@ -187,12 +188,12 @@ class FormScreen extends React.Component {
                 address:
                   responseJson.results.length > 0
                     ? responseJson.results[0].formatted_address.split(',')
-                    : 'Unnamed location',
+                    : 'Unnamed location'.split(' '),
               });
-              console.log(
-                'ADDRESS GEOCODE is !! => ' +
-                  JSON.stringify(responseJson.results[0].formatted_address),
-              );
+              // console.log(
+              //   'ADDRESS GEOCODE is !! => ' +
+              //     JSON.stringify(responseJson.results[0].formatted_address),
+              // );
             });
           this.setState({
             location: [
@@ -308,7 +309,7 @@ class FormScreen extends React.Component {
               ]}
             />
           ) : (
-            <View></View>
+            <View />
           )}
 
           {this.state.isAlive === 0 &&
@@ -322,7 +323,7 @@ class FormScreen extends React.Component {
               isNumeric={false}
             />
           ) : (
-            <View></View>
+            <View />
           )}
 
           {this.state.isAlive === 0 && this.state.cause === 1 ? (
@@ -338,7 +339,7 @@ class FormScreen extends React.Component {
               ]}
             />
           ) : (
-            <View></View>
+            <View />
           )}
 
           {this.state.isAlive === 0 &&
@@ -352,7 +353,7 @@ class FormScreen extends React.Component {
               isNumeric={false}
             />
           ) : (
-            <View></View>
+            <View />
           )}
 
           {this.state.isAlive === 1 ? (
@@ -408,7 +409,7 @@ class FormScreen extends React.Component {
               values={['Yes', 'No', "Can't see"]}
             />
           ) : (
-            <View></View>
+            <View />
           )}
 
           {this.state.isAlive === 1 && this.state.isSingle !== 0 ? (
@@ -437,7 +438,7 @@ class FormScreen extends React.Component {
               />
             </View>
           ) : (
-            <View></View>
+            <View />
           )}
         </ScrollView>
       </View>

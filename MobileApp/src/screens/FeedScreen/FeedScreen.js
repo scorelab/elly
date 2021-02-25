@@ -25,18 +25,18 @@ class FeedScreen extends React.Component {
       },
       headerTintColor: '#fff',
 
-      headerRight: () => (
+      headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           {params.userPhoto !== '' ? (
             <Avatar.Image
-              style={{marginRight: 5, padding: 0}}
-              size={35}
+              style={{marginLeft: 5, padding: 0}}
+              size={40}
               source={{uri: params.userPhoto}}
             />
           ) : (
             <Avatar.Text
               size={35}
-              style={{marginRight: 5, padding: 0, backgroundColor: 'white'}}
+              style={{marginLeft: 5, padding: 0, backgroundColor: 'white'}}
               label={params.userName.substr(0, 2).toUpperCase()}
             />
           )}
@@ -83,7 +83,7 @@ class FeedScreen extends React.Component {
       .once('value');
 
     const val = data.val();
-
+    console.log(val);
     let observations = [];
     let lastVisible = '';
     for (let i in val) {
@@ -117,6 +117,7 @@ class FeedScreen extends React.Component {
         result,
         address,
       ]);
+      console.log(observations[0].photUrl);
       this.setState({
         observations: observations,
         activityIndicator: false,
@@ -124,10 +125,12 @@ class FeedScreen extends React.Component {
 
       lastVisible = i;
     }
-    if (observations.length > 2) {
+    if (Object.keys(val).length <= 4) {
+      lastVisible = '1';
+    } else {
       observations.pop();
     }
-
+    console.log(observations, lastVisible);
     await this.setState({
       activityIndicator: false,
       lastVisible: lastVisible,
@@ -182,7 +185,11 @@ class FeedScreen extends React.Component {
       ]);
       lastVisible = i;
     }
-    observations.pop();
+    if (Object.keys(val).length <= 4) {
+      lastVisible = '1';
+    } else {
+      observations.pop();
+    }
     await this.setState({
       observations: [...this.state.observations, ...observations],
       activityIndicator: false,
@@ -244,10 +251,12 @@ class FeedScreen extends React.Component {
                         subtitle={item[5]}
                         user={item[1]}
                         image={item[2]}
-                        content={[
-                          ['calendar-clock', 'On ' + item[4].toString()],
-                          ['map-marker', item[3].toString()],
-                        ]}
+                        content={
+                          [
+                            // ['calendar-clock', 'On ' + item[4].toString()],
+                            // ['map-marker', item[3].toString()],
+                          ]
+                        }
                       />
                     )}
                     // Item Key
@@ -271,7 +280,7 @@ class FeedScreen extends React.Component {
                   />
                 </SafeAreaView>
               ) : (
-                <View></View>
+                <View />
               )}
             </View>
           </View>

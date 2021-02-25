@@ -52,7 +52,7 @@ class SearchScreen extends React.Component {
     this.setState({
       firstQuery: text,
     });
-    this.getObservations(text.toLowerCase());
+    this.getObservations(text ? text.toLowerCase() : '');
     this.props.navigation.setParams({
       query: text,
     });
@@ -62,11 +62,12 @@ class SearchScreen extends React.Component {
     // Fetch the data snapshot
     const data = await database()
       .ref(`/usersObservations/`)
-      .orderByValue(type)
+      // .orderByValue(type)
+      .orderByKey()
       .limitToLast(5)
       .once('value');
     const val = data.val();
-
+    console.log(val);
     let userObservations = [];
     let lastVisible = '';
     for (let i in val) {
@@ -124,7 +125,9 @@ class SearchScreen extends React.Component {
         activityIndicator: false,
       });
     }
-    if (userObservations.length > 2) {
+    if (Object.keys(val).length <= 4) {
+      lastVisible = '1';
+    } else {
       userObservations.pop();
     }
 
@@ -140,13 +143,13 @@ class SearchScreen extends React.Component {
 
     const data = await database()
       .ref(`/usersObservations/`)
-      .orderByValue(type)
+      .orderByKey()
       .endAt(lastVisible)
       .limitToLast(5)
       .once('value');
 
     const val = data.val();
-    // console.log(val)
+    console.log(val);
     let userObservations = [];
     for (let i in val) {
       let name = val[i].uname;
@@ -199,7 +202,9 @@ class SearchScreen extends React.Component {
         }
       });
     }
-    if (userObservations.length > 2) {
+    if (Object.keys(val).length <= 4) {
+      lastVisible = '1';
+    } else {
       userObservations.pop();
     }
     await this.setState({
@@ -229,7 +234,7 @@ class SearchScreen extends React.Component {
           </View>
         ) : (
           <View>
-            <View style={styles.chipContainer}>
+            {/* <View style={styles.chipContainer}>
               <Chip
                 style={styles.chip}
                 icon="gender-male"
@@ -260,7 +265,7 @@ class SearchScreen extends React.Component {
                 onPress={() => this.getObservations('single')}>
                 Single
               </Chip>
-            </View>
+            </View> */}
             <FlatList
               // Data
               style={styles.scrollView}
@@ -297,7 +302,7 @@ class SearchScreen extends React.Component {
                   showIndicator={this.state.activityIndicator}
                 />
               )}
-              onEndReached={this.getMoreObservations}
+              onEndReached={() => this.getMoreObservations('all')}
               // How Close To The End Of List Until Next Data Request Is Made
               onEndReachedThreshold={0.1}
               // Refreshing (Set To True When End Reached)
@@ -316,7 +321,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     alignSelf: 'stretch',
-    marginTop: 10,
+    marginTop: 1,
     width: Dimensions.get('window').width,
   },
   chipContainer: {
@@ -329,8 +334,8 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   img: {
-    width: Dimensions.get('window').width / 3.085,
-    height: Dimensions.get('window').width / 3.5,
+    width: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 3,
     margin: 2,
     justifyContent: 'center',
     borderRadius: 2,
@@ -340,12 +345,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 10,
     width: Dimensions.get('window').width,
   },
   scrollView: {
     width: Dimensions.get('window').width,
-    marginTop: 5,
+    marginTop: 0,
   },
   welcome: {
     fontSize: 25,
