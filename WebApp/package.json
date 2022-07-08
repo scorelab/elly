@@ -10,7 +10,7 @@
     "images-downloader": "^1.0.3",
     "js-file-downloader": "^1.1.10",
     "material-table": "^1.64.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-fade-in": "^0.1.8",
