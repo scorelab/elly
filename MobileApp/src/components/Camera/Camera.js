@@ -8,10 +8,10 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import {IconButton, Colors, Avatar} from 'react-native-paper';
-import CameraRoll from '@react-native-community/cameraroll';
+import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import {RNCamera} from 'react-native-camera';
-import {withNavigationFocus} from 'react-navigation';
-import {resize} from '../../components/ImageManipulator/ImageManipulator';
+import {resize} from '../../Utils/ImageManipulator';
+
 class Camera extends PureComponent {
   constructor(props) {
     super(props);
@@ -21,7 +21,9 @@ class Camera extends PureComponent {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.checkPermission();
+  }
 
   sendData = () => {
     this.props.parentCallback([
@@ -31,13 +33,30 @@ class Camera extends PureComponent {
     ]);
   };
 
+  checkPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('CAMERA');
+        this.setState({
+          cameraPermission: true,
+        });
+      } else {
+        console.log('no permission');
+        this.setState({
+          cameraPermission: false,
+        });
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   render() {
     const {isFocused} = this.props;
-    const {hasCameraPermission} = this.state;
-    console.log(hasCameraPermission);
-    if (hasCameraPermission === null) {
-      return <View />;
-    } else if (hasCameraPermission === false) {
+    if (this.state.cameraPermission === false) {
       return <Text>No access to camera</Text>;
     } else if (isFocused) {
       return (
@@ -71,7 +90,7 @@ class Camera extends PureComponent {
             //   console.log(text);
             // }}
           >
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 justifyContent: 'flex-start',
                 marginLeft: 20,
@@ -82,7 +101,7 @@ class Camera extends PureComponent {
                 size={60}
                 icon={this.state.flashOn ? 'flash' : 'flash-off'}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </RNCamera>
           <View style={styles.bottom}>
             <IconButton
@@ -110,13 +129,14 @@ class Camera extends PureComponent {
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          CameraRoll.saveToCameraRoll(data.uri);
-          let ruri = await resize(data.uri, 800, 600);
-          // console.log(ruri);
+          const originalUri = await CameraRoll.save(data.uri);
+          console.log('1' + originalUri);
+          // let ruri = await resize(data.uri, 400, 200);
+          // console.log('2' + ruri);
           this.setState({
             snaped: true,
             dataUri: data.uri,
-            ruri: ruri,
+            ruri: data.uri,
           });
           this.sendData();
         } else {
@@ -152,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigationFocus(Camera);
+export default Camera;

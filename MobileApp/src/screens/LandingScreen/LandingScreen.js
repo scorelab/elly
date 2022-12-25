@@ -1,7 +1,14 @@
 import * as React from 'react';
-import {View, StyleSheet, Image, Dimensions} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  PermissionsAndroid,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {LOGO} from '../../images/index';
+import SplashScreen from 'react-native-splash-screen';
 
 class LandingScreen extends React.Component {
   componentDidMount() {
@@ -12,7 +19,22 @@ class LandingScreen extends React.Component {
         this.props.navigation.navigate('SignIn');
       }
     });
+    SplashScreen.hide();
+    this.checkPermission();
   }
+
+  checkPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('CAMERA');
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   render() {
     return (

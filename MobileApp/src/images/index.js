@@ -1,4 +1,4 @@
-export const COVER = require('./updatedcover.png');
+export const COVER = require('./updatedcover3.png');
 export const LOGO = require('./EleWatchLogo.png');
 export const LOGOB = require('./EleWatchLogo.png');
 export const SLOGO = require('./score.jpg');

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, StyleSheet, PermissionsAndroid} from 'react-native';
+import {View, StyleSheet, PermissionsAndroid, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
@@ -7,20 +7,11 @@ import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndica
 import {NavigationEvents} from 'react-navigation';
 import database from '@react-native-firebase/database';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling';
+import {Appbar} from 'react-native-paper';
 // import {MAPMARKER} from '../../images/index';
 var MapStyle = require('../../config/map.json');
 
 class DiscoverScreen extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    return {
-      headerTitle: 'Explore Near By',
-      headerStyle: {
-        backgroundColor: '#004c21',
-      },
-      headerTintColor: 'white',
-    };
-  };
-
   constructor(props) {
     super(props);
 
@@ -32,15 +23,18 @@ class DiscoverScreen extends React.Component {
   }
 
   componentDidMount() {
+    console.log('did mount');
     this.findCoordinates();
     this.getObservations();
   }
 
-  getObservations = async function() {
+  componentDidUpdate() {
+    console.log('did update');
+  }
+
+  getObservations = async function () {
     // Fetch the data snapshot
-    const data = await database()
-      .ref(`/usersObservations/`)
-      .once('value');
+    const data = await database().ref(`/usersObservations/`).once('value');
     // console.log(data)
     const val = data.val();
 
@@ -92,7 +86,7 @@ class DiscoverScreen extends React.Component {
   findCoordinates = async () => {
     try {
       const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('Location');
@@ -101,16 +95,18 @@ class DiscoverScreen extends React.Component {
             const initialPosition = position;
             const lon = initialPosition['coords']['longitude'];
             const lat = initialPosition['coords']['latitude'];
-            await this.setState({
+            this.setState({
               location: [lon, lat],
               activityIndicator: false,
             });
+            console.log('codes');
           },
           error => console.log('Error', JSON.stringify(error)),
           {enableHighAccuracy: false},
         );
       } else {
-        await this.setState({
+        console.log('no permission');
+        this.setState({
           activityIndicator: false,
         });
       }
@@ -121,63 +117,63 @@ class DiscoverScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.MainContainer}>
-        <NavigationEvents onDidFocus={this.findCoordinates} />
-        {this.state.activityIndicator ? (
-          <View style={styles.indicator}>
-            <ActivityIndicator
-              title={'Loading'}
-              showIndicator={this.state.activityIndicator}
-            />
-          </View>
-        ) : (
-          <MapView
-            // customMapStyle={MapStyle}
-            style={styles.mapStyle}
-            showsUserLocation={true}
-            zoomEnabled={true}
-            zoomControlEnabled={true}
-            initialRegion={{
-              latitude: this.state.location[1],
-              longitude: this.state.location[0],
-              latitudeDelta: 1.2922,
-              longitudeDelta: 0.0421,
-            }}>
-            {this.state.observations.map((val, i) => (
-              <Marker
-                key={i}
-                coordinate={val[7].cordinates}
-                title={val[7].title}
-                description={val[7].description}
-                onPress={() =>
-                  this.props.navigation.navigate('showDetailedPhoto', {
-                    img: val[2],
-                    title: val[0],
-                    subtitle: val[5],
-                    user: val[1],
-                    content: val[6],
-                    showPhoto: this.props.navigation,
-                  })
-                }
-                image={'map'}
+      <>
+        <Appbar.Header>
+          <Appbar.Content title="Locations" />
+        </Appbar.Header>
+        <View style={styles.MainContainer}>
+          {/* <NavigationEvents onDidFocus={this.findCoordinates} /> */}
+          {this.state.activityIndicator ? (
+            <View style={styles.indicator}>
+              <ActivityIndicator
+                title={'Loading'}
+                showIndicator={this.state.activityIndicator}
               />
-            ))}
-          </MapView>
-        )}
-      </View>
+            </View>
+          ) : (
+            <MapView
+              // customMapStyle={MapStyle}
+              style={styles.mapStyle}
+              showsUserLocation={true}
+              zoomEnabled={true}
+              zoomControlEnabled={true}
+              initialRegion={{
+                latitude: this.state.location[1],
+                longitude: this.state.location[0],
+                latitudeDelta: 1.2922,
+                longitudeDelta: 0.0421,
+              }}>
+              {this.state.observations.map((val, i) => (
+                <Marker
+                  key={i}
+                  coordinate={val[7].cordinates}
+                  title={val[7].title}
+                  description={val[7].description}
+                  onPress={() =>
+                    this.props.navigation.navigate('showDetailedPhoto', {
+                      img: val[2],
+                      title: val[0],
+                      subtitle: val[5],
+                      user: val[1],
+                      content: val[6],
+                      showPhoto: this.props.navigation,
+                    })
+                  }
+                  // image={'map'}
+                />
+              ))}
+            </MapView>
+          )}
+        </View>
+      </>
     );
   }
 }
 
 const styles = StyleSheet.create({
   MainContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
   mapStyle: {
     position: 'absolute',

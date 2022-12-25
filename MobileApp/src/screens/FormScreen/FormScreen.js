@@ -17,31 +17,12 @@ import Geolocation from '@react-native-community/geolocation';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
-import {Button} from 'react-native-paper';
+import {Appbar, Button} from 'react-native-paper';
 import {generateUUID} from '../../components/UserDataHandling/UserDataHandling';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator';
 import {googleMapAPIKey} from '../../config/config';
 
 class FormScreen extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    const {params = {}} = navigation.state;
-    return {
-      headerTitle: 'Observation',
-      headerStyle: {
-        backgroundColor: '#004c21',
-      },
-      headerTintColor: '#fff',
-      headerRight: () => (
-        <Button
-          style={{margin: 5}}
-          mode="contained"
-          onPress={() => params.handlePress()}>
-          Share
-        </Button>
-      ),
-    };
-  };
-
   constructor(props) {
     super(props);
 
@@ -50,8 +31,8 @@ class FormScreen extends React.Component {
     date = date.toString().split(' ');
     date = date.splice(0, date.length - 2);
     this.state = {
-      photos: this.props.navigation.getParam('dataUri'),
-      rphotos: this.props.navigation.getParam('ruri'),
+      photos: this.props.route.params.dataUri,
+      rphotos: this.props.route.params.ruri,
       isAlive: 1,
       isSingle: 0,
       cause: 0,
@@ -78,21 +59,16 @@ class FormScreen extends React.Component {
 
   componentDidMount() {
     this.findCoordinates();
-    this.props.navigation.setParams({
-      handlePress: () => this.uploadData(),
-    });
   }
 
-  uploadData = async function() {
+  uploadData = async function () {
     // Get the users ID
     console.log('Pressed');
     this.setState({
       activityIndicator: true,
     });
     const uid = await auth().currentUser.uid;
-    const user = await database()
-      .ref(`/users/${uid}`)
-      .once('value');
+    const user = await database().ref(`/users/${uid}`).once('value');
     const uname = user.val().name;
     const uimg = user.val().photo;
 
@@ -149,7 +125,7 @@ class FormScreen extends React.Component {
     this.props.navigation.navigate('CameraViewScreen');
   };
 
-  requestLocationPermission = async function() {
+  requestLocationPermission = async function () {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -220,228 +196,241 @@ class FormScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View style={styles.container}>
-        <ImageBackground
-          blurRadius={2}
-          style={{width: '100%'}}
-          source={{uri: this.state.photos}}>
-          <TouchableOpacity
-            style={styles.imgHolder}
-            onPress={() =>
-              navigate('showPhoto', {img: this.state.photos.toString()})
-            }>
-            <Image
-              style={{
-                width: 80,
-                height: 80,
-                borderRadius: 20,
-              }}
-              source={{uri: this.state.photos.toString()}}
+      <>
+        <Appbar.Header>
+          <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
+          <Appbar.Content title="Observation" />
+          <Button
+            style={{margin: 5}}
+            mode="contained"
+            onPress={() => this.uploadData()}>
+            Share
+          </Button>
+        </Appbar.Header>
+
+        <View style={styles.container}>
+          <ImageBackground
+            blurRadius={2}
+            style={{width: '100%'}}
+            source={{uri: this.state.photos}}>
+            <TouchableOpacity
+              style={styles.imgHolder}
+              onPress={() =>
+                navigate('showPhoto', {img: this.state.photos.toString()})
+              }>
+              <Image
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: 20,
+                }}
+                source={{uri: this.state.photos.toString()}}
+              />
+            </TouchableOpacity>
+          </ImageBackground>
+
+          <View>
+            <ActivityIndicator
+              title={'Uploading'}
+              showIndicator={this.state.activityIndicator}
             />
-          </TouchableOpacity>
-        </ImageBackground>
+          </View>
 
-        <View>
-          <ActivityIndicator
-            title={'Uploading'}
-            showIndicator={this.state.activityIndicator}
-          />
-        </View>
-
-        <ScrollView>
-          <UneditableComponent
-            title={'Location'}
-            icon={'map-marker'}
-            values={this.state.address}
-          />
-          <UneditableComponent
-            title={'Date'}
-            icon={'calendar-clock'}
-            values={this.state.date}
-          />
-
-          <TextInputGroupHorizontal
-            title={'Notes'}
-            type={'notes'}
-            parentCallback={this.FormComponentCallbackFunction}
-            multiline={true}
-            isNumeric={false}
-          />
-
-          <RadioButtonGroupHorizontal
-            parentCallback={this.FormComponentCallbackFunction}
-            type={'isAlive'}
-            title={'Is it Alive or Dead?'}
-            values={['Alive', 'Dead']}
-          />
-
-          {this.state.isAlive === 1 ? (
-            <RadioButtonGroupVertical
-              parentCallback={this.FormComponentCallbackFunction}
-              type={'isSingle'}
-              title={'Group type?'}
-              values={[
-                'Single individual',
-                'Group with calves',
-                'Group withutout calves',
-              ]}
+          <ScrollView>
+            <UneditableComponent
+              title={'Location'}
+              icon={'map-marker'}
+              values={this.state.address}
             />
-          ) : (
-            <RadioButtonGroupVertical
-              parentCallback={this.FormComponentCallbackFunction}
-              type={'cause'}
-              title={'Cause?'}
-              values={['Accident', 'Intentional', "Dont't know"]}
+            <UneditableComponent
+              title={'Date'}
+              icon={'calendar-clock'}
+              values={this.state.date}
             />
-          )}
 
-          {this.state.isAlive === 0 && this.state.cause === 0 ? (
-            <RadioButtonGroupVertical
-              parentCallback={this.FormComponentCallbackFunction}
-              type={'accidentKind'}
-              title={'What kind of accident?'}
-              values={[
-                'Vehicle strike',
-                'Train strike',
-                'Fell into well',
-                'Electrocution',
-                'Other (text note)',
-              ]}
-            />
-          ) : (
-            <View />
-          )}
-
-          {this.state.isAlive === 0 &&
-          this.state.cause === 0 &&
-          this.state.accidentKind === 4 ? (
             <TextInputGroupHorizontal
-              title={'Briefly describe'}
-              type={'accidentOther'}
+              title={'Notes'}
+              type={'notes'}
               parentCallback={this.FormComponentCallbackFunction}
               multiline={true}
               isNumeric={false}
             />
-          ) : (
-            <View />
-          )}
 
-          {this.state.isAlive === 0 && this.state.cause === 1 ? (
-            <RadioButtonGroupVertical
+            <RadioButtonGroupHorizontal
               parentCallback={this.FormComponentCallbackFunction}
-              type={'intentinalKind'}
-              title={'How it happened intentionally?'}
-              values={[
-                'Conflict-related',
-                'Hunting-related',
-                'Other (text note)',
-                'Don’t know',
-              ]}
+              type={'isAlive'}
+              title={'Is it Alive or Dead?'}
+              values={['Alive', 'Dead']}
             />
-          ) : (
-            <View />
-          )}
 
-          {this.state.isAlive === 0 &&
-          this.state.cause === 1 &&
-          this.state.intentinalKind === 2 ? (
-            <TextInputGroupHorizontal
-              title={'Briefly describe'}
-              type={'intentionalOther'}
-              parentCallback={this.FormComponentCallbackFunction}
-              multiline={true}
-              isNumeric={false}
-            />
-          ) : (
-            <View />
-          )}
-
-          {this.state.isAlive === 1 ? (
-            <View>
+            {this.state.isAlive === 1 ? (
               <RadioButtonGroupVertical
                 parentCallback={this.FormComponentCallbackFunction}
-                type={'sex'}
-                title={'What is the sex of the elephant(s)?'}
-                values={['Male', 'Female', 'Mixed', 'Don’t know']}
-              />
-            </View>
-          ) : (
-            <View>
-              <TextInputGroupHorizontal
-                title={'How many animals have died? (numerical responce)'}
-                type={'noOfDeaths'}
-                parentCallback={this.FormComponentCallbackFunction}
-                multiline={false}
-                isNumeric={true}
-              />
-              <RadioButtonGroupVertical
-                parentCallback={this.FormComponentCallbackFunction}
-                type={'sex'}
-                title={'What is the sex of the elephant(s)?'}
-                values={['Male', 'Female', 'Mixed', 'Don’t know']}
-              />
-              <TextInputGroupHorizontal
-                title={'How many have tusks? (numerical responce)'}
-                type={'noOfTusks'}
-                parentCallback={this.FormComponentCallbackFunction}
-                multiline={false}
-                isNumeric={true}
-              />
-              <RadioButtonGroupVertical
-                parentCallback={this.FormComponentCallbackFunction}
-                type={'tusksStatus'}
-                title={'Status of tusks?'}
+                type={'isSingle'}
+                title={'Group type?'}
                 values={[
-                  'Tusks naturally absent',
-                  'Tusks present',
-                  'Tusks removed',
+                  'Single individual',
+                  'Group with calves',
+                  'Group withutout calves',
+                ]}
+              />
+            ) : (
+              <RadioButtonGroupVertical
+                parentCallback={this.FormComponentCallbackFunction}
+                type={'cause'}
+                title={'Cause?'}
+                values={['Accident', 'Intentional', "Dont't know"]}
+              />
+            )}
+
+            {this.state.isAlive === 0 && this.state.cause === 0 ? (
+              <RadioButtonGroupVertical
+                parentCallback={this.FormComponentCallbackFunction}
+                type={'accidentKind'}
+                title={'What kind of accident?'}
+                values={[
+                  'Vehicle strike',
+                  'Train strike',
+                  'Fell into well',
+                  'Electrocution',
+                  'Other (text note)',
+                ]}
+              />
+            ) : (
+              <View />
+            )}
+
+            {this.state.isAlive === 0 &&
+            this.state.cause === 0 &&
+            this.state.accidentKind === 4 ? (
+              <TextInputGroupHorizontal
+                title={'Briefly describe'}
+                type={'accidentOther'}
+                parentCallback={this.FormComponentCallbackFunction}
+                multiline={true}
+                isNumeric={false}
+              />
+            ) : (
+              <View />
+            )}
+
+            {this.state.isAlive === 0 && this.state.cause === 1 ? (
+              <RadioButtonGroupVertical
+                parentCallback={this.FormComponentCallbackFunction}
+                type={'intentinalKind'}
+                title={'How it happened intentionally?'}
+                values={[
+                  'Conflict-related',
+                  'Hunting-related',
+                  'Other (text note)',
                   'Don’t know',
                 ]}
               />
-            </View>
-          )}
+            ) : (
+              <View />
+            )}
 
-          {this.state.isAlive === 1 && this.state.isSingle === 0 ? (
-            <RadioButtonGroupVertical
-              parentCallback={this.FormComponentCallbackFunction}
-              type={'haveTusks'}
-              title={'Does it have tusks?'}
-              values={['Yes', 'No', "Can't see"]}
-            />
-          ) : (
-            <View />
-          )}
-
-          {this.state.isAlive === 1 && this.state.isSingle !== 0 ? (
-            <View>
-              <RadioButtonGroupVertical
+            {this.state.isAlive === 0 &&
+            this.state.cause === 1 &&
+            this.state.intentinalKind === 2 ? (
+              <TextInputGroupHorizontal
+                title={'Briefly describe'}
+                type={'intentionalOther'}
                 parentCallback={this.FormComponentCallbackFunction}
-                type={'noOfIndividuals'}
-                title={'How many individuals?'}
-                values={[
-                  '2 to 5 individuals',
-                  '6 to 10 individuals',
-                  'Mixed',
-                  'More than 10',
-                ]}
+                multiline={true}
+                isNumeric={false}
               />
+            ) : (
+              <View />
+            )}
+
+            {this.state.isAlive === 1 ? (
+              <View>
+                <RadioButtonGroupVertical
+                  parentCallback={this.FormComponentCallbackFunction}
+                  type={'sex'}
+                  title={'What is the sex of the elephant(s)?'}
+                  values={['Male', 'Female', 'Mixed', 'Don’t know']}
+                />
+              </View>
+            ) : (
+              <View>
+                <TextInputGroupHorizontal
+                  title={'How many animals have died? (numerical responce)'}
+                  type={'noOfDeaths'}
+                  parentCallback={this.FormComponentCallbackFunction}
+                  multiline={false}
+                  isNumeric={true}
+                />
+                <RadioButtonGroupVertical
+                  parentCallback={this.FormComponentCallbackFunction}
+                  type={'sex'}
+                  title={'What is the sex of the elephant(s)?'}
+                  values={['Male', 'Female', 'Mixed', 'Don’t know']}
+                />
+                <TextInputGroupHorizontal
+                  title={'How many have tusks? (numerical responce)'}
+                  type={'noOfTusks'}
+                  parentCallback={this.FormComponentCallbackFunction}
+                  multiline={false}
+                  isNumeric={true}
+                />
+                <RadioButtonGroupVertical
+                  parentCallback={this.FormComponentCallbackFunction}
+                  type={'tusksStatus'}
+                  title={'Status of tusks?'}
+                  values={[
+                    'Tusks naturally absent',
+                    'Tusks present',
+                    'Tusks removed',
+                    'Don’t know',
+                  ]}
+                />
+              </View>
+            )}
+
+            {this.state.isAlive === 1 && this.state.isSingle === 0 ? (
               <RadioButtonGroupVertical
                 parentCallback={this.FormComponentCallbackFunction}
                 type={'haveTusks'}
-                title={'How many have tusks?'}
-                values={[
-                  'None',
-                  '1 to 5 individuals',
-                  '6 to 10 individuals',
-                  'More than 10',
-                ]}
+                title={'Does it have tusks?'}
+                values={['Yes', 'No', "Can't see"]}
               />
-            </View>
-          ) : (
-            <View />
-          )}
-        </ScrollView>
-      </View>
+            ) : (
+              <View />
+            )}
+
+            {this.state.isAlive === 1 && this.state.isSingle !== 0 ? (
+              <View>
+                <RadioButtonGroupVertical
+                  parentCallback={this.FormComponentCallbackFunction}
+                  type={'noOfIndividuals'}
+                  title={'How many individuals?'}
+                  values={[
+                    '2 to 5 individuals',
+                    '6 to 10 individuals',
+                    'Mixed',
+                    'More than 10',
+                  ]}
+                />
+                <RadioButtonGroupVertical
+                  parentCallback={this.FormComponentCallbackFunction}
+                  type={'haveTusks'}
+                  title={'How many have tusks?'}
+                  values={[
+                    'None',
+                    '1 to 5 individuals',
+                    '6 to 10 individuals',
+                    'More than 10',
+                  ]}
+                />
+              </View>
+            ) : (
+              <View />
+            )}
+          </ScrollView>
+        </View>
+      </>
     );
   }
 }

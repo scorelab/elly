@@ -8,7 +8,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import {Button, Menu, Avatar} from 'react-native-paper';
+import {Button, Menu, Avatar, Appbar} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator';
@@ -17,36 +17,6 @@ import database from '@react-native-firebase/database';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
 class ProfileScreen extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    const {params = []} = navigation.state;
-    return {
-      headerTitle: 'My Profile',
-      headerStyle: {
-        backgroundColor: '#004c21',
-      },
-      headerTintColor: '#fff',
-      headerRight: () => (
-        <Menu
-          visible={params.showMenu}
-          onDismiss={() => params.closeMenu()}
-          anchor={
-            <TouchableOpacity onPress={() => params.openMenu()}>
-              <Icon name="dots-vertical" size={30} color="white" />
-            </TouchableOpacity>
-          }>
-          <Menu.Item
-            onPress={() => params.onPressMenuLogout()}
-            title="LOGOUT"
-          />
-          <Menu.Item
-            onPress={() => params.onPressMenuAbout()}
-            title="ABOUT ELLY"
-          />
-        </Menu>
-      ),
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -62,18 +32,13 @@ class ProfileScreen extends React.Component {
     };
   }
 
+  aboutHandler = async () => {
+    this.props.navigation.navigate('AboutScreen');
+    this.closeMenu();
+  };
+
   componentDidMount() {
     this.getUserProfile();
-    this.props.navigation.setParams({
-      onPressMenuAbout: () => {
-        this.props.navigation.navigate('AboutScreen');
-        this.closeMenu();
-      },
-      onPressMenuLogout: () => this.logutHandler(),
-      showMenu: false,
-      openMenu: () => this.openMenu(),
-      closeMenu: () => this.closeMenu(),
-    });
     database()
       .ref('/usersObservations/')
       .child(this.state.uid)
@@ -91,16 +56,12 @@ class ProfileScreen extends React.Component {
 
   openMenu() {
     console.log('opened');
-    this.props.navigation.setParams({
-      showMenu: true,
-    });
+    this.setState({showMenu: true});
   }
 
   closeMenu() {
     console.log('closed');
-    this.props.navigation.setParams({
-      showMenu: false,
-    });
+    this.setState({showMenu: false});
   }
 
   _onRefresh() {
@@ -113,10 +74,7 @@ class ProfileScreen extends React.Component {
   getUserProfile = async () => {
     const user = auth().currentUser;
     const uid = user.uid;
-    const ref = await database()
-      .ref('/users/')
-      .child(uid)
-      .once('value');
+    const ref = await database().ref('/users/').child(uid).once('value');
     const data = ref.val();
     console.log(data);
     await this.setState({
@@ -262,127 +220,146 @@ class ProfileScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {this.state.activityIndicator ? (
-          <View style={{width: '100%', backgroundColor: 'grey'}}>
-            <ActivityIndicator
-              title={'Please wait'}
-              showIndicator={this.state.activityIndicator}
-            />
-          </View>
-        ) : (
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            {this.state.userPhoto !== '' ? (
-              <ImageBackground
-                blurRadius={1}
-                style={styles.profileConatiner}
-                source={{uri: this.state.userPhoto}}>
-                {/* <Text style={styles.userNick}>{this.state.userNick}</Text> */}
-
-                <Avatar.Image
-                  style={{marginLeft: 5, marginRight: 0, padding: 0}}
-                  size={100}
-                  source={{uri: this.state.userPhoto}}
-                />
-                <Text style={styles.userName}>
-                  {this.state.userName.toUpperCase()}
-                </Text>
-                <Button mode="contained" style={styles.observationTxt}>
-                  Observations
-                </Button>
-                <Text style={styles.obCount}>{this.state.noObs}</Text>
-              </ImageBackground>
-            ) : (
-              <View style={styles.profileConatiner}>
-                <Text style={styles.userNick}>{this.state.userNick}</Text>
-                <Avatar.Text
-                  color={'white'}
-                  size={100}
-                  label={this.state.userName.substr(0, 2).toUpperCase()}
-                />
-                <Text style={styles.userName}>{this.state.userName}</Text>
-                <Button mode="contained" style={styles.observationTxt}>
-                  Observations
-                </Button>
-                <Text style={styles.obCount}>{this.state.noObs}</Text>
-              </View>
-            )}
-
-            {this.state.userObservations.length > 0 ? (
-              <FlatList
-                // Data
-                style={styles.scrollView}
-                data={this.state.userObservations}
-                // Render Items
-                horizontal={false}
-                numColumns={3}
-                renderItem={({item}) => (
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate('showDetailedPhoto', {
-                        img: item[2],
-                        title: this.state.userName,
-                        subtitle: this.state.userNick,
-                        user: this.state.userPhoto,
-                        content: item[6],
-                        showPhoto: this.props.navigation,
-                      })
-                    }
-                    style={{justifyContent: 'center'}}>
-                    <ImageBackground style={styles.img} source={{uri: item[2]}}>
-                      <View
-                        style={{
-                          backgroundColor: '#004c21',
-                          width: Dimensions.get('window').width / 3,
-                          height: 20,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <Text style={{color: 'white'}}>
-                          {item[8].toUpperCase()}
-                        </Text>
-                      </View>
-                    </ImageBackground>
-                  </TouchableOpacity>
-                )}
-                // Item Key
-                keyExtractor={(item, index) => String(index)}
-                // Header (Title)
-                // On End Reached (Takes a function)
-
-                // ListHeaderComponent={<Text>Hello</Text>}
-                // Footer (Activity Indicator)
-                ListFooterComponent={() => (
-                  <ActivityIndicator
-                    title={'Loading'}
-                    showIndicator={this.state.activityIndicator}
-                  />
-                )}
-                onEndReached={this.getMoreUserData}
-                // How Close To The End Of List Until Next Data Request Is Made
-                onEndReachedThreshold={0.1}
-                // Refreshing (Set To True When End Reached)
-                refreshing={this.state.activityIndicator}
+      <>
+        <Appbar.Header>
+          <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
+          <Appbar.Content title="Profile" />
+          <Menu
+            visible={this.state.showMenu}
+            onDismiss={() => this.closeMenu()}
+            anchor={
+              <TouchableOpacity onPress={() => this.openMenu()}>
+                <Icon name="dots-vertical" size={30} />
+              </TouchableOpacity>
+            }>
+            <Menu.Item onPress={() => this.logutHandler()} title="Logout" />
+            <Menu.Item onPress={() => this.aboutHandler()} title="About" />
+          </Menu>
+        </Appbar.Header>
+        <View style={styles.container}>
+          {this.state.activityIndicator ? (
+            <View style={{width: '100%', backgroundColor: 'grey'}}>
+              <ActivityIndicator
+                title={'Please wait'}
+                showIndicator={this.state.activityIndicator}
               />
-            ) : (
-              <Button
-                style={{
-                  marginTop: 20,
-                  height: 50,
-                  justifyContent: 'center',
-                  width: Dimensions.get('window').width - 200,
-                }}
-                icon="plus"
-                mode="contained"
-                onPress={() =>
-                  this.props.navigation.navigate('PhotoLandingScreen')
-                }>
-                Add Observation
-              </Button>
-            )}
-          </View>
-        )}
-      </View>
+            </View>
+          ) : (
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              {this.state.userPhoto !== '' ? (
+                <ImageBackground
+                  blurRadius={1}
+                  style={styles.profileConatiner}
+                  source={{uri: this.state.userPhoto}}>
+                  {/* <Text style={styles.userNick}>{this.state.userNick}</Text> */}
+
+                  <Avatar.Image
+                    style={{marginLeft: 5, marginRight: 0, padding: 0}}
+                    size={100}
+                    source={{uri: this.state.userPhoto}}
+                  />
+                  <Text style={styles.userName}>
+                    {this.state.userName.toUpperCase()}
+                  </Text>
+                  <Button mode="contained" style={styles.observationTxt}>
+                    Observations
+                  </Button>
+                  <Text style={styles.obCount}>{this.state.noObs}</Text>
+                </ImageBackground>
+              ) : (
+                <View style={styles.profileConatiner}>
+                  {/* <Text style={styles.userNick}>{this.state.userNick}</Text> */}
+                  <Avatar.Text
+                    // color={'white'}
+                    size={100}
+                    label={this.state.userName.substr(0, 2).toUpperCase()}
+                  />
+                  <Text style={styles.userName}>{this.state.userName}</Text>
+                  <Button mode="contained" style={styles.observationTxt}>
+                    Observations
+                  </Button>
+                  <Text style={styles.obCount}>{this.state.noObs}</Text>
+                </View>
+              )}
+
+              {this.state.userObservations.length > 0 ? (
+                <FlatList
+                  // Data
+                  style={styles.scrollView}
+                  data={this.state.userObservations}
+                  // Render Items
+                  horizontal={false}
+                  numColumns={3}
+                  renderItem={({item}) => (
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate('showDetailedPhoto', {
+                          img: item[2],
+                          title: this.state.userName,
+                          subtitle: this.state.userNick,
+                          user: this.state.userPhoto,
+                          content: item[6],
+                          showPhoto: this.props.navigation,
+                        })
+                      }
+                      style={{justifyContent: 'center'}}>
+                      <ImageBackground
+                        style={styles.img}
+                        source={{uri: item[2]}}>
+                        <View
+                          style={{
+                            backgroundColor: '#004c21',
+                            width: Dimensions.get('window').width / 3,
+                            height: 20,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={{color: 'white'}}>
+                            {item[8].toUpperCase()}
+                          </Text>
+                        </View>
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  )}
+                  // Item Key
+                  keyExtractor={(item, index) => String(index)}
+                  // Header (Title)
+                  // On End Reached (Takes a function)
+
+                  // ListHeaderComponent={<Text>Hello</Text>}
+                  // Footer (Activity Indicator)
+                  ListFooterComponent={() => (
+                    <ActivityIndicator
+                      title={'Loading'}
+                      showIndicator={this.state.activityIndicator}
+                    />
+                  )}
+                  onEndReached={this.getMoreUserData}
+                  // How Close To The End Of List Until Next Data Request Is Made
+                  onEndReachedThreshold={0.1}
+                  // Refreshing (Set To True When End Reached)
+                  refreshing={this.state.activityIndicator}
+                />
+              ) : (
+                <Button
+                  style={{
+                    marginTop: 20,
+                    height: 50,
+                    justifyContent: 'center',
+                    width: Dimensions.get('window').width - 200,
+                  }}
+                  icon="plus"
+                  mode="contained"
+                  onPress={() =>
+                    this.props.navigation.navigate('PhotoLandingScreen')
+                  }>
+                  Add Observation
+                </Button>
+              )}
+            </View>
+          )}
+        </View>
+      </>
     );
   }
 }
@@ -400,7 +377,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: 'green',
+    // backgroundColor: 'green',
   },
   observationConatiner: {
     width: '100%',
@@ -409,16 +386,15 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   observationTxt: {
-    color: 'white',
     fontSize: 20,
   },
   userName: {
     fontWeight: 'bold',
-    color: 'white',
+    // color: 'white',
     margin: 5,
   },
   obCount: {
-    color: 'white',
+    // color: 'white',
     fontSize: 35,
   },
   userPhoto: {

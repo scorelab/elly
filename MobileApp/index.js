@@ -3,7 +3,7 @@
  */
 import * as React from 'react';
 import {AppRegistry, StatusBar} from 'react-native';
-import App from './App';
+import App from './src/navigators/index';
 import {
   configureFonts,
   DefaultTheme,
@@ -34,21 +34,21 @@ const fontConfig = {
 
 const theme = {
   ...DefaultTheme,
-  roundness: 15,
+  roundness: 0,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'white',
-    accent: 'black',
+    primary: '#EEF5DB',
+    accent: '#FE5F55',
   },
-  fonts: configureFonts(fontConfig),
+  // fonts: configureFonts(fontConfig),
 };
 
 export default function Main() {
   return (
     <PaperProvider theme={theme}>
-      <StatusBar 
-      // backgroundColor="#004c21" 
-      barStyle="light-content" 
+      <StatusBar
+        // backgroundColor="#004c21"
+        barStyle="light-content"
       />
       <App />
     </PaperProvider>
