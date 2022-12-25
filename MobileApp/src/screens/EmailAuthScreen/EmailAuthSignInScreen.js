@@ -6,14 +6,15 @@ import {
   Image,
   Dimensions,
   ImageBackground,
+  TextInput,
 } from 'react-native';
-import {TextInput, Snackbar, Button} from 'react-native-paper';
+import {Snackbar, Button} from 'react-native-paper';
 import {COVER, LOGO} from '../../images/index';
 import auth from '@react-native-firebase/auth';
 import {ScrollView} from 'react-native-gesture-handler';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator';
 
-export default class EmailAuthScreen extends React.Component {
+export default class EmailAuthScreenSignIn extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
       headerTitle: 'Sign In',
@@ -29,8 +30,10 @@ export default class EmailAuthScreen extends React.Component {
     this.state = {
       password: '',
       email: '',
-      emailPattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      passwordPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#\$%\^&\*])(?=.{8,})/,
+      emailPattern:
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      passwordPattern:
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#\$%\^&\*])(?=.{8,})/,
       activityIndicator: false,
       passwordErrMessage: 'Password is invalid',
       passwordErr: false,
@@ -100,27 +103,27 @@ export default class EmailAuthScreen extends React.Component {
             showsVerticalScrollIndicator={false}>
             <View style={styles.logoBtnCntner}>
               <View style={styles.logoIconContainer}>
-                <View
+                {/* <View
                   style={{
                     // padding: 10,
                     // backgroundColor: 'black',
                     borderRadius: 100,
                   }}>
                   <Image source={LOGO} style={styles.logo} />
-                </View>
+                </View> */}
                 <Text style={styles.logoText}>Sign In</Text>
               </View>
 
               <View style={styles.btnContainer}>
-                <Text style={{...styles.fieldText, marginTop: 50}}>
-                  Email
-                </Text>
+                <Text style={{...styles.fieldText, marginTop: 50}}>Email</Text>
                 <TextInput
                   value={this.state.email}
                   onChangeText={text => this.setState({email: text})}
                   placeholder={'Eg. abc@gmail.com'}
                   mode="outlined"
-                  style={{borderRadius: 0}}
+                  style={{borderBottomWidth: 1, borderColor: 'gray'}}
+                  // dense={true}
+                  autoFocus={true}
                   inlineImageLeft={'email'}
                   inlineImagePadding={20}
                   autoCompleteType={'email'}
@@ -148,11 +151,11 @@ export default class EmailAuthScreen extends React.Component {
                   value={this.state.password}
                   onChangeText={text => this.setState({password: text})}
                   placeholder={'Password'}
-                  mode="outlined"
+                  mode="flat"
                   inlineImageLeft={'lock'}
                   secureTextEntry={true}
                   inlineImagePadding={20}
-                  style={{borderRadius: 0}}
+                  style={{borderBottomWidth: 1, borderColor: 'gray'}}
                   autoCompleteType={'password'}
                 />
                 <Snackbar
@@ -170,10 +173,24 @@ export default class EmailAuthScreen extends React.Component {
                 </Snackbar>
               </View>
 
+              <View style={styles.btnContainer}>
+                <Text style={{...styles.fieldText, marginTop: 20}}>
+                  Still not registered!{' '}
+                  <Text
+                    style={{color: 'blue'}}
+                    onPress={() =>
+                      this.props.navigation.navigate('EmailSignUp')
+                    }>
+                    Click here
+                  </Text>{' '}
+                  to register
+                </Text>
+              </View>
+
               <View
                 style={[
                   styles.btnContainer,
-                  {backgroundColor: 'none', marginTop: 'auto', marginBottom: 4},
+                  {marginTop: 'auto', marginBottom: 4},
                 ]}>
                 <Button
                   style={styles.btn}
@@ -182,17 +199,14 @@ export default class EmailAuthScreen extends React.Component {
                   Sign In
                 </Button>
               </View>
-              <View style={[styles.btnContainer, {backgroundColor: 'none'}]}>
+              {/* <View style={[styles.btnContainer, {backgroundColor: 'none'}]}>
                 <Button
-                  style={[
-                    styles.btn,
-                    {backgroundColor: 'white', color: 'green'},
-                  ]}
+                  style={[styles.btn, {color: 'green'}]}
                   onPress={() => this.props.navigation.navigate('EmailSignUp')}
-                  mode="outlined">
+                  mode="contained">
                   Sign Up
                 </Button>
-              </View>
+              </View> */}
             </View>
           </ScrollView>
         </ImageBackground>
@@ -204,7 +218,7 @@ export default class EmailAuthScreen extends React.Component {
 const styles = StyleSheet.create({
   fieldText: {
     fontFamily: 'ProximaNova-Regular',
-    fontWeight: '600'
+    fontWeight: '600',
   },
   container: {
     flex: 1,
@@ -214,14 +228,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
   },
   btnContainer: {
-    borderRadius: 10,
+    // borderRadius: 10,
     justifyContent: 'flex-start',
   },
   btn: {
-    width: '100%',
-    height: 60,
+    // width: '100%',
+    // height: 60,
     justifyContent: 'center',
-    borderRadius: 10,
+    // borderRadius: 10,
   },
   logoIconContainer: {
     flexDirection: 'row',
@@ -237,14 +251,14 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 30,
     fontWeight: 'bold',
-    marginLeft: 10,
+    // marginLeft: 10,
     fontFamily: 'ProximaNova-Regular',
   },
   imgConatiner: {
     width: Dimensions.get('window').width,
     justifyContent: 'center',
     alignItems: 'center',
-    height: Dimensions.get('window').height
+    height: Dimensions.get('window').height,
   },
   logoBtnCntner: {
     flex: 1,

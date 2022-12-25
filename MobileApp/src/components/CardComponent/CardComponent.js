@@ -4,6 +4,7 @@ import {Card, Text, Avatar} from 'react-native-paper';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import {MAPMARKER} from '../../images/index';
+import {toTitleCase} from '../../Utils/StringUtils';
 
 var MapStyle = require('../../config/map.json');
 class CardComponent extends React.Component {
@@ -20,8 +21,8 @@ class CardComponent extends React.Component {
       <View style={styles.container}>
         <Card style={{borderRadius: 0}}>
           <Card.Title
-            title={this.props.subtitle}
-            subtitle={this.props.title}
+            title={toTitleCase(this.props.title)}
+            subtitle={this.props.subtitle}
             left={() => (
               <Avatar.Image size={40} source={{uri: this.props.user}} />
             )}
@@ -120,9 +121,15 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 2,
     width: Dimensions.get('window').width,
+    marginBottom: 1,
   },
   cover: {
-    height: 300,
+    height: 200,
+    marginLeft: 73,
+    borderRadius: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    // width: Dimensions.get('window').width - 30,
   },
   content: {
     marginTop: 5,

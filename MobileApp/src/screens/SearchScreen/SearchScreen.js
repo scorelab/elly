@@ -7,7 +7,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import {Searchbar, Chip} from 'react-native-paper';
+import {Searchbar, Chip, Appbar} from 'react-native-paper';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator';
 import database from '@react-native-firebase/database';
@@ -22,40 +22,16 @@ class SearchScreen extends React.Component {
     };
   }
 
-  static navigationOptions = ({navigation}) => {
-    const {params = {}} = navigation.state;
-    return {
-      headerStyle: {
-        backgroundColor: '#004c21',
-      },
-      headerTintColor: 'white',
-      headerRight: () => (
-        <Searchbar
-          placeholder="Search"
-          style={{width: Dimensions.get('window').width - 10, margin: 5}}
-          onChangeText={query => params.handleText(query)}
-          value={params.query}
-        />
-      ),
-    };
-  };
-
   componentDidMount() {
-    this.props.navigation.setParams({
-      handleText: text => this.onTextChangeHandler(text),
-      query: this.state.firstQuery,
-    });
     this.getObservations(this.state.type);
   }
 
   onTextChangeHandler = text => {
     this.setState({
       firstQuery: text,
+      activityIndicator: true,
     });
     this.getObservations(text ? text.toLowerCase() : '');
-    this.props.navigation.setParams({
-      query: text,
-    });
   };
 
   getObservations = async type => {
@@ -131,7 +107,7 @@ class SearchScreen extends React.Component {
       userObservations.pop();
     }
 
-    await this.setState({
+    this.setState({
       activityIndicator: false,
       lastVisible: lastVisible,
       noObs: userObservations.length,
@@ -224,17 +200,27 @@ class SearchScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {this.state.activityIndicator ? (
-          <View style={{width: '100%', backgroundColor: 'grey'}}>
-            <ActivityIndicator
-              title={'Please wait'}
-              showIndicator={this.state.activityIndicator}
-            />
-          </View>
-        ) : (
-          <View>
-            {/* <View style={styles.chipContainer}>
+      <>
+        <Appbar.Header>
+          <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
+          <Searchbar
+            placeholder="Search"
+            // style={{width: Dimensions.get('window').width - 10, margin: 5}}
+            onChangeText={query => this.onTextChangeHandler(query)}
+            value={this.state.firstQuery}
+          />
+        </Appbar.Header>
+        <View style={styles.container}>
+          {this.state.activityIndicator ? (
+            <View style={{width: '100%', backgroundColor: 'grey'}}>
+              <ActivityIndicator
+                title={'Please wait'}
+                showIndicator={this.state.activityIndicator}
+              />
+            </View>
+          ) : (
+            <View>
+              {/* <View style={styles.chipContainer}>
               <Chip
                 style={styles.chip}
                 icon="gender-male"
@@ -266,51 +252,52 @@ class SearchScreen extends React.Component {
                 Single
               </Chip>
             </View> */}
-            <FlatList
-              // Data
-              style={styles.scrollView}
-              data={this.state.userObservations}
-              // Render Items
-              horizontal={false}
-              numColumns={3}
-              renderItem={({item}) => (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('showDetailedPhoto', {
-                      img: item[2],
-                      title: item[0],
-                      subtitle: item[5],
-                      user: item[1],
-                      content: item[6],
-                      showPhoto: this.props.navigation,
-                    })
-                  }
-                  style={{justifyContent: 'center'}}>
-                  <Image style={styles.img} source={{uri: item[2]}} />
-                </TouchableOpacity>
-              )}
-              // Item Key
-              keyExtractor={(item, index) => String(index)}
-              // Header (Title)
-              // On End Reached (Takes a function)
+              <FlatList
+                // Data
+                style={styles.scrollView}
+                data={this.state.userObservations}
+                // Render Items
+                horizontal={false}
+                numColumns={3}
+                renderItem={({item}) => (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate('showDetailedPhoto', {
+                        img: item[2],
+                        title: item[0],
+                        subtitle: item[5],
+                        user: item[1],
+                        content: item[6],
+                        showPhoto: this.props.navigation,
+                      })
+                    }
+                    style={{justifyContent: 'center'}}>
+                    <Image style={styles.img} source={{uri: item[2]}} />
+                  </TouchableOpacity>
+                )}
+                // Item Key
+                keyExtractor={(item, index) => String(index)}
+                // Header (Title)
+                // On End Reached (Takes a function)
 
-              // ListHeaderComponent={<Text>Hello</Text>}
-              // Footer (Activity Indicator)
-              ListFooterComponent={() => (
-                <ActivityIndicator
-                  title={'Loading'}
-                  showIndicator={this.state.activityIndicator}
-                />
-              )}
-              onEndReached={() => this.getMoreObservations('all')}
-              // How Close To The End Of List Until Next Data Request Is Made
-              onEndReachedThreshold={0.1}
-              // Refreshing (Set To True When End Reached)
-              refreshing={this.state.activityIndicator}
-            />
-          </View>
-        )}
-      </View>
+                // ListHeaderComponent={<Text>Hello</Text>}
+                // Footer (Activity Indicator)
+                ListFooterComponent={() => (
+                  <ActivityIndicator
+                    title={'Loading'}
+                    showIndicator={this.state.activityIndicator}
+                  />
+                )}
+                onEndReached={() => this.getMoreObservations('all')}
+                // How Close To The End Of List Until Next Data Request Is Made
+                onEndReachedThreshold={0.1}
+                // Refreshing (Set To True When End Reached)
+                refreshing={this.state.activityIndicator}
+              />
+            </View>
+          )}
+        </View>
+      </>
     );
   }
 }
@@ -321,7 +308,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     alignSelf: 'stretch',
-    marginTop: 1,
+    marginTop: 5,
     width: Dimensions.get('window').width,
   },
   chipContainer: {

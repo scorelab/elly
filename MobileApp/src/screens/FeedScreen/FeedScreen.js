@@ -7,44 +7,16 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {Avatar} from 'react-native-paper';
+import {Appbar, Avatar} from 'react-native-paper';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator';
 import {CardComponent} from '../../components/CardComponent/CardComponent';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {generateResult} from '../../components/UserDataHandling/UserDataHandling';
 import {NavigationEvents} from 'react-navigation';
+import {withTheme} from 'react-native-paper';
 
 class FeedScreen extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    const {params = []} = navigation.state;
-    return {
-      headerTitle: 'Home',
-      headerStyle: {
-        backgroundColor: '#004c21',
-      },
-      headerTintColor: '#fff',
-
-      headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          {params.userPhoto !== '' ? (
-            <Avatar.Image
-              style={{marginLeft: 5, padding: 0}}
-              size={40}
-              source={{uri: params.userPhoto}}
-            />
-          ) : (
-            <Avatar.Text
-              size={35}
-              style={{marginLeft: 5, padding: 0, backgroundColor: 'white'}}
-              label={params.userName.substr(0, 2).toUpperCase()}
-            />
-          )}
-        </TouchableOpacity>
-      ),
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -59,19 +31,18 @@ class FeedScreen extends React.Component {
     this.getObservations();
   }
 
-  getUserData = async function() {
+  getUserData = async function () {
     const user = auth().currentUser;
     // console.log(user)
     const uid = user.uid;
-    const ref = await database()
-      .ref('/users/')
-      .child(uid)
-      .once('value');
+    const ref = await database().ref('/users/').child(uid).once('value');
     const data = ref.val();
+    console.log('set params 1');
     await this.props.navigation.setParams({
       userPhoto: data.photo,
       userName: data.name,
     });
+    console.log('set params 2');
   };
 
   getObservations = async () => {
@@ -190,7 +161,7 @@ class FeedScreen extends React.Component {
     } else {
       observations.pop();
     }
-    await this.setState({
+    this.setState({
       observations: [...this.state.observations, ...observations],
       activityIndicator: false,
       lastVisible: lastVisible,
@@ -223,69 +194,83 @@ class FeedScreen extends React.Component {
   };
 
   render() {
+    console.log(this.props.route.params);
     return (
-      <View style={styles.container}>
-        <NavigationEvents onDidFocus={this.getObservations} />
-        {this.state.activityIndicator ? (
-          <View style={{width: '100%', backgroundColor: 'grey'}}>
-            <ActivityIndicator
-              title={'Loading'}
-              showIndicator={this.state.activityIndicator}
-            />
-          </View>
-        ) : (
-          <View>
-            <View>
-              {this.state.observations.length > 0 ? (
-                <SafeAreaView style={styles.container}>
-                  <FlatList
-                    // Data
-                    data={this.state.observations}
-                    // Render Items
-                    renderItem={({item}) => (
-                      <CardComponent
-                        isNavigate={true}
-                        result={item[6]}
-                        showPhoto={this.props.navigation}
-                        title={item[7]}
-                        subtitle={item[5]}
-                        user={item[1]}
-                        image={item[2]}
-                        content={
-                          [
-                            // ['calendar-clock', 'On ' + item[4].toString()],
-                            // ['map-marker', item[3].toString()],
-                          ]
-                        }
-                      />
-                    )}
-                    // Item Key
-                    keyExtractor={(item, index) => String(index)}
-                    // Header (Title)
-                    // On End Reached (Takes a function)
-
-                    // ListHeaderComponent={this.renderHeader}
-                    // Footer (Activity Indicator)
-                    ListFooterComponent={() => (
-                      <ActivityIndicator
-                        title={'Loading'}
-                        showIndicator={this.state.activityIndicator}
-                      />
-                    )}
-                    onEndReached={this.getMoreObservation}
-                    // How Close To The End Of List Until Next Data Request Is Made
-                    onEndReachedThreshold={0.1}
-                    // Refreshing (Set To True When End Reached)
-                    refreshing={this.state.activityIndicator}
-                  />
-                </SafeAreaView>
-              ) : (
-                <View />
-              )}
+      <>
+        <Appbar.Header>
+          <Appbar.Action
+            icon="account"
+            onPress={() => this.props.navigation.navigate('Profile')}
+          />
+          <Appbar.Content title="" />
+          <Appbar.Action
+            icon="image-search-outline"
+            onPress={() => this.props.navigation.navigate('SearchStack')}
+          />
+        </Appbar.Header>
+        <View style={styles.container}>
+          {/* <NavigationEvents onDidFocus={this.getObservations} /> */}
+          {this.state.activityIndicator ? (
+            <View style={{width: '100%', backgroundColor: 'grey'}}>
+              <ActivityIndicator
+                title={'Loading'}
+                showIndicator={this.state.activityIndicator}
+              />
             </View>
-          </View>
-        )}
-      </View>
+          ) : (
+            <View>
+              <View>
+                {this.state.observations.length > 0 ? (
+                  <SafeAreaView style={styles.container}>
+                    <FlatList
+                      // Data
+                      data={this.state.observations}
+                      // Render Items
+                      renderItem={({item}) => (
+                        <CardComponent
+                          isNavigate={true}
+                          result={item[6]}
+                          showPhoto={this.props.navigation}
+                          title={item[0]}
+                          subtitle={item[4]}
+                          user={item[1]}
+                          image={item[2]}
+                          content={
+                            [
+                              // ['calendar-clock', 'On ' + item[4].toString()],
+                              // ['map-marker', item[3].toString()],
+                            ]
+                          }
+                        />
+                      )}
+                      // Item Key
+                      keyExtractor={(item, index) => String(index)}
+                      // Header (Title)
+                      // On End Reached (Takes a function)
+
+                      // ListHeaderComponent={this.renderHeader}
+                      // Footer (Activity Indicator)
+                      ListFooterComponent={() => (
+                        <ActivityIndicator
+                          title={'Loading'}
+                          showIndicator={this.state.activityIndicator}
+                        />
+                      )}
+                      onEndReached={this.getMoreObservation}
+                      // How Close To The End Of List Until Next Data Request Is Made
+                      onEndReachedThreshold={0.1}
+                      // Refreshing (Set To True When End Reached)
+                      refreshing={this.state.activityIndicator}
+                    />
+                  </SafeAreaView>
+                ) : (
+                  <View />
+                )}
+              </View>
+            </View>
+          )}
+        </View>
+      </>
     );
   }
 }
@@ -301,4 +286,4 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 });
-export default FeedScreen;
+export default withTheme(FeedScreen);

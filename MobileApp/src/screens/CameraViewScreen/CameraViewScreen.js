@@ -44,6 +44,7 @@ class CameraViewScreen extends React.Component {
           <Camera
             parentCallback={this.CameracallbackFunction}
             takePicture={this.state.takePicture}
+            isFocused={true}
           />
         </View>
       </View>

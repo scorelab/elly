@@ -50,9 +50,9 @@ class LoginScreen extends React.Component {
             style={styles.scrollView}>
             <View style={styles.logoBtnCntner}>
               <View style={styles.logoIconContainer}>
-                <View style={styles.logoImgContainer}>
+                {/* <View style={styles.logoImgContainer}>
                   <Image source={LOGO} style={styles.logo} />
-                </View>
+                </View> */}
                 <Text style={styles.logoText}>Ele Watch</Text>
               </View>
 
@@ -60,20 +60,20 @@ class LoginScreen extends React.Component {
                 <Text style={styles.introText}>
                   Hello there! Please sign in.
                 </Text>
-                <Icon.Button
+                {/* <Icon.Button
                   style={styles.btn}
-                  name="facebook-box"
+                  name="facebook"
                   backgroundColor="#3b5998"
                   onPress={() => this.facebookLoginBtnHandler(navigate)}
                   loading={true}
                   size={30}>
                   Sign In with Facebook
-                </Icon.Button>
+                </Icon.Button> */}
               </View>
               <View style={styles.btnContainer}>
                 <Icon.Button
                   style={styles.btn}
-                  name="google-plus-box"
+                  name="google"
                   backgroundColor="#DD4B39"
                   onPress={() => this.GoogleLoginBtnHandler(navigate)}
                   size={30}>
@@ -83,7 +83,7 @@ class LoginScreen extends React.Component {
               <View style={styles.btnContainer}>
                 <Icon.Button
                   style={styles.btn}
-                  name="email-box"
+                  name="email"
                   backgroundColor="#2ecc71"
                   onPress={() => this.emailLoginBtnHandler()}
                   size={30}>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'left',
-    marginLeft: 10,
+    // marginLeft: 10,
   },
   imgConatiner: {
     width: Dimensions.get('window').width,
@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     textAlign: 'left',
+    marginBottom: 10,
   },
   logoBtnCntner: {
     flex: 1,

@@ -2,6 +2,8 @@ import * as React from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {CardComponent} from '../../components/CardComponent/CardComponent';
 import {ScrollView} from 'react-native-gesture-handler';
+import {FeedDetails} from '../../components/FeedDetail/FeedDetails';
+import {Appbar} from 'react-native-paper';
 
 class ShowDetailedPhotoScreen extends React.Component {
   constructor(props) {
@@ -21,21 +23,27 @@ class ShowDetailedPhotoScreen extends React.Component {
   };
 
   render() {
-    console.log(this.props.navigation.getParam('content'));
+    console.log(this.props.route.params);
     return (
-      <View style={styles.container}>
-        <ScrollView>
-          <CardComponent
-            title={this.props.navigation.getParam('title')}
-            subtitle={this.props.navigation.getParam('subtitle')}
-            user={this.props.navigation.getParam('user')}
-            image={this.props.navigation.getParam('img')}
-            content={this.props.navigation.getParam('content')}
-            isNavigate={false}
-            showPhoto={this.props.navigation}
-          />
-        </ScrollView>
-      </View>
+      <>
+        <Appbar.Header>
+          <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
+          <Appbar.Content title="Observation" />
+        </Appbar.Header>
+        <View style={styles.container}>
+          <ScrollView>
+            <FeedDetails
+              title={this.props.route.params.title}
+              subtitle={this.props.route.params.subtitle}
+              user={this.props.route.params.user}
+              image={this.props.route.params.img}
+              content={this.props.route.params.content}
+              isNavigate={false}
+              showPhoto={this.props.navigation}
+            />
+          </ScrollView>
+        </View>
+      </>
     );
   }
 }

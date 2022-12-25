@@ -7,15 +7,16 @@ import {
   Dimensions,
   ImageBackground,
   Alert,
+  TextInput,
 } from 'react-native';
-import {TextInput, Snackbar, Button} from 'react-native-paper';
+import {Snackbar, Button} from 'react-native-paper';
 import {COVER, LOGO} from '../../images/index';
 import auth from '@react-native-firebase/auth';
 import {ScrollView} from 'react-native-gesture-handler';
 import ActivityIndicator from '../../components/ActivityIndicator/ActivityIndicator';
 import database from '@react-native-firebase/database';
 
-export default class EmailAuthScreen extends React.Component {
+export default class EmailAuthScreenSignUp extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
       headerTitle: 'Sign In',
@@ -34,8 +35,10 @@ export default class EmailAuthScreen extends React.Component {
       confirmPassword: '',
       usernamePattern: /^[a-zA-Z]+ [a-zA-Z]+$/,
       username: '',
-      emailPattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      passwordPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#\$%\^&\*])(?=.{8,})/,
+      emailPattern:
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      passwordPattern:
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#\$%\^&\*])(?=.{8,})/,
       activityIndicator: false,
       usernameErrMessage: 'Username is invalid!',
       usernameErr: false,
@@ -91,9 +94,7 @@ export default class EmailAuthScreen extends React.Component {
           console.log(JSON.stringify(user.user.toJSON().uid));
           const uid = user.user.toJSON().uid;
           // alert('Successfully Registered!')
-          const ref = database()
-            .ref('/users/')
-            .child(uid);
+          const ref = database().ref('/users/').child(uid);
 
           ref.set({
             name: this.state.username,
@@ -133,14 +134,14 @@ export default class EmailAuthScreen extends React.Component {
             showsVerticalScrollIndicator={false}>
             <View style={styles.logoBtnCntner}>
               <View style={styles.logoIconContainer}>
-                <View
+                {/* <View
                   style={{
                     // padding: 10,
                     // backgroundColor: 'black',
                     borderRadius: 100,
                   }}>
                   <Image source={LOGO} style={styles.logo} />
-                </View>
+                </View> */}
                 <Text style={styles.logoText}>Sign Up</Text>
               </View>
 
@@ -153,7 +154,7 @@ export default class EmailAuthScreen extends React.Component {
                   onChangeText={text => this.setState({username: text})}
                   placeholder={'Eg. Nimal Perera'}
                   mode="outlined"
-                  style={{borderRadius: 0}}
+                  style={{borderBottomWidth: 1, borderColor: 'gray'}}
                   inlineImageLeft={'account'}
                   inlineImagePadding={20}
                   autoCompleteType={'username'}
@@ -174,15 +175,13 @@ export default class EmailAuthScreen extends React.Component {
               </View>
 
               <View style={styles.btnContainer}>
-                <Text style={{...styles.fieldText, marginTop: 10}}>
-                  Email
-                </Text>
+                <Text style={{...styles.fieldText, marginTop: 10}}>Email</Text>
                 <TextInput
                   value={this.state.email}
                   onChangeText={text => this.setState({email: text})}
                   placeholder={'Eg. abc@gmail.com'}
                   mode="outlined"
-                  style={{borderRadius: 0}}
+                  style={{borderBottomWidth: 1, borderColor: 'gray'}}
                   inlineImageLeft={'email'}
                   inlineImagePadding={20}
                   autoCompleteType={'email'}
@@ -214,7 +213,7 @@ export default class EmailAuthScreen extends React.Component {
                   inlineImageLeft={'lock'}
                   secureTextEntry={true}
                   inlineImagePadding={20}
-                  style={{borderRadius: 0}}
+                  style={{borderBottomWidth: 1, borderColor: 'gray'}}
                   autoCompleteType={'password'}
                 />
                 <Snackbar
@@ -241,7 +240,7 @@ export default class EmailAuthScreen extends React.Component {
                   onChangeText={text => this.setState({confirmPassword: text})}
                   placeholder={'Confirm Password'}
                   mode="outlined"
-                  style={{borderRadius: 0}}
+                  style={{borderBottomWidth: 1, borderColor: 'gray'}}
                   inlineImageLeft={'lock'}
                   secureTextEntry={true}
                   inlineImagePadding={20}
@@ -262,10 +261,10 @@ export default class EmailAuthScreen extends React.Component {
                 </Snackbar>
               </View>
               <Button
-                  style={[styles.btn, {marginTop: 'auto'}]}
-                  onPress={() => this.signUpBtnHandler()}
-                  mode="contained">
-                  Sign Up
+                style={[styles.btn, {marginTop: 'auto'}]}
+                onPress={() => this.signUpBtnHandler()}
+                mode="contained">
+                Sign Up
               </Button>
             </View>
           </ScrollView>
@@ -278,7 +277,7 @@ export default class EmailAuthScreen extends React.Component {
 const styles = StyleSheet.create({
   fieldText: {
     fontFamily: 'ProximaNova-Regular',
-    fontWeight: '600'
+    fontWeight: '600',
   },
   container: {
     flex: 1,
@@ -288,14 +287,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
   },
   btnContainer: {
-    borderRadius: 10,
+    // borderRadius: 10,
     justifyContent: 'space-around',
   },
   btn: {
-    width: '100%',
-    height: 60,
+    // width: '100%',
+    // height: 60,
     justifyContent: 'center',
-    borderRadius: 10,
+    // borderRadius: 10,
   },
   logoIconContainer: {
     flexDirection: 'row',
@@ -311,14 +310,14 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 30,
     fontWeight: 'bold',
-    marginLeft: 10,
+    // marginLeft: 10,
     fontFamily: 'ProximaNova-Regular',
   },
   imgConatiner: {
     width: Dimensions.get('window').width,
     justifyContent: 'center',
     alignItems: 'center',
-    height: Dimensions.get('window').height
+    height: Dimensions.get('window').height,
   },
   logoBtnCntner: {
     flex: 1,
